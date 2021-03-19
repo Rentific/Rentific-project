@@ -1,6 +1,5 @@
 package com.example.rentservice.rentservice.Models;
 
-import com.example.rentservice.rentservice.Models.RealEstate;
 import javax.persistence.*;
 import java.util.Date;
 
@@ -15,8 +14,8 @@ public class User {
     private String Email;
     private Date DateOfBirth;
     private String Phone;
-    @ManyToOne
-    @JoinColumn(name="real_estate_id", nullable=true)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "real_estate_id")
     private RealEstate RealEstate;
 
     public Integer getUserId() {
@@ -67,6 +66,14 @@ public class User {
         Phone = phone;
     }
 
+    public com.example.rentservice.rentservice.Models.RealEstate getRealEstate() {
+        return RealEstate;
+    }
+
+    public void setRealEstate(com.example.rentservice.rentservice.Models.RealEstate realEstate) {
+        RealEstate = realEstate;
+    }
+
     public User() {
     }
 
@@ -78,4 +85,5 @@ public class User {
         DateOfBirth = dateOfBirth;
         Phone = phone;
     }
+
 }

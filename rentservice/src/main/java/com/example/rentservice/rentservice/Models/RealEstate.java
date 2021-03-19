@@ -19,10 +19,11 @@ public class RealEstate {
     private boolean IsReservated;
     private Date DateFrom;
     private Date DateTo;
-    @OneToMany(mappedBy = "user")
-    private List<User> users;
-    @OneToMany(mappedBy = "state")
-    private List<State> states;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "RealEstate")
+    private List<User> Users;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "RealEstate")
+    private List<State> States;
 
     public Integer getRealEstateId() {
         return RealEstateId;
@@ -104,6 +105,22 @@ public class RealEstate {
         DateTo = dateTo;
     }
 
+    public List<User> getUsers() {
+        return Users;
+    }
+
+    public void setUsers(List<User> users) {
+        Users = users;
+    }
+
+    public List<State> getStates() {
+        return States;
+    }
+
+    public void setStates(List<State> states) {
+        States = states;
+    }
+
     public RealEstate() {
     }
 
@@ -120,19 +137,4 @@ public class RealEstate {
         DateTo = dateTo;
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public List<State> getStates() {
-        return states;
-    }
-
-    public void setStates(List<State> states) {
-        this.states = states;
-    }
 }

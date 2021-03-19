@@ -1,7 +1,6 @@
 package com.example.rentservice.rentservice.Models;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class State {
@@ -9,7 +8,9 @@ public class State {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer StateId;
     private String Name;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "real_estate_id")
     private RealEstate RealEstate;
 
     public Integer getStateId() {
@@ -28,6 +29,14 @@ public class State {
         Name = name;
     }
 
+    public com.example.rentservice.rentservice.Models.RealEstate getRealEstate() {
+        return RealEstate;
+    }
+
+    public void setRealEstate(com.example.rentservice.rentservice.Models.RealEstate realEstate) {
+        RealEstate = realEstate;
+    }
+
     public State() {
     }
 
@@ -35,4 +44,5 @@ public class State {
         StateId = stateId;
         Name = name;
     }
+
 }
