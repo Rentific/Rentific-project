@@ -1,14 +1,17 @@
 package com.example.userservice.userservice;
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="user")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name="id")
-    private Integer id;
+    @NotNull
+    private Integer userId;
     @Column(name="firstName")
     private String firstName;
     @Column(name="lastName")
@@ -28,9 +31,12 @@ public class User {
     @Column(name="dateOfBirth")
     private Date dateOfBirth;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role Role;
 
-    public User(Integer id, String firstName, String lastName, String email, String password, String address, String country, String city, String phone, Date dateOfBirth) {
-        this.id = id;
+    public User(Integer userId, String firstName, String lastName, String email, String password, String address, String country, String city, String phone, Date dateOfBirth) {
+        this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -44,11 +50,11 @@ public class User {
     public User() {
     }
     public Integer getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getFirstName() {
@@ -131,7 +137,7 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
+                "id=" + userId +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

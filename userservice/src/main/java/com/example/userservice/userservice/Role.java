@@ -1,30 +1,39 @@
 package com.example.userservice.userservice;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Role {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name="id")
-    private Integer id;
+    @NotNull
+    private Integer roleId;
     private String name;
-
-
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "Role")
+    private List<User> Users;
     public Role(Integer id, String name) {
-        this.id = id;
+        this.roleId = id;
         this.name = name;
     }
     public Role() {
     }
+    public List<User> getUsers() {
+        return Users;
+    }
+
+    public void setUsers(List<User> users) {
+        Users = users;
+    }
 
     public Integer getId() {
-        return id;
+        return roleId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.roleId = id;
     }
 
     public String getName() {
@@ -38,7 +47,7 @@ public class Role {
     @Override
     public String toString() {
         return "Role{" +
-                "id=" + id +
+                "id=" + roleId +
                 ", name='" + name + '\'' +
                 '}';
     }
