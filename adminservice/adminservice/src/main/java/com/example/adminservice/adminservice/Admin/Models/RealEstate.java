@@ -1,62 +1,61 @@
-package com.example.adminservice.adminservice.Admin;
+package com.example.adminservice.adminservice.Admin.Models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class RealEstate {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_Sequence")
-    @SequenceGenerator(name = "id_Sequence", sequenceName = "ORACLE_DB_SEQ_ID")
-     @Column(name = "real_estate_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long realEstateId;
-    private String name;
-    private Integer price;
 
-    @OneToOne(cascade = CascadeType.ALL)
-     @JoinColumn(name = "state_id", referencedColumnName = "real_estate_id")
-    private State stateId;
+    private String name;
+    private Double price;
     private String address;
     private String country;
     private String city;
     private String description;
     private Boolean isReservated;
     private Boolean isRented;
-    private Integer userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "staffId")
+    private Staff staff;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "realEstate")
+    private List<State> stateList;
 
     public RealEstate() {
     }
 
     public RealEstate(
             String name,
-            Integer price,
-            State stateId,
+            Double price,
             String address,
             String country,
             String city,
             String description,
             Boolean isReservated,
             Boolean isRented,
-            Integer userId) {
+            Staff staff) {
         this.name = name;
         this.price = price;
-        this.stateId = stateId;
         this.address = address;
         this.country = country;
         this.city = city;
         this.description = description;
         this.isReservated = isReservated;
         this.isRented = isRented;
-        this.userId = userId;
+        this.staff = staff;
     }
 
-   /* @Id
     public Long getRealEstateId() {
         return realEstateId;
-    }*/
+    }
 
-    /*public void setRealEstateId(Long realEstateId) {
+    public void setRealEstateId(Long realEstateId) {
         this.realEstateId = realEstateId;
-    }*/
+    }
 
     public String getName() {
         return name;
@@ -66,20 +65,12 @@ public class RealEstate {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public State getStateId() {
-        return stateId;
-    }
-
-    public void setStateId(State stateId) {
-        this.stateId = stateId;
     }
 
     public String getAddress() {
@@ -130,11 +121,19 @@ public class RealEstate {
         isRented = rented;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public List<State> getStateList() {
+        return stateList;
+    }
+
+    public void setStateList(List<State> stateList) {
+        this.stateList = stateList;
     }
 }
