@@ -1,7 +1,5 @@
-package com.example.adminservice.adminservice.Admin.Controllers;
+package com.example.adminservice.adminservice.Admin;
 
-import com.example.adminservice.adminservice.Admin.Models.RealEstate;
-import com.example.adminservice.adminservice.Admin.Repositories.RealEstateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
         import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,8 +11,7 @@ public class RealEstateController {
     private RealEstateRepository realEstateRepository;
 
     @PostMapping(path="/add")
-    public @ResponseBody
-    RealEstate addNewRealEstate (@RequestBody RealEstate realEstate) {
+    public @ResponseBody RealEstate addNewRealEstate (@RequestBody RealEstate realEstate) {
         return realEstateRepository.save(realEstate);
     }
 
