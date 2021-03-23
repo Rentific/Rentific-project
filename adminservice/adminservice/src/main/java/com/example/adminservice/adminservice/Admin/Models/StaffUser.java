@@ -7,9 +7,11 @@ import java.util.List;
 public class StaffUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long staffId;
+    private Integer staffId;
 
+    @Column(nullable = false)
     private String firstName;
+    @Column(nullable = false)
     private String lastName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
@@ -24,11 +26,11 @@ public class StaffUser {
         this.realEstateList = realEstateList;
     }
 
-    public Long getStaffId() {
+    public Integer getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(Long staffId) {
+    public void setStaffId(Integer staffId) {
         this.staffId = staffId;
     }
 

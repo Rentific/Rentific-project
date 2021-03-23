@@ -1,21 +1,39 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 public class RealEstate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long realEstateId;
+    private Integer realEstateId;
 
+    @NotBlank(message = "Name is mandatory")
     private String name;
+
+    @Min(value = 0, message = "Price should not be less than 0")
     private Double price;
+
+    @NotBlank(message = "Address is mandatory")
     private String address;
+
+    @NotBlank(message = "Country is mandatory")
     private String country;
+
+    @NotBlank(message = "City is mandatory")
     private String city;
+
+    @Size(min = 10, max = 300, message = "Description must be between 10 and 300 characters")
     private String description;
+
+    @Column(nullable = false)
     private Boolean isReservated;
+
+    @Column(nullable = false)
     private Boolean isRented;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,11 +60,11 @@ public class RealEstate {
         this.stateList = stateList;
     }
 
-    public Long getRealEstateId() {
+    public Integer getRealEstateId() {
         return realEstateId;
     }
 
-    public void setRealEstateId(Long realEstateId) {
+    public void setRealEstateId(Integer realEstateId) {
         this.realEstateId = realEstateId;
     }
 

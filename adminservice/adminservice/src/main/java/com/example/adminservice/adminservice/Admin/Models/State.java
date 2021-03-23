@@ -6,8 +6,9 @@ import javax.persistence.*;
 public class State {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long stateId;
+    private Integer stateId;
 
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -21,11 +22,11 @@ public class State {
         this.name = name;
     }
 
-    public Long getStateId() {
+    public Integer getStateId() {
         return stateId;
     }
 
-    public void setStateId(Long stateId) {
+    public void setStateId(Integer stateId) {
         this.stateId = stateId;
     }
 

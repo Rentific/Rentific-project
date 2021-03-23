@@ -1,25 +1,44 @@
 package com.example.adminservice.adminservice.Admin.Controllers;
 
+import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
+import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
-import com.example.adminservice.adminservice.Admin.Repositories.RealEstateRepository;
+import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
 import org.springframework.beans.factory.annotation.Autowired;
-        import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+import javax.validation.Valid;
+import java.util.List;
+
+@RestController
 @RequestMapping(path="/real-estate")
 public class RealEstateController {
     @Autowired
-    private RealEstateRepository realEstateRepository;
+    private final RealEstateService _realEstateService;
 
-    @PostMapping(path="/add")
-    public @ResponseBody
-    RealEstate addNewRealEstate (@RequestBody RealEstate realEstate) {
-        return realEstateRepository.save(realEstate);
+    public RealEstateController(RealEstateService realEstateService) {
+        _realEstateService = realEstateService;
     }
 
     @GetMapping(path="/all/real-estates")
-    public @ResponseBody Iterable<RealEstate> getAllUsers() {
-        return realEstateRepository.findAll();
+    ResponseEntity<List<RealEstate>> findAllRealEstates() {
+        return _realEstateService.findAllRealEstates();
     }
+
+    @GetMapping("/{id}")
+    ResponseEntity<RealEstate> findRealEstateById(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
+        return this._realEstateService.findRealEstateById(id);
+    }
+
+    @PostMapping(path="/add")
+    ResponseEntity<RealEstate> addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException {
+        return _realEstateService.saveRealEstate(realEstate);
+    }
+    @DeleteMapping("delete/{id}")
+    ResponseEntity deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
+        return this._realEstateService.deleteRealEstate(id);
+    }
+    
 }
+
