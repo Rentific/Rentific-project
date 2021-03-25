@@ -1,6 +1,13 @@
 package com.example.rentservice.rentservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 import java.util.List;
 
@@ -8,8 +15,8 @@ import java.util.List;
 public class RealEstate {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer RealEstateId;
-
+    private Integer realEstateId;
+    @NotBlank
     private String Name;
     private Double Price;
     private String Address;
@@ -18,19 +25,24 @@ public class RealEstate {
     private String Description;
     private boolean IsReservated;
     private Date DateFrom;
+    @FutureOrPresent
     private Date DateTo;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "RealEstate")
-    private List<User> Users;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "RealEstate")
-    private List<State> States;
+    @JsonBackReference(value="name")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "userId")
+    private User user;
+
+    @JsonManagedReference(value="name2")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
+    private List<State> states;
 
     public Integer getRealEstateId() {
-        return RealEstateId;
+        return realEstateId;
     }
 
     public void setRealEstateId(Integer realEstateId) {
-        RealEstateId = realEstateId;
+        this.realEstateId = realEstateId;
     }
 
     public String getName() {
@@ -105,27 +117,25 @@ public class RealEstate {
         DateTo = dateTo;
     }
 
-    public List<User> getUsers() {
-        return Users;
+    public com.example.rentservice.rentservice.Models.User getUser() {
+        return user;
     }
 
-    public void setUsers(List<User> users) {
-        Users = users;
+    public void setUser(com.example.rentservice.rentservice.Models.User user) {
+        this.user = user;
     }
-
     public List<State> getStates() {
-        return States;
+        return states;
     }
 
     public void setStates(List<State> states) {
-        States = states;
+        this.states = states;
     }
 
     public RealEstate() {
     }
 
-    public RealEstate(Integer realEstateId, String name, Double price, String address, String country, String city, String description, boolean isReservated, Date dateFrom, Date dateTo) {
-        RealEstateId = realEstateId;
+    public RealEstate(String name, Double price, String address, String country, String city, String description, boolean isReservated, Date dateFrom, Date dateTo, User user) {
         Name = name;
         Price = price;
         Address = address;
@@ -135,6 +145,7 @@ public class RealEstate {
         IsReservated = isReservated;
         DateFrom = dateFrom;
         DateTo = dateTo;
+        this.user = user;
     }
 
 }

@@ -1,17 +1,22 @@
 package com.example.rentservice.rentservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
+@JsonIgnoreProperties({"HibernateLazyInitializer", "handler"})
 public class State {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer StateId;
     private String Name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "real_estate_id")
-    private RealEstate RealEstate;
+    @JsonBackReference(value="name2")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "realEstateId")
+    private RealEstate realEstate;
 
     public Integer getStateId() {
         return StateId;
@@ -30,19 +35,19 @@ public class State {
     }
 
     public com.example.rentservice.rentservice.Models.RealEstate getRealEstate() {
-        return RealEstate;
+        return realEstate;
     }
 
     public void setRealEstate(com.example.rentservice.rentservice.Models.RealEstate realEstate) {
-        RealEstate = realEstate;
+        this.realEstate = realEstate;
     }
 
     public State() {
     }
 
-    public State(Integer stateId, String name) {
-        StateId = stateId;
+    public State(String name, RealEstate realEstate) {
         Name = name;
+        this.realEstate = realEstate;
     }
 
 }

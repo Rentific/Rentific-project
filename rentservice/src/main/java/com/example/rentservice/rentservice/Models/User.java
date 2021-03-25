@@ -1,29 +1,43 @@
 package com.example.rentservice.rentservice.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import java.util.Date;
+import java.util.List;
+
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer UserId;
-
+    private Integer userId;
+    @NotBlank
     private String FirstName;
+    @NotBlank
     private String LastName;
-    private String Email;
+    @Email(message = "Email should be valid")
+    private String email;
+    @Past
     private Date DateOfBirth;
     private String Phone;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "real_estate_id")
-    private RealEstate RealEstate;
+
+    @JsonManagedReference(value="name")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
+    private List<RealEstate> realEstates;
 
     public Integer getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -43,11 +57,11 @@ public class User {
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 
     public void setEmail(String email) {
-        Email = email;
+        this.email = email;
     }
 
     public Date getDateOfBirth() {
@@ -66,24 +80,23 @@ public class User {
         Phone = phone;
     }
 
-    public com.example.rentservice.rentservice.Models.RealEstate getRealEstate() {
-        return RealEstate;
+    public List<RealEstate> getRealEstates() {
+        return realEstates;
     }
 
-    public void setRealEstate(com.example.rentservice.rentservice.Models.RealEstate realEstate) {
-        RealEstate = realEstate;
+    public void setRealEstates(List<RealEstate> realEstates) {
+        this.realEstates = realEstates;
     }
-
     public User() {
     }
 
-    public User(Integer userId, String firstName, String lastName, String email, Date dateOfBirth, String phone) {
-        UserId = userId;
+    public User(String firstName, String lastName, String email, Date dateOfBirth, String phone, List<RealEstate> realEstates) {
         FirstName = firstName;
         LastName = lastName;
-        Email = email;
+        this.email = email;
         DateOfBirth = dateOfBirth;
         Phone = phone;
+        this.realEstates = realEstates;
     }
 
 }
