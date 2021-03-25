@@ -1,4 +1,7 @@
 package com.example.userservice.userservice.Models;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -7,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
-@Table(name="user")
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -23,7 +25,7 @@ public class User {
     private String email;
     @Column (nullable = false)
     @NotBlank(message = "Password is required")
-    @Size(min = 8, max = 30, message = "Password shoud be between 8 and 30 characters")
+    @Size(min = 8, max = 30, message = "Password should be between 8 and 30 characters")
     private String Password;
     @Column (nullable = false)
     @NotBlank(message = "Address is required")
@@ -39,12 +41,13 @@ public class User {
     private String Phone;
     @Column (nullable = false)
     private Date DateOfBirth;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference(value="name")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
+    //@JsonIgnore
     private Role Role;
 
-    public User(String firstName, String lastName, String email, String password, String address, String country, String city, String phone, Date dateOfBirth, com.example.userservice.userservice.Models.Role role) {
+    public User(String firstName, String lastName, String email, String password, String address, String country, String city, String phone, Date dateOfBirth) {
         FirstName = firstName;
         LastName = lastName;
         this.email = email;
@@ -54,7 +57,7 @@ public class User {
         City = city;
         Phone = phone;
         DateOfBirth = dateOfBirth;
-        Role = role;
+
     }
 
     public User() {
