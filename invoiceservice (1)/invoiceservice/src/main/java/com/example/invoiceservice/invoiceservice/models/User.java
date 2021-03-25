@@ -1,31 +1,72 @@
 package com.example.invoiceservice.invoiceservice.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.NotNull;
 
-@Entity // This tells Hibernate to make a table out of this class
+import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.util.List;
+
+@Entity
+@JsonIgnoreProperties({"HibernateLazyInitializer", "handler"})
 public class User {
     @Id
-    private Integer id;
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @NotNull
+    private Integer userId;
 
+    @NotBlank(message = "Name is mandatory")
     private String firstName;
 
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Invoice> invoices;
 
     public User() {
     }
+    public User(Integer id) {this.userId = id; }
 
-    public Integer getId() {
-        return id;
+    public User(Integer id, String firstName, String lastName, List<Invoice> invoices) {
+        this.userId = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.invoices = invoices;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public List<Invoice> getInvoices() {
+        return invoices;
+    }
+
+    public void setInvoices(List<Invoice> invoices) {
+        this.invoices = invoices;
     }
 }
