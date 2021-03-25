@@ -1,5 +1,10 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,6 +12,7 @@ import java.util.List;
 public class StaffUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "staffId")
     private Integer staffId;
 
     @Column(nullable = false)
@@ -14,7 +20,8 @@ public class StaffUser {
     @Column(nullable = false)
     private String lastName;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "staff")
+    @JsonManagedReference(value = "name")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "staff")
     private List<RealEstate> realEstateList;
 
     public StaffUser() {

@@ -45,4 +45,14 @@ public class RealEstateService {
         this._realEstateRepository.deleteById(id);
         return new ResponseEntity("Real estate successfully deleted.", HttpStatus.OK);
     }
+
+    public ResponseEntity<RealEstate> updateExistingRealEstate(Integer id, RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
+        this._validationService.validateId(id);
+
+        this.findRealEstateById(id);
+
+        realEstate.setRealEstateId(id);
+        RealEstate updatedRealEstate = this._realEstateRepository.save(realEstate);
+        return new ResponseEntity(updatedRealEstate, HttpStatus.OK);
+    }
 }

@@ -35,10 +35,17 @@ public class RealEstateController {
     ResponseEntity<RealEstate> addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException {
         return _realEstateService.saveRealEstate(realEstate);
     }
+
     @DeleteMapping("delete/{id}")
     ResponseEntity deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
         return this._realEstateService.deleteRealEstate(id);
     }
-    
+
+    @PutMapping("/update/{id}")
+    ResponseEntity<RealEstate> updateUser(@PathVariable(value = "id") Integer id, @RequestBody RealEstate realEstate)
+            throws InvalidRequestException, RealEstateNotFoundException {
+        return this._realEstateService.updateExistingRealEstate(id, realEstate);
+    }
 }
+
 
