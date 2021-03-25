@@ -32,8 +32,7 @@ public class RealEstate {
     }
     public RealEstate(Integer id) {this.realEstateId = id; }
 
-    public RealEstate(Integer id, String name, Double price, List<Invoice> invoices) {
-        this.realEstateId = id;
+    public RealEstate(String name, Double price, List<Invoice> invoices) {
         this.name = name;
         this.price = price;
         this.invoices = invoices;

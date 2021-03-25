@@ -32,8 +32,7 @@ public class Invoice {
     public Invoice() {
     }
 
-    public Invoice(Integer id, Date invoiceDate, RealEstate realEstate, User user) {
-        this.invoiceId = id;
+    public Invoice(Date invoiceDate, RealEstate realEstate, User user) {
         this.invoiceDate = invoiceDate;
         this.realEstate = realEstate;
         this.user = user;

@@ -31,8 +31,7 @@ public class User {
     }
     public User(Integer id) {this.userId = id; }
 
-    public User(Integer id, String firstName, String lastName, List<Invoice> invoices) {
-        this.userId = id;
+    public User( String firstName, String lastName, List<Invoice> invoices) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.invoices = invoices;
