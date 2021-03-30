@@ -4,6 +4,9 @@ import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestE
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
 import com.example.adminservice.adminservice.Admin.Repositories.RealEstateRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +24,19 @@ public class RealEstateService {
         _validationService = validationService;
     }
 
-    public ResponseEntity<List<RealEstate>> findAllRealEstates() {
-        return new ResponseEntity<>(this._realEstateRepository.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<RealEstate>> findAllRealEstates(Pageable page) {
+        return new ResponseEntity<>(this._realEstateRepository.findAll(page), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Page<RealEstate>> findByCityContaining(String city, Pageable page) {
+        return new ResponseEntity<>(this._realEstateRepository.findByCityContainingIgnoreCase(city, page), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Page<RealEstate>> listAll(String keyword, Pageable page) {
+        if (keyword != null) {
+            return new ResponseEntity<>(this._realEstateRepository.search(keyword, page), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(this._realEstateRepository.findAll(page), HttpStatus.OK);
     }
 
     public ResponseEntity<RealEstate> findRealEstateById(Integer id) throws InvalidRequestException, RealEstateNotFoundException {
