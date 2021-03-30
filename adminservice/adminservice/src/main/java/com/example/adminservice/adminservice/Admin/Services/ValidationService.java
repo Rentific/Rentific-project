@@ -34,7 +34,7 @@ public class ValidationService {
         if (realEstate.getName() == null || realEstate.getName().isEmpty()) {
             nullProperties.add("Name");
         }
-        else if (!realEstate.getName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9])*$")) {
+        else if (!realEstate.getName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,])*$")) {
             invalidProperties.add("Name");
         }
 
@@ -74,7 +74,7 @@ public class ValidationService {
         if (realEstate.getDescription() == null || realEstate.getDescription().isEmpty()) {
             nullProperties.add("Description");
         }
-        else if (!realEstate.getDescription().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9-:-?{-~!\"^_`\\[\\]])*$")) {
+        else if (!realEstate.getDescription().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9-:-?{-~!\"^_`\\[\\].,!;])*$")) {
             invalidProperties.add("Description");
         }
 

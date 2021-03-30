@@ -4,7 +4,6 @@ import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestE
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
 import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -51,7 +50,7 @@ public class RealEstateController {
 
         return Sort.Direction.ASC;
     }
-    @NotNull
+
     private List<Order> getOrders(String[] sort) {
         List<Order> orders = new ArrayList<Order>();
 
