@@ -37,7 +37,7 @@ public class UserService {
     }
     public ResponseEntity<User> saveUser(User user) throws InvalidRequestException, UserNotFoundException {
         try {
-            findUserById(user.getUserId());
+            findUserByEmail(user.getEmail());
             return new ResponseEntity("User already exists.", HttpStatus.CONFLICT);
         } catch (UserNotFoundException e) {
             this._validationService.validateUserProperties(user);

@@ -13,7 +13,6 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @NotNull
     private Integer UserId;
     @Column (nullable = false)
     @NotBlank(message = "First name is  required")

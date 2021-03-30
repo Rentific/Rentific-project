@@ -1,5 +1,6 @@
 package com.example.userservice.userservice.Service;
 
+import com.example.userservice.userservice.ErrorHandling.ApiError;
 import com.example.userservice.userservice.ErrorHandling.InvalidRequestException;
 import com.example.userservice.userservice.ErrorHandling.UserNotFoundException;
 import com.example.userservice.userservice.Models.Role;
@@ -51,11 +52,12 @@ public class RoleService {
         return new ResponseEntity(updatedRole, HttpStatus.OK);
     }
 
-    public ResponseEntity deleteRole(Integer id) throws InvalidRequestException, UserNotFoundException {
+    public ApiError  deleteRole(Integer id) throws InvalidRequestException, UserNotFoundException {
         this._validationService.validateId(id);
         this.findRoleById(id);
         this._roleRepository.deleteById(id);
-        return new ResponseEntity("User successfully deleted.", HttpStatus.OK);
+        ApiError apiError = new ApiError(HttpStatus.OK, "User successfully deleted. !!! ");
+        return apiError;
     }
 
 }

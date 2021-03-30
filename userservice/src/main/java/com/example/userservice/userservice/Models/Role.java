@@ -26,7 +26,6 @@ public class Role {
         RoleId = roleId;
         Name = name;
     }
-
     public Role() {
     }
 

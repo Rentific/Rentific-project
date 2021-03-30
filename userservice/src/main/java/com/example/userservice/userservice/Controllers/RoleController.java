@@ -1,5 +1,6 @@
 package com.example.userservice.userservice.Controllers;
 
+import com.example.userservice.userservice.ErrorHandling.ApiError;
 import com.example.userservice.userservice.ErrorHandling.InvalidRequestException;
 import com.example.userservice.userservice.ErrorHandling.UserNotFoundException;
 import com.example.userservice.userservice.Models.User;
@@ -66,7 +67,7 @@ public class RoleController {
     }
 
     @DeleteMapping("delete/{id}")
-    ResponseEntity deleteRole(@PathVariable(value = "id") Integer id) throws InvalidRequestException, UserNotFoundException   {
+    ApiError deleteRole(@PathVariable(value = "id") Integer id) throws InvalidRequestException, UserNotFoundException   {
         return this._roleService.deleteRole(id);
     }
 }
