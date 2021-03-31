@@ -82,7 +82,10 @@ public class UserServiceTests {
             actual = userService.updateExistingUser(5, expected);
         } catch (Exception e) {}
 
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertEquals
+
+
+                (HttpStatus.OK, actual.getStatusCode());
         assertNotNull(actual.getBody());
     }
 
