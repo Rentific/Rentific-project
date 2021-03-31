@@ -19,14 +19,14 @@ public class User {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer userId;
     @NotBlank
-    private String FirstName;
+    private String firstName;
     @NotBlank
-    private String LastName;
+    private String lastName;
     @Email(message = "Email should be valid")
     private String email;
     @Past
-    private Date DateOfBirth;
-    private String Phone;
+    private Date dateOfBirth;
+    private String phone;
 
     @JsonManagedReference(value="name")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
@@ -41,19 +41,19 @@ public class User {
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -65,19 +65,19 @@ public class User {
     }
 
     public Date getDateOfBirth() {
-        return DateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
     public List<RealEstate> getRealEstates() {
@@ -90,12 +90,22 @@ public class User {
     public User() {
     }
 
+    public User(User user){
+        this.setUserId(user.userId);
+        this.setPhone(user.phone);
+        this.setEmail(user.email);
+        this.setFirstName(user.firstName);
+        this.setLastName(user.lastName);
+        this.setDateOfBirth(user.dateOfBirth);
+        this.setRealEstates(user.realEstates);
+    }
+
     public User(String firstName, String lastName, String email, Date dateOfBirth, String phone, List<RealEstate> realEstates) {
-        FirstName = firstName;
-        LastName = lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        DateOfBirth = dateOfBirth;
-        Phone = phone;
+        this.dateOfBirth = dateOfBirth;
+        this.phone = phone;
         this.realEstates = realEstates;
     }
 

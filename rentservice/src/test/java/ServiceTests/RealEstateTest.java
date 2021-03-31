@@ -147,4 +147,5 @@ public class RealEstateTest {
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertEquals("User successfully deleted.", actual.getBody());
     }
-}*/
+}
+*/
