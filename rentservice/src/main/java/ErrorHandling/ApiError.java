@@ -1,4 +1,4 @@
-package com.example.rentservice.rentservice.ErrorHandling;
+package ErrorHandling;
 
 import org.springframework.http.HttpStatus;
 

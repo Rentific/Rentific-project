@@ -1,12 +1,15 @@
 package com.example.rentservice.rentservice.Models;
 
-import com.example.rentservice.rentservice.Enums.StateEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
+import java.util.List;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class RealEstate {
@@ -14,22 +17,25 @@ public class RealEstate {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer realEstateId;
     @NotBlank
-    private String name;
-    private Double price;
-    private String address;
-    private String country;
-    private String city;
-    private String description;
-    private boolean isReservated;
-    private Date dateFrom;
+    private String Name;
+    private Double Price;
+    private String Address;
+    private String Country;
+    private String City;
+    private String Description;
+    private boolean IsReservated;
+    private Date DateFrom;
     @FutureOrPresent
-    private Date dateTo;
+    private Date DateTo;
 
     @JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
-    private StateEnum state;
+
+    @JsonManagedReference(value="name2")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
+    private List<State> states;
 
     public Integer getRealEstateId() {
         return realEstateId;
@@ -40,75 +46,75 @@ public class RealEstate {
     }
 
     public String getName() {
-        return name;
+        return Name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        Name = name;
     }
 
     public Double getPrice() {
-        return price;
+        return Price;
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        Price = price;
     }
 
     public String getAddress() {
-        return address;
+        return Address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        Address = address;
     }
 
     public String getCountry() {
-        return country;
+        return Country;
     }
 
     public void setCountry(String country) {
-        this.country = country;
+        Country = country;
     }
 
     public String getCity() {
-        return city;
+        return City;
     }
 
     public void setCity(String city) {
-        this.city = city;
+        City = city;
     }
 
     public String getDescription() {
-        return description;
+        return Description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        Description = description;
     }
 
     public boolean getIsReservated() {
-        return isReservated;
+        return IsReservated;
     }
 
     public void setIsReservated(boolean isReservated) {
-        this.isReservated = isReservated;
+        IsReservated = isReservated;
     }
 
     public Date getDateFrom() {
-        return dateFrom;
+        return DateFrom;
     }
 
     public void setDateFrom(Date dateFrom) {
-        this.dateFrom = dateFrom;
+        DateFrom = dateFrom;
     }
 
     public Date getDateTo() {
-        return dateTo;
+        return DateTo;
     }
 
     public void setDateTo(Date dateTo) {
-        this.dateTo = dateTo;
+        DateTo = dateTo;
     }
 
     public com.example.rentservice.rentservice.Models.User getUser() {
@@ -118,29 +124,28 @@ public class RealEstate {
     public void setUser(com.example.rentservice.rentservice.Models.User user) {
         this.user = user;
     }
-    public StateEnum getState() {
-        return state;
+    public List<State> getStates() {
+        return states;
     }
 
-    public void setState(StateEnum state) {
-        this.state = state;
+    public void setStates(List<State> states) {
+        this.states = states;
     }
 
     public RealEstate() {
     }
 
-    public RealEstate(String name, Double price, String address, String country, String city, String description, boolean isReservated, Date dateFrom, Date dateTo, User user, StateEnum state) {
-        this.name = name;
-        this.price = price;
-        this.address = address;
-        this.country = country;
-        this.city = city;
-        this.description = description;
-        this.isReservated = isReservated;
-        this.dateFrom = dateFrom;
-        this.dateTo = dateTo;
+    public RealEstate(String name, Double price, String address, String country, String city, String description, boolean isReservated, Date dateFrom, Date dateTo, User user) {
+        Name = name;
+        Price = price;
+        Address = address;
+        Country = country;
+        City = city;
+        Description = description;
+        IsReservated = isReservated;
+        DateFrom = dateFrom;
+        DateTo = dateTo;
         this.user = user;
-        this.state = state;
     }
 
 }

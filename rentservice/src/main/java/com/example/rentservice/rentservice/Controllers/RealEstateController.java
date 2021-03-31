@@ -1,10 +1,11 @@
 package com.example.rentservice.rentservice.Controllers;
 
-import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
-import com.example.rentservice.rentservice.ErrorHandling.ObjectNotFoundException;
+import ErrorHandling.InvalidRequestException;
+import ErrorHandling.ObjectNotFoundException;
 import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Services.RealEstateService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

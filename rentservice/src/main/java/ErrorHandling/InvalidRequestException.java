@@ -1,4 +1,4 @@
-package com.example.rentservice.rentservice.ErrorHandling;
+package ErrorHandling;
 
 public class InvalidRequestException extends Exception {
     public InvalidRequestException(String error) {

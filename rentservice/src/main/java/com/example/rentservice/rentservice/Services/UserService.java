@@ -1,7 +1,7 @@
 package com.example.rentservice.rentservice.Services;
 
-import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
-import com.example.rentservice.rentservice.ErrorHandling.ObjectNotFoundException;
+import ErrorHandling.InvalidRequestException;
+import ErrorHandling.ObjectNotFoundException;
 import com.example.rentservice.rentservice.Models.User;
 import com.example.rentservice.rentservice.Repositories.UserRepository;
 import org.springframework.http.HttpStatus;
@@ -30,12 +30,8 @@ public class UserService {
         this._validationService.validateId(id);
 
         Optional<User> user = _userRepository.findById(id);
-        if(user.isPresent()){
-            return new ResponseEntity(user, HttpStatus.OK);
-        }
-        else{
-            throw new ObjectNotFoundException("There is no user with the ID "+id);
-        }
+        this._validationService.validateObject(user);
+        return new ResponseEntity(user, HttpStatus.OK);
     }
     public ResponseEntity<User> findUserByEmail(String email) throws InvalidRequestException, ObjectNotFoundException {
         try{
@@ -44,33 +40,24 @@ public class UserService {
             return new ResponseEntity(user, HttpStatus.OK);
         }
         catch(InvalidRequestException ex){
-            return new ResponseEntity("Email is invalid. Message: " + ex.getMessage(), HttpStatus.CONFLICT);
+            return new ResponseEntity("Email is invalid.", HttpStatus.CONFLICT);
         }
     }
 
     public ResponseEntity<User> saveUser(User user) throws InvalidRequestException {
-        try{
-            this._validationService.validateUserProperties(user);
-            User newRE = this._userRepository.save(user);
-            return new ResponseEntity(newRE, HttpStatus.OK);
-        }
-        catch(InvalidRequestException ex){
-            return new ResponseEntity("Fail to save user. Message: " + ex.getMessage(), HttpStatus.CONFLICT);
-        }
+        this._validationService.validateUserProperties(user);
+        User newRE = this._userRepository.save(user);
+        return new ResponseEntity(newRE, HttpStatus.OK);
     }
 
     public ResponseEntity<User> updateExistingUser(Integer id, User user) throws InvalidRequestException, ObjectNotFoundException {
-        try {
-            this._validationService.validateId(id);
+        this._validationService.validateId(id);
 
-            this.findUserById(id);
+        this.findUserById(id);
 
-            var updatedUser = this._userRepository.save(new User(user));
-            return new ResponseEntity(updatedUser, HttpStatus.OK);
-        }
-        catch(Exception ex){
-            return new ResponseEntity("Fail to update user. Message: " + ex.getMessage(), HttpStatus.CONFLICT);
-        }
+        user.setUserId(id);
+        User updatedUser = this._userRepository.save(user);
+        return new ResponseEntity(updatedUser, HttpStatus.OK);
     }
 
     public ResponseEntity deleteUser(Integer id) throws InvalidRequestException, ObjectNotFoundException {

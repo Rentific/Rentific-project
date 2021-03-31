@@ -1,7 +1,7 @@
 package com.example.rentservice.rentservice.Services;
 
-import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
-import com.example.rentservice.rentservice.ErrorHandling.ObjectNotFoundException;
+import ErrorHandling.InvalidRequestException;
+import ErrorHandling.ObjectNotFoundException;
 import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Models.User;
 import org.springframework.stereotype.Service;
@@ -36,7 +36,7 @@ public class ValidationService {
         }
     }
 
-    public void validateUserProperties(User user) throws InvalidRequestException {
+    public void validateUserProperties(@org.jetbrains.annotations.NotNull User user) throws InvalidRequestException {
         List<String> nullProperties = new ArrayList<String>();
         List<String> invalidProperties = new ArrayList<String>();
 
@@ -63,11 +63,6 @@ public class ValidationService {
         } else if (!user.getEmail().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
             invalidProperties.add("Email");
         }
-        if (user.getPhone() == null || user.getPhone().isEmpty()) {
-            nullProperties.add("Phone");
-        } else if (!user.getPhone().toLowerCase().matches("[0-9]+")) {
-            invalidProperties.add("Phone");
-        }
 
         String result = nullProperties.size() > 0 ?
                 "Properties that must be provided: " + String.join(", ", nullProperties) + ". " :
@@ -82,66 +77,7 @@ public class ValidationService {
         }
     }
 
-    public void validateRealEstateProperties(RealEstate realEstate) throws InvalidRequestException {
-        List<String> nullProperties = new ArrayList<String>();
-        List<String> invalidProperties = new ArrayList<String>();
-
-        // Name
-        if (realEstate.getName() == null || realEstate.getName().isEmpty()) {
-            nullProperties.add("Name");
-        }
-        else if (!realEstate.getName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9])*$")) {
-            invalidProperties.add("Name");
-        }
-
-        // Price
-        if (realEstate.getPrice() == null) {
-            nullProperties.add("Price");
-        }
-        else if (realEstate.getPrice() < 0) {
-            invalidProperties.add("Price");
-        }
-
-        // Address
-        if (realEstate.getAddress() == null || realEstate.getAddress().isEmpty()) {
-            nullProperties.add("Address");
-        }
-        else if (!realEstate.getAddress().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.])*$")) {
-            invalidProperties.add("Address");
-        }
-
-        // Country
-        if (realEstate.getCountry() == null || realEstate.getCountry().isEmpty()) {
-            nullProperties.add("Country");
-        }
-        else if (!realEstate.getCountry().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.-])*$")) {
-            invalidProperties.add("Country");
-        }
-
-        // City
-        if (realEstate.getCity() == null || realEstate.getCity().isEmpty()) {
-            nullProperties.add("City");
-        }
-        else if (!realEstate.getCity().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.-])*$")) {
-            invalidProperties.add("City");
-        }
-
-        // Description
-        if (realEstate.getDescription() == null || realEstate.getDescription().isEmpty()) {
-            nullProperties.add("Description");
-        }
-
-        String result = nullProperties.size() > 0 ?
-                "Please, populate following properties: " + String.join(", ", nullProperties) + ". " :
-                "";
-
-        if (invalidProperties.size() > 0) {
-            result += "Wrong format of following properties: " + String.join(", ", invalidProperties) + ".";
-        }
-
-        if (!result.isEmpty()) {
-            throw new InvalidRequestException(result);
-        }
+    public void validateRealEstateProperties(@org.jetbrains.annotations.NotNull RealEstate realEstate) throws InvalidRequestException {
+        return;
     }
-
 }
