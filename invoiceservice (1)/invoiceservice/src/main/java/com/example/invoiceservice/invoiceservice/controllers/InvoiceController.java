@@ -39,4 +39,10 @@ public class InvoiceController {
         return _invoiceService.findInvoicesById(id);
     }
 
+    //@GetMapping
+    //@RequestMapping("/user/{id}")
+    //ResponseEntity<List<Invoice>> getAllInvoicesForSpecificUser(@PathVariable Integer id) throws InvalidRequestException, ItemNotFoundException{
+    //    return _invoiceService.FindAllInvoicesForSpecificUser(id);
+    //}
+
 }
