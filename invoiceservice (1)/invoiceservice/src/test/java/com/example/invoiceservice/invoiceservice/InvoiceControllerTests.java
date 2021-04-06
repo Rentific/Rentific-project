@@ -71,53 +71,40 @@ public class InvoiceControllerTests {
 
     }
 
-    /*
-    @Test
-    public void findUserById_IdIsInvalid_ERRMessage() throws Exception {
 
-        given(userService.findUserById(anyInt()))
+    @Test
+    public void findInvoiceById_IdIsInvalid_ERRMessage() throws Exception {
+
+        given(invoiceService.findInvoicesById(anyInt()))
                 .willThrow(new InvalidRequestException("Sent Id is not valid."));
 
-        mvc.perform(get("/invoice-user/-123"))
+        mvc.perform(get("/invoice/-123"))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void findUserById_UserIsNotFound_ERRMessage() throws Exception {
+    public void findInvoiceById_InvoiceIsNotFound_ERRMessage() throws Exception {
 
-        given(userService.findUserById(anyInt()))
+        given(invoiceService.findInvoicesById(anyInt()))
                 .willThrow(new ItemNotFoundException("Object with sent ID is not found."));
 
-        mvc.perform(get("/invoice-user/100"))
+        mvc.perform(get("/invoice/1001"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    public void addNewUser_StatusOkWithResult() throws Exception {
+    public void addNewInvoice_StatusOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
-
+        RealEstate newRealEstate = new RealEstate("Grbavica", 100.00, inv);
         User newUser = new User("QA", "Surname", inv);
-        newUser.setUserId(1);
+        Invoice newInvoice = new Invoice(new Date(), newRealEstate, newUser);
+        newRealEstate.setRealEstateId(1);
 
-        given(userService.saveUser(newUser)).willReturn(new ResponseEntity<>(newUser, HttpStatus.OK));
+        given(invoiceService.saveInvoice(newInvoice)).willReturn(new ResponseEntity<>(newInvoice, HttpStatus.OK));
 
-        mvc.perform(post("/invoice-user/add")
+        mvc.perform(post("/invoice/add")
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
-    @Test
-    public void addNewUser_RequestIsInvalid_ERRMessage() throws Exception {
-        List<Invoice> inv = new ArrayList<> ();
-        User newUser = new User("QA 392!#)$=", "Ex 3z2 093", inv);
-
-        given(userService.saveUser(ArgumentMatchers.<User>any()))
-                .willThrow(new InvalidRequestException("Wrong format of properties: First Name, Last Name."));
-
-        mvc.perform(post("/invice-user/add")
-                .content(new ObjectMapper().writeValueAsString(newUser))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    } */
 }
