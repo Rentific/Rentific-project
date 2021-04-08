@@ -27,9 +27,9 @@ public class User {
     private Date dateOfBirth;
     private String phone;
 
-   /* @JsonManagedReference(value="name")
+    @JsonManagedReference(value="name")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
-    private List<RealEstate2> realEstates;*/
+    private List<RealEstate2> realEstates;
 
     public Integer getUserId() {
         return userId;
@@ -79,13 +79,13 @@ public class User {
         this.phone = phone;
     }
 
-  /*  public List<RealEstate2> getRealEstates() {
+    public List<RealEstate2> getRealEstates() {
         return realEstates;
     }
 
     public void setRealEstates(List<RealEstate2> realEstates) {
         this.realEstates = realEstates;
-    }*/
+    }
     public User() {
     }
 
@@ -96,7 +96,7 @@ public class User {
         this.setFirstName(user.firstName);
         this.setLastName(user.lastName);
         this.setDateOfBirth(user.dateOfBirth);
-      /*  this.setRealEstates(user.realEstates);*/
+        this.setRealEstates(user.realEstates);
     }
 
     public User(String firstName, String lastName, String email, Date dateOfBirth, String phone, List<RealEstate2> realEstates) {
@@ -105,7 +105,7 @@ public class User {
         this.email = email;
         this.dateOfBirth = dateOfBirth;
         this.phone = phone;
-        /*this.realEstates = realEstates;*/
+        this.realEstates = realEstates;
     }
 
 }

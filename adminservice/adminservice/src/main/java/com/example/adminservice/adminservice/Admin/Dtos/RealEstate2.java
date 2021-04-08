@@ -26,12 +26,11 @@ public class RealEstate2 {
     @FutureOrPresent
     private Date dateTo;
 
-   /* @JsonProperty("user")
     @JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId")
     private User user;
-    private StateEnum state;*/
+    private StateEnum state;
 
     public Integer getRealEstateId() {
         return realEstateId;
@@ -113,7 +112,7 @@ public class RealEstate2 {
         this.dateTo = dateTo;
     }
 
-    /*public com.example.adminservice.adminservice.Admin.Dtos.User getUser() {
+    public com.example.adminservice.adminservice.Admin.Dtos.User getUser() {
         return user;
     }
 
@@ -126,7 +125,7 @@ public class RealEstate2 {
 
     public void setState(StateEnum state) {
         this.state = state;
-    }*/
+    }
 
     public RealEstate2() {
     }
@@ -141,8 +140,8 @@ public class RealEstate2 {
         this.isReservated = isReservated;
         this.dateFrom = dateFrom;
         this.dateTo = dateTo;
-      /*  this.user = user;
-        this.state = state;*/
+        this.user = user;
+        this.state = state;
     }
 
 }
