@@ -22,10 +22,12 @@ public class RealEstateController {
         // This returns a JSON or XML with the RealEstates
         return _realEstateService.findAllRealEstates();
     }
+
     @GetMapping(path="/allReserved")
     ResponseEntity<List<RealEstate>> getAllReservedRealEstates() {
         return _realEstateService.findAllReservatedRealEstates();
     }
+  
     @GetMapping("/{id}")
     ResponseEntity<RealEstate> findRealEstateById(@PathVariable(value = "id") Integer id) throws InvalidRequestException, ObjectNotFoundException {
         return _realEstateService.findRealEstateById(id);
