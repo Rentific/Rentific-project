@@ -1,21 +1,24 @@
 package com.example.adminservice.adminservice.Admin.Controllers;
 
+import com.example.adminservice.adminservice.Admin.Dtos.RealEstate2;
+import com.example.adminservice.adminservice.Admin.Dtos.ReservedRealEstate;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
 import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
+import com.example.adminservice.adminservice.Admin.Wrappers.RealEstateResponseWrapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
+import org.springframework.web.client.RestTemplate;
 
 
 import javax.validation.Valid;
@@ -24,8 +27,9 @@ import java.util.*;
 @RestController
 @RequestMapping(path="/real-estate")
 public class RealEstateController {
-    @Autowired
     private final RealEstateService _realEstateService;
+    @Autowired
+    RestTemplate restTemplate = new RestTemplate();
 
     public RealEstateController(RealEstateService realEstateService) {
         _realEstateService = realEstateService;
@@ -68,7 +72,6 @@ public class RealEstateController {
         return orders;
     }
 
-
     /* Get all real estates for specific page or sorted by some column */
     @GetMapping(path="/all/real-estates")
     ResponseEntity<Map<String, Object>> findAllRealEstates(
@@ -96,14 +99,15 @@ public class RealEstateController {
 
     /* Search real estates with keyword */
     @RequestMapping("/")
-    ResponseEntity<Map<String, Object>> searchAllRealEstates(RealEstate realEstate, @Param("keyword") String keyword,
-            @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "price,asc") String[] sort)
+    ResponseEntity<Map<String, Object>>  searchAllRealEstates(RealEstate realEstate, @Param("keyword") String keyword,
+                                                           @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+                                                           @RequestParam(defaultValue = "price,asc") String[] sort)
     {
         try {
             List<Order> orders = getOrders(sort);
 
             List<RealEstate> realEstates = new ArrayList<RealEstate>();
+            List<RealEstate> freeRealEstates = new ArrayList<RealEstate>();
             Pageable paging = PageRequest.of(page, size, Sort.by(orders));
 
             Page<RealEstate> pageRealEstates;
@@ -114,12 +118,29 @@ public class RealEstateController {
                 pageRealEstates = _realEstateService.listAll(keyword, paging).getBody();
 
             if (pageRealEstates != null)
+            {
                 realEstates = pageRealEstates.getContent();
+                freeRealEstates.addAll(realEstates);
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+                HttpEntity<RealEstate2[]> entity = new HttpEntity<RealEstate2[]>(headers);
+
+                var response = restTemplate.exchange("http://rent-service/realEstate/allReserved", HttpMethod.GET,
+                        entity, RealEstate2[].class).getBody();
+
+                List<RealEstate2> reservedRealEstates = Arrays.asList(response);
+
+                reservedRealEstates.forEach(realEstate1 -> {
+                    freeRealEstates.removeIf(x -> x.getRealEstateId() == realEstate1.getRealEstateId());
+                });
+            }
             else throw new RealEstateNotFoundException("No results found.");
 
-            Map<String, Object> response = createResponse(realEstates, pageRealEstates);
+            Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
+            return new ResponseEntity<>(response2, HttpStatus.OK);
 
-            return new ResponseEntity<>(response, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

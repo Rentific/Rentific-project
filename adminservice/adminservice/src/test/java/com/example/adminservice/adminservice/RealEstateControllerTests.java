@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import static org.mockito.BDDMockito.given;
 
@@ -101,4 +105,27 @@ public class RealEstateControllerTests {
                 .andExpect(status().isBadRequest());
     }
 
+   /* @Test
+    public void findAllRealEstates_ShouldReturnRealEstatesSortedByPriceAsc_WhenSortIsDefault() throws Exception {
+        StaffUser staff = new StaffUser("TestIme", "TestPrezime", null);
+RealEstate e1 = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
+        staff, null);
+        List<RealEstate> estateList = new ArrayList<RealEstate>();
+        estateList.add(new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
+                staff, null));
+        estateList.add(new RealEstate("TestBane2", 750000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
+                staff, null));
+
+        Page<RealEstate> page = new PageImpl<RealEstate>(estateList);
+        Pageable paging = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "price"));
+
+        given(realEstateService.findAllRealEstates(paging)).willReturn(new ResponseEntity<Page<RealEstate>>
+                (page, HttpStatus.OK));
+
+        mvc.perform(get("/real-estate/all/real-estates").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.price", is(250000.0)))
+                .andExpect(jsonPath("$.name", is("TestBane")));
+    }
+*/
 }
