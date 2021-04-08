@@ -108,7 +108,7 @@ public class UserServiceTest {
         assertNotNull(actual.getBody());
     }
 
-    @Test
+    /*@Test
     public void updateExistingUser_ShouldReturnOkWithResult() {
         User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456", null);
 
@@ -126,7 +126,7 @@ public class UserServiceTest {
 
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertNotNull(actual.getBody());
-    }
+    }*/
 
     @Test
     public void deleteUser_ShouldReturnOkWithResult() {

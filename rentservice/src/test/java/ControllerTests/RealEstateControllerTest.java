@@ -1,4 +1,4 @@
-package ServiceTests;
+package ControllerTests;
 
 import com.example.rentservice.rentservice.Controllers.RealEstateController;
 import com.example.rentservice.rentservice.ErrorHandling.GlobalErrorHandler;
