@@ -48,7 +48,7 @@ public class UserControllerTests {
                 .build();
     }
 
-    @Test
+    /*@Test
     public void findUserById_ReturnOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
 
@@ -62,7 +62,7 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.firstName", is("QATest")))
                 .andExpect(jsonPath("$.lastName", is("QASurname")));
 
-    }
+    }*/
 
     @Test
     public void findUserById_IdIsInvalid_ERRMessage() throws Exception {
@@ -84,7 +84,7 @@ public class UserControllerTests {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+    /*@Test
     public void addNewUser_StatusOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
 
@@ -97,9 +97,9 @@ public class UserControllerTests {
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
+    }*/
 
-    @Test
+   /* @Test
     public void addNewUser_RequestIsInvalid_ERRMessage() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
         User newUser = new User("QA 392!#)$=", "Ex 3z2 093", inv);
@@ -111,6 +111,6 @@ public class UserControllerTests {
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
-    }
+    }*/
 
 }

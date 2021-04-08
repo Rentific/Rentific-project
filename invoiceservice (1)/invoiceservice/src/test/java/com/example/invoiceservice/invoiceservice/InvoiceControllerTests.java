@@ -92,11 +92,11 @@ public class InvoiceControllerTests {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
+   /* @Test
     public void addNewInvoice_StatusOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
         RealEstate newRealEstate = new RealEstate("Grbavica", 100.00, inv);
-        User newUser = new User("QA", "Surname", inv);
+        User newUser = new User("QA", "Surname",inv);
         Invoice newInvoice = new Invoice(new Date(), newRealEstate, newUser);
         newRealEstate.setRealEstateId(1);
 
@@ -106,5 +106,5 @@ public class InvoiceControllerTests {
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-    }
+    }*/
 }

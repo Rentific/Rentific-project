@@ -3,6 +3,7 @@ package com.example.invoiceservice.invoiceservice.services;
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.InvalidRequestException;
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.ItemNotFoundException;
 import com.example.invoiceservice.invoiceservice.models.RealEstate;
+import com.example.invoiceservice.invoiceservice.models.User;
 import com.example.invoiceservice.invoiceservice.repositories.RealEstateRepository;
 
 import org.springframework.http.HttpStatus;
@@ -38,6 +39,12 @@ public class RealEstateService {
         this._validationService.validateRealEstateProperties(realEstate);
         RealEstate newRealEstate = this._realEstateRepository.save(realEstate);
         return new ResponseEntity(newRealEstate, HttpStatus.OK);
+    }
+
+    public ResponseEntity<RealEstate> findRealEstateByRealEstateName(String name) throws ItemNotFoundException{
+        Optional<RealEstate> realEstate = this._realEstateRepository.findRealEstateByName(name);
+        this._validationService.validateItem(realEstate);
+        return new ResponseEntity(realEstate.get(), HttpStatus.OK);
     }
 
 }
