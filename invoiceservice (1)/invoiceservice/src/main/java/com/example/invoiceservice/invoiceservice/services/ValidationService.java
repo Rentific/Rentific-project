@@ -42,6 +42,7 @@ public class ValidationService {
 
         if (user.getLastName() == null || user.getLastName().isEmpty()) {
             nullProperties.add("Last Name");
+<<<<<<< HEAD
         } /*else if (!user.getLastName().toLowerCase().matches("^[a-zA-Z]+( ?[a-zA-Z])*$")) {
             invalidProperties.add("Last Name");
         }*/
@@ -52,6 +53,12 @@ public class ValidationService {
         }
 
 
+=======
+        } else if (!user.getLastName().matches("^[a-zA-Z]+( ?[a-zA-Z])*$")) {
+            invalidProperties.add("Last Name");
+        }
+
+>>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
         String resultForUser = nullProperties.size() > 0 ?
                 "Properties that must be provided with data: " + String.join(", ", nullProperties) + ". " :
                 "";
