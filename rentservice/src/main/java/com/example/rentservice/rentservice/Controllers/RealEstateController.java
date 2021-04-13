@@ -13,7 +13,8 @@ import java.util.List;
 @RequestMapping(path="/realEstate") // This means URL's start with /demo (after Application path)
 public class RealEstateController {
     private RealEstateService _realEstateService;
-    public RealEstateController(RealEstateService realEstateService) {
+
+    public RealEstateController(RealEstateService realEstateService){
         _realEstateService = realEstateService;
     }
 
@@ -25,7 +26,7 @@ public class RealEstateController {
 
     @GetMapping(path="/allReserved")
     ResponseEntity<List<RealEstate>> getAllReservedRealEstates() {
-        return _realEstateService.findAllReservatedRealEstates();
+        return _realEstateService.findAllReservedRealEstates();
     }
   
     @GetMapping("/{id}")

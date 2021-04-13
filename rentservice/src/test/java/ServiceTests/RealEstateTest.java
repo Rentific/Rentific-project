@@ -1,7 +1,6 @@
-/*
 package ServiceTests;
 
-import com.example.rentservice.rentservice.Models.User;
+import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Repositories.RealEstateRepository;
 import com.example.rentservice.rentservice.Services.RealEstateService;
 import com.example.rentservice.rentservice.Services.ValidationService;
@@ -22,45 +21,62 @@ import static org.mockito.Mockito.mock;
 
 public class RealEstateTest {
     @MockBean
-    private RealEstateRepository realEstateRepository;
+    private RealEstateRepository _realEstateRepository;
 
-    private ValidationService validationService;
-    private RealEstateService realEstateService;
+    private ValidationService _validationService;
+    private RealEstateService _realEstateService;
     private JFixture fixture;
 
     RealEstateTest() {
-        realEstateRepository = mock(RealEstateRepository.class);
-        validationService = new ValidationService();
-        realEstateService = new RealEstateService(realEstateRepository, validationService);
+        _realEstateRepository = mock(RealEstateRepository.class);
+        _validationService = new ValidationService();
+        _realEstateService = new RealEstateService(_realEstateRepository, _validationService);
         fixture = new JFixture();
     }
 
     @Test
-    public void findAllUsers_ShouldReturnOkWithResults() {
-        List<User> expected = Arrays.asList(
-                new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456"),
-                new User("TestFirstName2", "TestLastName2", "email2@email.com", new Date(), "654321")
+    public void findAllRealEstates_ShouldReturnOkWithResults() {
+        List<RealEstate> expected = Arrays.asList(
+                new RealEstate(1, null, false),
+                new RealEstate(1, 1, true)
         );
 
 
-        given(userRepository.findAll()).willReturn(expected);
+        given(_realEstateRepository.findAll()).willReturn(expected);
 
-        ResponseEntity<List<User>> actual = userService.findAllUsers();
+        ResponseEntity<List<RealEstate>> actual = _realEstateService.findAllRealEstates();
 
         assertEquals(HttpStatus.OK, actual.getStatusCode());
         assertEquals(2, actual.getBody().size());
     }
 
     @Test
-    public void findUserById_ShouldReturnOkWithResult() {
-        User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456");
+    public void findAllReservatedRealEstates_ShouldReturnOkWithResults() {
+        List<RealEstate> all = Arrays.asList(
+                new RealEstate(1, null, false),
+                new RealEstate(1, 1, true)
+        );
+        List<RealEstate> expected = Arrays.asList(
+                new RealEstate(1, 1, true)
+        );
 
-        //mock
-        given(userRepository.findById(anyInt())).willReturn(Optional.of(expected));
 
-        ResponseEntity<User> actual = null;
+        given(_realEstateRepository.findByIsReservedTrue()).willReturn(expected);
+
+        ResponseEntity<List<RealEstate>> actual = _realEstateService.findAllReservedRealEstates();
+
+        assertEquals(HttpStatus.OK, actual.getStatusCode());
+        assertEquals(1, actual.getBody().size());
+    }
+
+    @Test
+    public void findRealEstateById_ShouldReturnOkWithResult() {
+        RealEstate expected = new RealEstate(1, null, false);
+        given(_realEstateRepository.findById(anyInt())).willReturn(Optional.of(expected));
+
+        ResponseEntity<RealEstate> actual = null;
         try {
-            actual = userService.findUserById(5);
+            actual = _realEstateService.findRealEstateById(5);
         }
         catch (Exception e)
         {
@@ -72,14 +88,14 @@ public class RealEstateTest {
     }
 
     @Test
-    public void findUserByEmail_ShouldReturnOkWithResult() {
-        User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456");
+    public void saveRealEstate_ShouldReturnOkWithResult() {
+        RealEstate expected = new RealEstate(1, 1, true);
 
-        given(userRepository.findByEmail(anyString())).willReturn(Optional.of(expected));
+        given(_realEstateRepository.save(expected)).willReturn(expected);
 
-        ResponseEntity<User> actual = null;
+        ResponseEntity<RealEstate> actual = null;
         try {
-            actual = userService.findUserByEmail("email@email.com");
+            actual = _realEstateService.saveRealEstate(expected);
         }
         catch (Exception e)
         {
@@ -91,14 +107,15 @@ public class RealEstateTest {
     }
 
     @Test
-    public void saveUser_ShouldReturnOkWithResult() {
-        User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456");
+    public void reserveRealEstate_ShouldReturnOkWithResult() {
+        RealEstate expected = new RealEstate(1, 1, true);
 
-        given(userRepository.save(expected)).willReturn(expected);
+        given(_realEstateRepository.save(expected)).willReturn(expected);
+        given(_realEstateRepository.findById(anyInt())).willReturn(Optional.of(expected));
 
-        ResponseEntity<User> actual = null;
+        ResponseEntity<RealEstate> actual = null;
         try {
-            actual = userService.saveUser(expected);
+            actual = _realEstateService.reserveRealEstate(1);
         }
         catch (Exception e)
         {
@@ -110,34 +127,14 @@ public class RealEstateTest {
     }
 
     @Test
-    public void updateExistingUser_ShouldReturnOkWithResult() {
-        User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456");
-
-        given(userRepository.save(expected)).willReturn(expected);
-        given(userRepository.findById(anyInt())).willReturn(Optional.of(expected));
-
-        ResponseEntity<User> actual = null;
-        try {
-            actual = userService.updateExistingUser(5, expected);
-        }
-        catch (Exception e)
-        {
-            return;
-        }
-
-        assertEquals(HttpStatus.OK, actual.getStatusCode());
-        assertNotNull(actual.getBody());
-    }
-
-    @Test
-    public void deleteUser_ShouldReturnOkWithResult() {
-        User expected = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456");
-        given(userRepository.findById(anyInt())).willReturn(Optional.of(expected));
-        doNothing().when(userRepository).deleteById(anyInt());
+    public void deleteRealEstate_ShouldReturnOkWithResult() {
+        RealEstate expected = new RealEstate(1, 1, true);
+        given(_realEstateRepository.findById(anyInt())).willReturn(Optional.of(expected));
+        doNothing().when(_realEstateRepository).deleteById(anyInt());
 
         ResponseEntity<String> actual = null;
         try {
-            actual = userService.deleteUser(5);
+            actual = _realEstateService.deleteRealEstate(1);
         }
         catch (Exception e)
         {
@@ -145,7 +142,6 @@ public class RealEstateTest {
         }
 
         assertEquals(HttpStatus.OK, actual.getStatusCode());
-        assertEquals("User successfully deleted.", actual.getBody());
+        assertEquals("Real estate successfully deleted.", actual.getBody());
     }
 }
-*/

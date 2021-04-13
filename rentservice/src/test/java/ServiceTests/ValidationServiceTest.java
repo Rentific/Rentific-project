@@ -1,8 +1,9 @@
 package ServiceTests;
 
+import com.example.rentservice.rentservice.Dtos.UserDto;
 import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
 import com.example.rentservice.rentservice.ErrorHandling.ObjectNotFoundException;
-import com.example.rentservice.rentservice.Models.User;
+import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Services.ValidationService;
 import org.junit.jupiter.api.Test;
 
@@ -49,22 +50,22 @@ public class ValidationServiceTest {
 
     @Test
     public void validateObject_ShouldNotThrowException_WhenObjectIsNotNull() {
-        var user = new User("TestFirstName", "TestLastName", "email@email.com", new Date(), "123456", null);
+        var realEstate = new RealEstate(1,null, false );
         assertDoesNotThrow(() -> {
-            _validationService.validateObject(Optional.of(user));
+            _validationService.validateObject(Optional.of(realEstate));
         });
     }
 
     //First case - missing required properties (e.g. first and last name, email)
     @Test
     public void validateUserProperties_ShouldThrowInvalidRequestException_1() {
-        User user = new User("", "", "email@email.com", new Date(), "123456", null);
+        UserDto user = new UserDto("", "", " ", "Password123!", "address", "country", "city", "123456",  new Date());
 
         Exception exception = assertThrows(InvalidRequestException.class, () -> {
             _validationService.validateUserProperties(user);
         });
 
-        String expectedMessage = "Properties that must be provided: First Name, Last Name.";
+        String expectedMessage = "Properties that must be provided: First Name, Last Name. Wrong format: Email.";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
     }
@@ -72,7 +73,7 @@ public class ValidationServiceTest {
     //Second case - wrong format
     @Test
     public void validateUserProperties_ShouldThrowInvalidRequestException_2() {
-        User user = new User("TestFirstName", "TestLastName", "email", new Date(), "!", null);
+        UserDto user =  new UserDto("TestName", "TestSurname", "1", "Password123!","Adresa1", "BIH", "Sarajevo", "test",new Date());
 
         Exception exception = assertThrows(InvalidRequestException.class, () -> {
             _validationService.validateUserProperties(user);
@@ -81,5 +82,14 @@ public class ValidationServiceTest {
         String actualMessage = exception.getMessage();
 
         assertTrue(actualMessage.contains(expectedMessage));
+    }
+
+    @Test
+    public void validateUserProperties_ShouldNotThrowException_WhenUserIsValid() {
+        UserDto user = new UserDto("Test", "Test", "noviemail@email.com", "Password123!","Adresa1", "BIH", "Sarajevo", "123456",new Date());
+
+        assertDoesNotThrow(() -> {
+            _validationService.validateUserProperties(user);
+        });
     }
 }
