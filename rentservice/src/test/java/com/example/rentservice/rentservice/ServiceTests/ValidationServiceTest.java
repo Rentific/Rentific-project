@@ -1,4 +1,4 @@
-package ServiceTests;
+package com.example.rentservice.rentservice.ServiceTests;
 
 import com.example.rentservice.rentservice.Dtos.UserDto;
 import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
