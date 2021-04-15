@@ -41,7 +41,7 @@ public class InvoiceService {
         return new ResponseEntity(newInvoice, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
+
     public ResponseEntity<List<Invoice>> FindAllInvoicesForSpecificUser(Integer id) throws InvalidRequestException, ItemNotFoundException{
         this._validationService.validateId(id);
         List<Invoice> invoiceLists = this._invoiceRepository.FindAllInvoicesForSpecificUser(id);
@@ -58,7 +58,6 @@ public class InvoiceService {
         List<Invoice> invoiceLists = this._invoiceRepository.FindAllInvoicesForSpecificRealEstate(id);
         return new ResponseEntity(invoiceLists, HttpStatus.OK);
     }
-=======
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
+
 }
 

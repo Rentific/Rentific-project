@@ -11,6 +11,9 @@ public class RealEstateDTO {
     private Boolean isReservated;
     private Boolean isRented;
 
+    public RealEstateDTO() {
+    }
+
     public String getName() {
         return name;
     }

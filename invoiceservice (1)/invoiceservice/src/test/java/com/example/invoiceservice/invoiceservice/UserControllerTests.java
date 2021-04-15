@@ -48,15 +48,12 @@ public class UserControllerTests {
                 .build();
     }
 
-<<<<<<< HEAD
-    /*@Test
-=======
+
     @Test
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
     public void findUserById_ReturnOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
 
-        User newUser = new User("QATest", "QASurname", inv);
+        User newUser = new User("QATest", "QASurname", "sanida@hotmail.com", inv);
         newUser.setUserId(1);
 
         given(userService.findUserById(anyInt())).willReturn(new ResponseEntity<>(newUser, HttpStatus.OK));
@@ -66,11 +63,9 @@ public class UserControllerTests {
                 .andExpect(jsonPath("$.firstName", is("QATest")))
                 .andExpect(jsonPath("$.lastName", is("QASurname")));
 
-<<<<<<< HEAD
-    }*/
-=======
+
     }
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
+
 
     @Test
     public void findUserById_IdIsInvalid_ERRMessage() throws Exception {
@@ -92,15 +87,12 @@ public class UserControllerTests {
                 .andExpect(status().isNotFound());
     }
 
-<<<<<<< HEAD
-    /*@Test
-=======
+
     @Test
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
     public void addNewUser_StatusOkWithResult() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
 
-        User newUser = new User("QA", "Surname", inv);
+        User newUser = new User("QA", "Surname", "sanida@hotmail.com", inv);
         newUser.setUserId(1);
 
         given(userService.saveUser(newUser)).willReturn(new ResponseEntity<>(newUser, HttpStatus.OK));
@@ -109,30 +101,23 @@ public class UserControllerTests {
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-<<<<<<< HEAD
-    }*/
 
-   /* @Test
-=======
     }
 
-    @Test
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
+   @Test
     public void addNewUser_RequestIsInvalid_ERRMessage() throws Exception {
         List<Invoice> inv = new ArrayList<> ();
-        User newUser = new User("QA 392!#)$=", "Ex 3z2 093", inv);
+        User newUser = new User("QA 392!#)$=", "Ex 3z2 093", "sanida@hotmail.com", inv);
 
         given(userService.saveUser(ArgumentMatchers.<User>any()))
                 .willThrow(new InvalidRequestException("Wrong format of properties: First Name, Last Name."));
 
-        mvc.perform(post("/invice-user/add")
+        mvc.perform(post("/invoice-user/add")
                 .content(new ObjectMapper().writeValueAsString(newUser))
                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-<<<<<<< HEAD
-    }*/
-=======
+                .andExpect(status().isBadRequest());
+
     }
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
+
 
 }

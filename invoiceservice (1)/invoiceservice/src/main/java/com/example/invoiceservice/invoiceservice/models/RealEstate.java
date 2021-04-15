@@ -38,15 +38,13 @@ public class RealEstate {
         this.invoices = invoices;
     }
 
-<<<<<<< HEAD
     public RealEstate(String name, Double price) {
         this.name = name;
         this.price = price;
         this.invoices = null;
     }
 
-=======
->>>>>>> fbe799c4da015c97988314d0f6271c80e6bc18c9
+
     public Integer getRealEstateId() {
         return realEstateId;
     }
