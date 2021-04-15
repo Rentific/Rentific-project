@@ -1,6 +1,6 @@
 package com.example.adminservice.adminservice.Admin.Controllers;
 
-import com.example.adminservice.adminservice.Admin.Dtos.RealEstate2;
+import com.example.adminservice.adminservice.Admin.Dtos.ReservedRealEstate;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
@@ -118,12 +118,13 @@ public class RealEstateController {
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-                HttpEntity<RealEstate2[]> entity = new HttpEntity<RealEstate2[]>(headers);
+                HttpEntity<ReservedRealEstate[]> entity = new HttpEntity<ReservedRealEstate[]>(headers);
 
                 var response = restTemplate.exchange("http://rentservice/realEstate/allReserved", HttpMethod.GET,
-                        entity, RealEstate2[].class).getBody();
+                        entity, ReservedRealEstate[].class).getBody();
 
-                List<RealEstate2> reservedRealEstates = Arrays.asList(response);
+                
+                List<ReservedRealEstate> reservedRealEstates = Arrays.asList(response);
 
                 reservedRealEstates.forEach(realEstate1 -> {
                     freeRealEstates.removeIf(x -> x.getRealEstateId() == realEstate1.getRealEstateId());

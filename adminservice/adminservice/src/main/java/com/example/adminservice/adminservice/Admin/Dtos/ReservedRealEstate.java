@@ -1,15 +1,12 @@
 package com.example.adminservice.adminservice.Admin.Dtos;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
+import javax.persistence.*;
+
+@Entity // This tells Hibernate to make a table out of this class
 public class ReservedRealEstate {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reservedRealEstateId")
-    private Integer reservedRealEstateId;
+    private Integer id;
 
     private Integer realEstateId;
 
@@ -26,12 +23,12 @@ public class ReservedRealEstate {
         this.isReserved = isReserved;
     }
 
-    public Integer getReservedRealEstateId() {
-        return reservedRealEstateId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setReservedRealEstateId(Integer reservedRealEstateId) {
-        this.reservedRealEstateId = reservedRealEstateId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getRealEstateId() {
@@ -50,11 +47,12 @@ public class ReservedRealEstate {
         this.customerId = customerId;
     }
 
-    public boolean isReserved() {
+    public boolean getIsReserved() {
         return isReserved;
     }
 
-    public void setReserved(boolean reserved) {
+    public void setIsReserved(boolean reserved) {
         isReserved = reserved;
     }
+
 }

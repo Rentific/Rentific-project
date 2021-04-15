@@ -1,6 +1,7 @@
 package com.example.adminservice.adminservice;
 
 import com.example.adminservice.adminservice.Admin.Controllers.RealEstateController;
+import com.example.adminservice.adminservice.Admin.Enums.StateEnum;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.GlobalErrorHandling;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
@@ -13,11 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
@@ -95,18 +102,23 @@ public class RealEstateControllerTests {
                 .andExpect(status().isBadRequest());*/
     }
 
-   /* @Test
+    /*@Test
     public void findAllRealEstates_ShouldReturnRealEstatesSortedByPriceAsc_WhenSortIsDefault() throws Exception {
-        StaffUser staff = new StaffUser("TestIme", "TestPrezime", null);
-RealEstate e1 = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
-        staff, null);
-        List<RealEstate> estateList = new ArrayList<RealEstate>();
-        estateList.add(new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
-                staff, null));
-        estateList.add(new RealEstate("TestBane2", 750000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, false,
-                staff, null));
+       *//* RealEstate e1 = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, 1,
+                StateEnum.Novogradnja);*//*
+        RealEstate estateList[] = new RealEstate[2];
+        estateList[0] = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", true, 1,
+                StateEnum.Novogradnja);
+        estateList[1] = new RealEstate("TestBane2", 750000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", true, 1,
+                StateEnum.Novogradnja);
 
-        Page<RealEstate> page = new PageImpl<RealEstate>(estateList);
+        Integer id = 0;
+        for (RealEstate x:estateList) {
+            x.setRealEstateId(id);
+            id++;
+        }
+
+        Page<RealEstate> page = new PageImpl<RealEstate>(Arrays.asList(estateList.clone()));
         Pageable paging = PageRequest.of(0, 5, Sort.by(Sort.Direction.ASC, "price"));
 
         given(realEstateService.findAllRealEstates(paging)).willReturn(new ResponseEntity<Page<RealEstate>>
@@ -114,8 +126,7 @@ RealEstate e1 = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Saraj
 
         mvc.perform(get("/real-estate/all/real-estates").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.price", is(250000.0)))
-                .andExpect(jsonPath("$.name", is("TestBane")));
-    }
-*/
+                .andExpect(jsonPath("[0].price", is(250000.0)))
+                .andExpect(jsonPath("[1].price", is(750000.0)));
+    }*/
 }

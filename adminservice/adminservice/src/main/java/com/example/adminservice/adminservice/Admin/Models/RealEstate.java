@@ -48,7 +48,7 @@ public class RealEstate {
     private StaffUser staff;*/
 
     @NotNull(message = "Staff cannot be null")
-    private UUID staffId;
+    private Integer staffId;
 
     private StateEnum state;
 
@@ -56,7 +56,7 @@ public class RealEstate {
     }
 
     public RealEstate(String name, Double price, String address, String country, String city, String description,
-                      Boolean isReservated, UUID staffId, StateEnum state) {
+                      Boolean isReservated, Integer staffId, StateEnum state) {
         this.name = name;
         this.price = price;
         this.address = address;
@@ -132,11 +132,11 @@ public class RealEstate {
         isReservated = reservated;
     }
 
-    public UUID getStaffId() {
+    public Integer getStaffId() {
         return staffId;
     }
 
-    public void setStaffId(UUID staffId) {
+    public void setStaffId(Integer staffId) {
         this.staffId = staffId;
     }
 
