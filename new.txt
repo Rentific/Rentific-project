@@ -1,0 +1,6 @@
+C:\Users\User\Downloads\event\event\src\event.proto
+    Error:Error:line (1)TS2304: Cannot find name 'syntax'.
+    Error:Error:line (3)TS2552: Cannot find name 'option'. Did you mean 'Option'?
+    Error:Error:line (3)TS2304: Cannot find name 'java_package'.
+    Error:Error:line (3)TS1005: ';' expected.
+    Information:Information:Cannot find parent 'tsconfig.json'
