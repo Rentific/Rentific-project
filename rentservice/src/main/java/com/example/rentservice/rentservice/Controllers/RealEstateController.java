@@ -22,6 +22,12 @@ public class RealEstateController {
         // This returns a JSON or XML with the RealEstates
         return _realEstateService.findAllRealEstates();
     }
+
+    @GetMapping(path="/allReserved")
+    ResponseEntity<List<RealEstate>> getAllReservedRealEstates() {
+        return _realEstateService.findAllReservatedRealEstates();
+    }
+  
     @GetMapping("/{id}")
     ResponseEntity<RealEstate> findRealEstateById(@PathVariable(value = "id") Integer id) throws InvalidRequestException, ObjectNotFoundException {
         return _realEstateService.findRealEstateById(id);
@@ -32,9 +38,9 @@ public class RealEstateController {
         return _realEstateService.saveRealEstate(RealEstate);
     }
 
-    @PutMapping("/update/{id}")
-    ResponseEntity<RealEstate> updateRealEstate(@PathVariable(value = "id") Integer id, @RequestBody RealEstate RealEstate) throws InvalidRequestException, ObjectNotFoundException {
-        return _realEstateService.updateExistingRealEstate(id, RealEstate);
+    @PutMapping("/reserve/{id}")
+    ResponseEntity<RealEstate> reserveRealEstate(@PathVariable(value = "id") Integer id) throws InvalidRequestException, ObjectNotFoundException {
+        return _realEstateService.reserveRealEstate(id);
     }
 
     @DeleteMapping("delete/{id}")
