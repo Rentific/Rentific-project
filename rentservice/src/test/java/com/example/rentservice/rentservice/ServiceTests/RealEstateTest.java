@@ -1,4 +1,4 @@
-package ServiceTests;
+package com.example.rentservice.rentservice.ServiceTests;
 
 import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Repositories.RealEstateRepository;
@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.doNothing;

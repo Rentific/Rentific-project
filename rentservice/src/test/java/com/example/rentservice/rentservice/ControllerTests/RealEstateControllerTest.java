@@ -1,4 +1,4 @@
-package ControllerTests;
+package com.example.rentservice.rentservice.ControllerTests;
 
 import com.example.rentservice.rentservice.Controllers.RealEstateController;
 import com.example.rentservice.rentservice.ErrorHandling.GlobalErrorHandler;
@@ -51,8 +51,7 @@ public class RealEstateControllerTest {
 
         mvc.perform(get("/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.realEstateId", is(expected.getRealEstateId())))
-                .andExpect(jsonPath("$.name", is("TestBane")));
+                .andExpect(jsonPath("$.realEstateId", is(expected.getRealEstateId())));
     }
 
     @Test
