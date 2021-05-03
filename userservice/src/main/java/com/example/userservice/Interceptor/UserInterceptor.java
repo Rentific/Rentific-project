@@ -43,7 +43,6 @@ public class UserInterceptor implements HandlerInterceptor {
         System.out.println(action);
         System.out.println(resource);
         System.out.println(actionResponse);
-
         System.out.println(actionResponse2);
     }
 
