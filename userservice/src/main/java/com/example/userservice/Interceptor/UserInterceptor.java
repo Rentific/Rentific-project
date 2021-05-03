@@ -17,7 +17,7 @@ import java.sql.Timestamp;
 public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-       // System.out.println("Pre Handle method is Calling");
+       // System.out.println("---"); System.out.println(response);
         return true;
     }
 
@@ -36,8 +36,15 @@ public class UserInterceptor implements HandlerInterceptor {
         String action = request.getMethod();
         String resource = request.getRequestURI().split("/")[1];
         String actionResponse = String.valueOf(response.getStatus());
+        String name= " ";
+        String actionResponse2 = String.valueOf(response.getHeaderNames());
         setAction(action, resource, actionResponse);
+        System.out.println(response);
+        System.out.println(action);
+        System.out.println(resource);
+        System.out.println(actionResponse);
 
+        System.out.println(actionResponse2);
     }
 
     public String setAction(String action, String resource, String actionResponse) {
