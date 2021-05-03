@@ -1,5 +1,4 @@
 package com.example.systemevents;
-
 import com.example.systemevents.Model.Event;
 import com.example.systemevents.Repository.EventRepository;
 import com.example.systemevents.grpc.SystemEventsRequest;
@@ -25,7 +24,6 @@ public class SystemEventsService extends SystemEventsServiceGrpc.SystemEventsSer
         String action = request.getAction();
         String resource = request.getResource();
         String responseStatus = request.getResponse();
-
         Event systemEvent = new Event(timeStamp, microservice, action, resource, responseStatus);
         repository.save(systemEvent);
 

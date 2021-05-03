@@ -8,7 +8,7 @@ message SystemEventsRequest {
   string action = 3;  // create, delete, get, update
   string resource = 4;
   string response = 5;  // success, error
-  //string user = 6;
+
 }
 
 message SystemEventsResponse {
