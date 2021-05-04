@@ -26,8 +26,8 @@ public class RealEstateService {
         return new ResponseEntity(_realEstateRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<List<RealEstate>> findAllReservatedRealEstates() {
-        return new ResponseEntity(_realEstateRepository.findByIsReservatedTrue(), HttpStatus.OK);
+    public ResponseEntity<List<RealEstate>> findAllReservedRealEstates() {
+        return new ResponseEntity(_realEstateRepository.findByIsReservedTrue(), HttpStatus.OK);
     }
 
     public ResponseEntity<RealEstate> findRealEstateById(Integer id) throws InvalidRequestException, ObjectNotFoundException {
@@ -43,9 +43,14 @@ public class RealEstateService {
     }
 
     public ResponseEntity<RealEstate> saveRealEstate(RealEstate realEstate) throws InvalidRequestException {
-        this._validationService.validateRealEstateProperties(realEstate);
-        RealEstate newRealEstate = this._realEstateRepository.save(realEstate);
-        return new ResponseEntity(newRealEstate, HttpStatus.OK);
+        try{
+            this._validationService.validateRealEstate(realEstate);
+            RealEstate newRealEstate = this._realEstateRepository.save(realEstate);
+            return new ResponseEntity(newRealEstate, HttpStatus.OK);
+        }
+        catch(ObjectNotFoundException ex){
+            return new ResponseEntity("Fail to save real estate. Message: " + ex.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     public ResponseEntity<RealEstate> reserveRealEstate(Integer id) throws InvalidRequestException, ObjectNotFoundException {
@@ -55,7 +60,7 @@ public class RealEstateService {
 
             var realEstate = this.findRealEstateById(id).getBody();
 
-            realEstate.setIsReservated(true);
+            realEstate.setIsReserved(true);
             RealEstate updatedRealEstate = this._realEstateRepository.save(realEstate);
             return new ResponseEntity(updatedRealEstate, HttpStatus.OK);
         }
