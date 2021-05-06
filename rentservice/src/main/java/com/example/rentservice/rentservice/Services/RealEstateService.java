@@ -58,7 +58,7 @@ public class RealEstateService {
         {
             this._validationService.validateId(id);
 
-            var realEstate = this.findRealEstateById(id).getBody();
+            RealEstate realEstate = this.findRealEstateById(id).getBody();
 
             realEstate.setIsReserved(true);
             RealEstate updatedRealEstate = this._realEstateRepository.save(realEstate);

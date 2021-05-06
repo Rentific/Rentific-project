@@ -50,7 +50,7 @@ public class ValidationServiceTest {
 
     @Test
     public void validateObject_ShouldNotThrowException_WhenObjectIsNotNull() {
-        var realEstate = new RealEstate(1,null, false );
+        RealEstate realEstate = new RealEstate(1,null, false );
         assertDoesNotThrow(() -> {
             _validationService.validateObject(Optional.of(realEstate));
         });
