@@ -2,6 +2,7 @@ package com.example.authenticationservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+<<<<<<< HEAD
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +36,20 @@ public class AuthenticationServiceApplication {
 		userInfo.put("authorities", AuthorityUtils.authorityListToSet(user.getUserAuthentication().getAuthorities()));
 		return userInfo;
 	}
+=======
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+
+@SpringBootApplication
+@EnableEurekaClient
+public class AuthenticationServiceApplication {
+>>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationServiceApplication.class, args);
 	}
+<<<<<<< HEAD
 }
+=======
+
+}
+>>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594

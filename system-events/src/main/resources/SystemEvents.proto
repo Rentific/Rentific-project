@@ -17,4 +17,8 @@ message SystemEventsResponse {
 
 service SystemEventsService {
   rpc getAction(SystemEventsRequest) returns (SystemEventsResponse);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594

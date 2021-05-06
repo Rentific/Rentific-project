@@ -69,7 +69,17 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 			<version>3.0.0</version>
 		</dependency>
+<<<<<<< HEAD
 	</dependencies>
+=======
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+>>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

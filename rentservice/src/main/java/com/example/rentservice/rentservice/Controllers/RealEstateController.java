@@ -13,7 +13,8 @@ import java.util.List;
 @RequestMapping(path="/realEstate") // This means URL's start with /demo (after Application path)
 public class RealEstateController {
     private RealEstateService _realEstateService;
-    public RealEstateController(RealEstateService realEstateService) {
+
+    public RealEstateController(RealEstateService realEstateService){
         _realEstateService = realEstateService;
     }
 
@@ -22,10 +23,19 @@ public class RealEstateController {
         // This returns a JSON or XML with the RealEstates
         return _realEstateService.findAllRealEstates();
     }
+<<<<<<< HEAD
     @GetMapping(path="/allReserved")
     ResponseEntity<List<RealEstate>> getAllReservedRealEstates() {
         return _realEstateService.findAllReservatedRealEstates();
     }
+=======
+
+    @GetMapping(path="/allReserved")
+    ResponseEntity<List<RealEstate>> getAllReservedRealEstates() {
+        return _realEstateService.findAllReservedRealEstates();
+    }
+  
+>>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
     @GetMapping("/{id}")
     ResponseEntity<RealEstate> findRealEstateById(@PathVariable(value = "id") Integer id) throws InvalidRequestException, ObjectNotFoundException {
         return _realEstateService.findRealEstateById(id);
