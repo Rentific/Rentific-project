@@ -43,15 +43,12 @@ public class UserService {
         } catch (UserNotFoundException e) {
             this._validationService.validateUserProperties(user);
             this._validationService.validatePassword(user.getPassword());
-           // System.out.println(x);
-<<<<<<< HEAD:userservice/src/main/java/com/example/userservice/Service/UserService.java
-            //BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+           // System.out.println(x);//BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-=======
+
             BCryptPasswordEncoder bCryptPasswordEncoder =
                     new BCryptPasswordEncoder();
             user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594:userservice/src/main/java/com/example/userservice/Service/UserService.java
             User newUser = this._userRepository.save(user);
             return new ResponseEntity(newUser, HttpStatus.OK);
         }
