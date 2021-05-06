@@ -6,7 +6,7 @@ import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException
 import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Services.RealEstateService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
+import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import static org.hamcrest.Matchers.is;
+
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Date;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +36,7 @@ public class RealEstateControllerTest {
     @MockBean
     private RealEstateService realEstateService;
 
-    @Before
+    @Before("")
     public void setup() {
         this.mvc = MockMvcBuilders.standaloneSetup(RealEstateController.class)
                 .setControllerAdvice(new GlobalErrorHandler())
@@ -44,7 +45,7 @@ public class RealEstateControllerTest {
 
     @Test
     public void findRealEstateById_ShouldReturnOkWithResult() throws Exception {
-        RealEstate expected = new RealEstate(1, 1, true);
+        RealEstate expected = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, new Date(), new Date(), null, null);
         expected.setRealEstateId(1);
 
         given(realEstateService.findRealEstateById(1)).willReturn(new ResponseEntity<>(expected, HttpStatus.OK));
@@ -66,7 +67,7 @@ public class RealEstateControllerTest {
 
     @Test
     public void addNewRealEstate_ShouldReturnOkWithResult() throws Exception {
-        RealEstate expected = new RealEstate(1, 1, true);
+        RealEstate expected = new RealEstate("TestBane", 250000.0, "Adresa 123", "BiH", "Sarajevo", "Namjestena kuca", false, new Date(), new Date(), null, null);
         expected.setRealEstateId(1);
 
         given(realEstateService.saveRealEstate(expected)).willReturn(new ResponseEntity<>(expected, HttpStatus.OK));
@@ -79,7 +80,7 @@ public class RealEstateControllerTest {
 
     @Test
     public void addNewRealEstate_ShouldReturn400_WhenRequestIsInvalid() throws Exception {
-        RealEstate expected = new RealEstate(1, 1, true);
+        RealEstate expected = new RealEstate("", 250000.0, "Adresa 123", "BiH", "", "Namjestena kuca", false, new Date(), new Date(), null, null);
         expected.setRealEstateId(1);
 
         given(realEstateService.saveRealEstate(ArgumentMatchers.<RealEstate>any()))
