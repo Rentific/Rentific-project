@@ -18,15 +18,13 @@
 		<spring-cloud.version>2020.0.2</spring-cloud.version>
 	</properties>
 	<dependencies>
-<<<<<<< HEAD
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
 			<version>2.4.1</version>
 		</dependency>
-=======
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
@@ -36,14 +34,11 @@
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
 		</dependency>
 		<dependency>
-<<<<<<< HEAD
 			<groupId>org.springframework.security.oauth.boot</groupId>
 			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 			<version>2.1.2.RELEASE</version>
 		</dependency>
 		<dependency>
-=======
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -51,27 +46,26 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 		</dependency>
-<<<<<<< HEAD
+
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-netflix-ribbon</artifactId>
 			<version>2.2.2.RELEASE</version>
 		</dependency>
 
-=======
+
 
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
+
 
 		<dependency>
 			<groupId>org.springframework.security.oauth</groupId>
@@ -102,8 +96,7 @@
 		</dependency>
 
 
-=======
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -126,8 +119,5 @@
 		</plugins>
 	</build>
 
-<<<<<<< HEAD
 </project>
-=======
-</project>
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
+
