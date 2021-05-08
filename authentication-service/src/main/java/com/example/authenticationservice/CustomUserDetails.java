@@ -18,11 +18,13 @@ public class CustomUserDetails implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        User user = restTemplate.getForObject("http://user-service/user/?email=" + username, User.class);
+        RestTemplate restTemp = new RestTemplate();
+        User user = restTemp.getForObject("http://localhost:8082/user/?email=" + username, User.class);
+
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        // user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return new MyUserPrincipal(user);
 
     }
