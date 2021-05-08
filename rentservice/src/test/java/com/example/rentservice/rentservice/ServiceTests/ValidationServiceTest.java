@@ -1,4 +1,4 @@
-package ServiceTests;
+package com.example.rentservice.rentservice.ServiceTests;
 
 import com.example.rentservice.rentservice.Dtos.UserDto;
 import com.example.rentservice.rentservice.ErrorHandling.InvalidRequestException;
@@ -50,7 +50,7 @@ public class ValidationServiceTest {
 
     @Test
     public void validateObject_ShouldNotThrowException_WhenObjectIsNotNull() {
-        var realEstate = new RealEstate(1,null, false );
+        RealEstate realEstate = new RealEstate(1,null, false );
         assertDoesNotThrow(() -> {
             _validationService.validateObject(Optional.of(realEstate));
         });
