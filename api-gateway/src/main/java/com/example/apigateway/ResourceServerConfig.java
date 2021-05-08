@@ -14,6 +14,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+
 @Configuration
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Override
@@ -32,7 +33,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/invoice/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/rent/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers(HttpMethod.POST, "/users/user/add").permitAll()
-                .antMatchers("/users/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
+                .antMatchers("/users/").hasAnyAuthority("ROLE_ADMIN", "ROLE_USER")
                 .antMatchers("/**").permitAll();
     }
 
@@ -46,6 +47,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-   }
-
+}
 

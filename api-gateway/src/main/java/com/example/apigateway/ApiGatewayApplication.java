@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 @EnableZuulProxy
 @EnableDiscoveryClient
-//@EnableResourceServer
+@EnableResourceServer
 public class ApiGatewayApplication {
 	@Bean
 	@LoadBalanced

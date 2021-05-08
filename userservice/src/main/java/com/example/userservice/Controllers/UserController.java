@@ -41,8 +41,8 @@ public class UserController {
     ResponseEntity deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, UserNotFoundException   {
         return this._userService.deleteUser(id);
     }
- @GetMapping(value = "", params = "Email")
-    public ResponseEntity<User> UserByMail(@RequestParam("Email") String Email)  throws UserNotFoundException {
+ @GetMapping(value = "", params = "email")
+    public ResponseEntity<User> UserByMail(@RequestParam("email") String Email)  throws UserNotFoundException {
         return this._userService.findUserByEmail(Email);
     }
 }
