@@ -69,9 +69,6 @@
 			<artifactId>spring-cloud-starter-bootstrap</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-<<<<<<< HEAD
-	</dependencies>
-=======
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -114,7 +111,6 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
     </dependencies>
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -127,52 +123,10 @@
 		</dependencies>
 	</dependencyManagement>
 	<build>
-		<defaultGoal>clean generate-sources compile install</defaultGoal>
-
 		<plugins>
-			<!-- compile proto file into java files. -->
 			<plugin>
-				<groupId>com.github.os72</groupId>
-				<artifactId>protoc-jar-maven-plugin</artifactId>
-				<version>3.11.4</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>run</goal>
-						</goals>
-						<configuration>
-							<includeMavenTypes>direct</includeMavenTypes>
-
-							<inputDirectories>
-								<include>src/main/resources</include>
-							</inputDirectories>
-
-							<outputTargets>
-								<outputTarget>
-									<type>java</type>
-									<outputDirectory>src/main/java</outputDirectory>
-								</outputTarget>
-								<outputTarget>
-									<type>grpc-java</type>
-									<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.15.0</pluginArtifact>
-									<outputDirectory>src/main/java</outputDirectory>
-								</outputTarget>
-							</outputTargets>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
