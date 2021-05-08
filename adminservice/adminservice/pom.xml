@@ -19,6 +19,27 @@
 		</properties>
 		<dependencies>
 			<dependency>
+				<groupId>com.google.protobuf</groupId>
+				<artifactId>protobuf-java</artifactId>
+				<version>3.11.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-netty-shaded</artifactId>
+				<version>1.27.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-protobuf</artifactId>
+				<version>1.27.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.grpc</groupId>
+				<artifactId>grpc-stub</artifactId>
+				<version>1.27.0</version>
+			</dependency>
+			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-data-jpa</artifactId>
 			</dependency>
@@ -56,6 +77,15 @@
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 			</dependency>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-config-client</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-actuator</artifactId>
+			</dependency>
 		</dependencies>
 	<dependencyManagement>
 		<dependencies>
@@ -69,7 +99,42 @@
 		</dependencies>
 	</dependencyManagement>
 		<build>
+			<defaultGoal>clean generate-sources compile install</defaultGoal>
+
 			<plugins>
+				<!-- compile proto file into java files. -->
+				<plugin>
+					<groupId>com.github.os72</groupId>
+					<artifactId>protoc-jar-maven-plugin</artifactId>
+					<version>3.11.4</version>
+					<executions>
+						<execution>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>run</goal>
+							</goals>
+							<configuration>
+								<includeMavenTypes>direct</includeMavenTypes>
+
+								<inputDirectories>
+									<include>src/main/resources</include>
+								</inputDirectories>
+
+								<outputTargets>
+									<outputTarget>
+										<type>java</type>
+										<outputDirectory>src/main/java</outputDirectory>
+									</outputTarget>
+									<outputTarget>
+										<type>grpc-java</type>
+										<pluginArtifact>io.grpc:protoc-gen-grpc-java:1.15.0</pluginArtifact>
+										<outputDirectory>src/main/java</outputDirectory>
+									</outputTarget>
+								</outputTargets>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
 				<plugin>
 					<groupId>org.springframework.boot</groupId>
 					<artifactId>spring-boot-maven-plugin</artifactId>

@@ -1,5 +1,6 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
+import com.example.adminservice.adminservice.Admin.Enums.StateEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -7,9 +8,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class RealEstate {
@@ -39,27 +42,21 @@ public class RealEstate {
     @Column(nullable = false)
     private Boolean isReservated;
 
-    @Column(nullable = false)
-    private Boolean isRented;
-
-    @JsonBackReference(value="name")
+    /*@JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "staffId")
-    private StaffUser staff;
+    private StaffUser staff;*/
 
-/*
-    @JsonManagedReference(value="name2")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
-    private List<State> stateList;*/
+    @NotNull(message = "Staff cannot be null")
+    private Integer staffId;
 
-    @ElementCollection
-    private List<String> states;
+    private StateEnum state;
 
     public RealEstate() {
     }
 
     public RealEstate(String name, Double price, String address, String country, String city, String description,
-                      Boolean isReservated, Boolean isRented, StaffUser staff, List<String> states) {
+                      Boolean isReservated, Integer staffId, StateEnum state) {
         this.name = name;
         this.price = price;
         this.address = address;
@@ -67,9 +64,8 @@ public class RealEstate {
         this.city = city;
         this.description = description;
         this.isReservated = isReservated;
-        this.isRented = isRented;
-        this.staff = staff;
-        this.states = states;
+        this.staffId = staffId;
+        this.state = state;
     }
 
     public Integer getRealEstateId() {
@@ -136,36 +132,20 @@ public class RealEstate {
         isReservated = reservated;
     }
 
-    public Boolean getIsRented() {
-        return isRented;
+    public Integer getStaffId() {
+        return staffId;
     }
 
-    public void setIsRented(Boolean rented) {
-        isRented = rented;
+    public void setStaffId(Integer staffId) {
+        this.staffId = staffId;
     }
 
-    public StaffUser getStaff() {
-        return staff;
+    public StateEnum getState() {
+        return state;
     }
 
-    public void setStaff(StaffUser staff) {
-        this.staff = staff;
-    }
-
-    /*public List<State> getStateList() {
-        return stateList;
-    }
-
-    public void setStateList(List<State> stateList) {
-        this.stateList = stateList;
-    }*/
-
-    public List<String> getStates() {
-        return states;
-    }
-
-    public void setStates(List<String> states) {
-        this.states = states;
+    public void setState(StateEnum state) {
+        this.state = state;
     }
 }
 

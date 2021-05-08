@@ -79,13 +79,13 @@ public class ValidationService {
         }
 
         // Staff
-        if (realEstate.getStaff() == null) {
+        if (realEstate.getStaffId() == null) {
             nullProperties.add("Staff");
         }
-        else if (!realEstate.getStaff().getFirstName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9])*$") ||
+        /*else if (!realEstate.getStaff().getFirstName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9])*$") ||
                 !realEstate.getStaff().getLastName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9])*$")) {
             invalidProperties.add("Staff");
-        }
+        }*/
 
         String result = nullProperties.size() > 0 ?
                 "Please, populate following properties: " + String.join(", ", nullProperties) + ". " :
