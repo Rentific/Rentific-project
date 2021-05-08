@@ -63,7 +63,7 @@ public class RealEstateService {
         {
             this._validationService.validateId(id);
 
-            var realEstate = this.findRealEstateById(id).getBody();
+            RealEstate realEstate = this.findRealEstateById(id).getBody();
 
 <<<<<<< HEAD
             realEstate.setIsReservated(true);
