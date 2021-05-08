@@ -26,13 +26,8 @@ public class RealEstateService {
         return new ResponseEntity(_realEstateRepository.findAll(), HttpStatus.OK);
     }
 
-<<<<<<< HEAD
-    public ResponseEntity<List<RealEstate>> findAllReservatedRealEstates() {
-        return new ResponseEntity(_realEstateRepository.findByIsReservatedTrue(), HttpStatus.OK);
-=======
     public ResponseEntity<List<RealEstate>> findAllReservedRealEstates() {
         return new ResponseEntity(_realEstateRepository.findByIsReservedTrue(), HttpStatus.OK);
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
     }
 
     public ResponseEntity<RealEstate> findRealEstateById(Integer id) throws InvalidRequestException, ObjectNotFoundException {
@@ -65,11 +60,7 @@ public class RealEstateService {
 
             RealEstate realEstate = this.findRealEstateById(id).getBody();
 
-<<<<<<< HEAD
-            realEstate.setIsReservated(true);
-=======
             realEstate.setIsReserved(true);
->>>>>>> 18c9e1ddfbfdead1c301a61a13576df62685f594
             RealEstate updatedRealEstate = this._realEstateRepository.save(realEstate);
             return new ResponseEntity(updatedRealEstate, HttpStatus.OK);
         }
