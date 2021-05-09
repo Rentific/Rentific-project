@@ -36,9 +36,27 @@ public class InvoiceService {
     }
 
     public ResponseEntity<Invoice> saveInvoice(Invoice invoice) throws InvalidRequestException {
-        this._validationService.validateInvoiceProperties(invoice);
+        //this._validationService.validateInvoiceProperties(invoice);
         Invoice newInvoice = this._invoiceRepository.save(invoice);
         return new ResponseEntity(newInvoice, HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<List<Invoice>> FindAllInvoicesForSpecificUser(Integer id) throws InvalidRequestException, ItemNotFoundException{
+        this._validationService.validateId(id);
+        List<Invoice> invoiceLists = this._invoiceRepository.FindAllInvoicesForSpecificUser(id);
+        return new ResponseEntity(invoiceLists, HttpStatus.OK);
+    }
+    public ResponseEntity<List<Invoice>> FindAllInvoicesForSpecificUserNameSurname(String name, String surname) throws InvalidRequestException, ItemNotFoundException{
+        List<Invoice> invoiceLists = this._invoiceRepository.FindAllInvoicesForSpecificUserNameSurname(name,surname);
+        return new ResponseEntity(invoiceLists, HttpStatus.OK);
+    }
+
+
+    public ResponseEntity<List<Invoice>> FindAllInvoicesForSpecificRealEstate(Integer id) throws InvalidRequestException, ItemNotFoundException{
+        this._validationService.validateId(id);
+        List<Invoice> invoiceLists = this._invoiceRepository.FindAllInvoicesForSpecificRealEstate(id);
+        return new ResponseEntity(invoiceLists, HttpStatus.OK);
     }
 
 }

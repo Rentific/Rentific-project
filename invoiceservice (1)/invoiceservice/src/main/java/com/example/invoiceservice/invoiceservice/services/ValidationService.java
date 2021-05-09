@@ -42,9 +42,16 @@ public class ValidationService {
 
         if (user.getLastName() == null || user.getLastName().isEmpty()) {
             nullProperties.add("Last Name");
-        } else if (!user.getLastName().matches("^[a-zA-Z]+( ?[a-zA-Z])*$")) {
+
+        } /*else if (!user.getLastName().toLowerCase().matches("^[a-zA-Z]+( ?[a-zA-Z])*$")) {
             invalidProperties.add("Last Name");
+        }*/
+        if (user.getEmail() == null || user.getEmail().isEmpty()) {
+            nullProperties.add("Email");
+        } else if (!user.getEmail().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+            invalidProperties.add("Email");
         }
+
 
         String resultForUser = nullProperties.size() > 0 ?
                 "Properties that must be provided with data: " + String.join(", ", nullProperties) + ". " :

@@ -22,7 +22,7 @@ public class UserService {
     }
 
     public ResponseEntity<List<User>> findAllUsers() {
-        return new ResponseEntity<>(this._userRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<List<User>>(this._userRepository.findAll(), HttpStatus.OK);
     }
 
     public ResponseEntity<User> findUserById(Integer id) throws InvalidRequestException, ItemNotFoundException{
@@ -33,10 +33,20 @@ public class UserService {
         return new ResponseEntity(user.get(), HttpStatus.OK);
     }
 
-    public ResponseEntity<User> saveUser(User user) throws InvalidRequestException {
+
+    public ResponseEntity<User> saveUser(User user) throws InvalidRequestException, ItemNotFoundException {
+
             this._validationService.validateUserProperties(user);
             User newUser = this._userRepository.save(user);
             return new ResponseEntity(newUser, HttpStatus.OK);
     }
+
+
+    public ResponseEntity<User> findUserByEmail(String email) throws ItemNotFoundException{
+        Optional<User> user = this._userRepository.findByEmail(email);
+        this._validationService.validateItem(user);
+        return new ResponseEntity(user.get(), HttpStatus.OK);
+    }
+
 
 }
