@@ -23,6 +23,10 @@ public class User {
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
+
+    private String email;
+
+
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Invoice> invoices;
@@ -31,11 +35,20 @@ public class User {
     }
     public User(Integer id) {this.userId = id; }
 
-    public User( String firstName, String lastName, List<Invoice> invoices) {
+
+    public User( String firstName, String lastName, String email, List<Invoice> invoices) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.invoices = invoices;
     }
+    public User( String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.invoices = null;
+    }
+
 
     public Integer getUserId() {
         return userId;
@@ -59,6 +72,15 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public List<Invoice> getInvoices() {
