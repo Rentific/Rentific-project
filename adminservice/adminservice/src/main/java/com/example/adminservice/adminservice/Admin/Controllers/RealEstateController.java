@@ -4,6 +4,7 @@ import com.example.adminservice.adminservice.Admin.Dtos.ReservedRealEstate;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
+import com.example.adminservice.adminservice.Admin.RabbitMQ.AdminServiceSender;
 import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,11 +23,15 @@ import java.util.*;
 @RequestMapping(path="/real-estate")
 public class RealEstateController {
     private final RealEstateService _realEstateService;
+
     @Autowired
     RestTemplate restTemplate = new RestTemplate();
 
-    public RealEstateController(RealEstateService realEstateService) {
+    private final AdminServiceSender sender;
+
+    public RealEstateController(RealEstateService realEstateService, AdminServiceSender sender) {
         _realEstateService = realEstateService;
+        this.sender = sender;
     }
 
     Map<String, Object> createResponse(List<RealEstate> realEstates, Page<RealEstate> pageRealEstates) {
@@ -153,8 +158,9 @@ public class RealEstateController {
     }
 
     @DeleteMapping("delete/{id}")
-    ResponseEntity deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
-        return this._realEstateService.deleteRealEstate(id);
+    void deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
+        sender.send(id);
+        //return this._realEstateService.deleteRealEstate(id);
     }
 
     @PutMapping("/update/{id}")
