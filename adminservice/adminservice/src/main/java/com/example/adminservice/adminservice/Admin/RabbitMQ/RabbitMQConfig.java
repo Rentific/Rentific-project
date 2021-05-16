@@ -20,12 +20,12 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    DirectExchange exchange() {
-        return new DirectExchange(exchangeName);
+    TopicExchange exchange() {
+        return new TopicExchange(exchangeName);
     }
 
     @Bean
-    Binding binding(Queue queue, DirectExchange exchange) {
+    Binding binding(Queue queue, TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 
@@ -35,8 +35,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public AdminServiceSender receiver() {
-        return new AdminServiceSender();
+    public AdminServiceReceiver receiver() {
+        return new AdminServiceReceiver();
     }
 
     @Bean

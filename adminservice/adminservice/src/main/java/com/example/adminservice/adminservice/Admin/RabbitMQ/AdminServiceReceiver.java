@@ -1,4 +1,3 @@
-/*
 package com.example.adminservice.adminservice.Admin.RabbitMQ;
 
 import com.example.adminservice.adminservice.Admin.Repositories.RealEstateRepository;
@@ -9,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static java.lang.Integer.parseInt;
 
-//@RabbitListener(queues = "rent-queue")
+@RabbitListener(queues = "rent-queue")
 public class AdminServiceReceiver {
     @Autowired
     private RealEstateRepository realEstateRepository;
@@ -18,7 +17,6 @@ public class AdminServiceReceiver {
     private SimpMessagingTemplate messagingTemplate;
 
     @RabbitHandler
-    @RabbitListener(queues = "queue")
     public void receive(String message) {
         try {
             String status = message.split(" ")[0];
@@ -35,4 +33,3 @@ public class AdminServiceReceiver {
 
     }
 }
-*/

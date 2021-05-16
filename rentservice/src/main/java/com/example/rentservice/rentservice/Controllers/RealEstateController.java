@@ -24,7 +24,6 @@ public class RealEstateController {
     @GetMapping(path="/all")
     ResponseEntity<List<RealEstate>> getAllRealEstates() {
         // This returns a JSON or XML with the RealEstates
-        sender.send(0);
         return _realEstateService.findAllRealEstates();
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.example.adminservice.adminservice.Admin.RabbitMQ;
 
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
@@ -46,3 +47,4 @@ public class Receiver {
     }
 
 }
+*/
