@@ -20,12 +20,12 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    TopicExchange exchange() {
-        return new TopicExchange(exchangeName);
+    DirectExchange exchange() {
+        return new DirectExchange(exchangeName);
     }
 
     @Bean
-    Binding binding(Queue queue, TopicExchange exchange) {
+    Binding binding(Queue queue, DirectExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(routingKey);
     }
 

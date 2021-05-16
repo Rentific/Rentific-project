@@ -12,7 +12,7 @@ public class AdminServiceSender {
     private SimpMessagingTemplate messagingTemplate;
 
     public void send(Integer realEstateId) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, realEstateId.toString());
+        rabbitTemplate.convertAndSend(RabbitMQConfig.exchangeName, RabbitMQConfig.routingKey, realEstateId.toString());
         messagingTemplate.convertAndSend("/topic/notification", "Delete request sent.");
         System.out.println("Message sent with realEstateId = " + realEstateId);
     }
