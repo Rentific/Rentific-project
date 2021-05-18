@@ -30,13 +30,10 @@ public class AdminServiceSender {
     public void send(RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
         try{
             var savedRealEstate = realEstateService.saveRealEstate(realEstate).getBody();
-            var reservedRealEstate = new ReservedRealEstate(savedRealEstate.getRealEstateId(), savedRealEstate.getStaffId(), savedRealEstate.getIsReservated());
+            var reservedRealEstate = new ReservedRealEstate(0,savedRealEstate.getRealEstateId(), savedRealEstate.getStaffId(), savedRealEstate.getIsReservated());
             String realEstateJson=objectMapper.writeValueAsString(reservedRealEstate);
-            Message message= MessageBuilder.withBody(realEstateJson.getBytes())
-                    .setContentType(MessageProperties.CONTENT_TYPE_JSON)
-                    .build();
-            rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Ok " + message);
-            System.out.println("Sent message with status: Ok " + message);
+            rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, realEstateJson);
+            System.out.println("Sent message with status: Ok " + realEstateJson);
 
         }
         catch(InvalidRequestException ex){
