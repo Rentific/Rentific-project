@@ -22,6 +22,13 @@ public class ReservedRealEstate {
         this.customerId = customerId;
         this.isReserved = isReserved;
     }
+    public ReservedRealEstate(Integer id, Integer realEstateId, Integer customerId, boolean isReserved) {
+        this.id = id;
+        this.realEstateId = realEstateId;
+        this.customerId = customerId;
+        this.isReserved = isReserved;
+    }
+
 
     public Integer getId() {
         return id;

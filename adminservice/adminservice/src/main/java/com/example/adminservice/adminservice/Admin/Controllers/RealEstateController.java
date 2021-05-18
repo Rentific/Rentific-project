@@ -153,8 +153,9 @@ public class RealEstateController {
     }
 
     @PostMapping(path="/add")
-    ResponseEntity<RealEstate> addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException {
-        return _realEstateService.saveRealEstate(realEstate);
+    void addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
+        sender.send(realEstate);
+        //return _realEstateService.saveRealEstate(realEstate);
     }
 
     @DeleteMapping("delete/{id}")

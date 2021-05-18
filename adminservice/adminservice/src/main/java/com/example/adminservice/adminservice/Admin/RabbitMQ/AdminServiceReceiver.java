@@ -8,7 +8,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static java.lang.Integer.parseInt;
 
-@RabbitListener(queues = "rent-service-queue")
+@RabbitListener(queues = "rent-queue")
 public class AdminServiceReceiver {
     @Autowired
     private RealEstateRepository realEstateRepository;
