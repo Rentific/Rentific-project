@@ -6,6 +6,7 @@ import com.example.invoiceservice.invoiceservice.DTOs.RequestCreateInvoiceDTO;
 import com.example.invoiceservice.invoiceservice.DTOs.UserDTO;
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.InvalidRequestException;
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.ItemNotFoundException;
+import com.example.invoiceservice.invoiceservice.RabbitMQ.Sender;
 import com.example.invoiceservice.invoiceservice.models.Invoice;
 import com.example.invoiceservice.invoiceservice.models.RealEstate;
 import com.example.invoiceservice.invoiceservice.models.User;
@@ -33,15 +34,17 @@ public class InvoiceController {
    @Autowired
     private RestTemplate restTemplate;
 
+    private final Sender sender;
 
-    public InvoiceController(InvoiceService invoiceService, UserService userService, RealEstateService realEstateService) {
+    public InvoiceController(InvoiceService invoiceService, UserService userService, RealEstateService realEstateService, Sender sender) {
         this._invoiceService = invoiceService;
         this._userService = userService;
         this._realEstateService = realEstateService;
+        this.sender = sender;
     }
 
     @PostMapping(path="/add")
-    ResponseEntity<Invoice> addNewInvoice (@RequestBody RequestCreateInvoiceDTO invToCreate) throws InvalidRequestException, ItemNotFoundException {
+    void addNewInvoice (@RequestBody RequestCreateInvoiceDTO invToCreate) throws InvalidRequestException, ItemNotFoundException {
 
         //verifications for user
         UserDTO u = restTemplate.getForObject("http://user-service/user/" + invToCreate.getUserId(), UserDTO.class);
@@ -67,7 +70,8 @@ public class InvoiceController {
 
 
         Invoice invToSave = new Invoice(new Date(), realEstateForInvoice, userForInvoice);
-        return _invoiceService.saveInvoice(invToSave);
+        //_invoiceService.saveInvoice(invToSave);
+        //sender.send(invToSave);
 
     }
 
@@ -104,5 +108,9 @@ public class InvoiceController {
         return _invoiceService.FindAllInvoicesForSpecificRealEstate(id);
     }
 
+    @DeleteMapping("delete/{id}")
+    ResponseEntity deleteUserById (@PathVariable Integer id) throws InvalidRequestException, ItemNotFoundException {
+        return _invoiceService.DeleteInvoiceById((id));
+    }
 
 }

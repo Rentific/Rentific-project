@@ -34,4 +34,5 @@ public class UserController {
     ResponseEntity<User> getUserById (@PathVariable Integer id) throws InvalidRequestException, ItemNotFoundException {
         return _userService.findUserById((id));
     }
+
 }
