@@ -35,8 +35,8 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    public AdminServiceSender receiver() {
-        return new AdminServiceSender();
+    public AdminServiceReceiver receiver() {
+        return new AdminServiceReceiver();
     }
 
     @Bean
