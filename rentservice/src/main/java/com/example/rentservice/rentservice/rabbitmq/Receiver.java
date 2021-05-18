@@ -5,6 +5,7 @@ import com.example.rentservice.rentservice.ErrorHandling.ObjectNotFoundException
 import com.example.rentservice.rentservice.Models.RealEstate;
 import com.example.rentservice.rentservice.Repositories.RealEstateRepository;
 import com.example.rentservice.rentservice.Services.RealEstateService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -14,7 +15,6 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static java.lang.Integer.parseInt;
 
-@RabbitListener(queues = "real-estate-queue")
 public class Receiver {
     @Autowired
     private AmqpTemplate rabbitTemplate;
@@ -25,9 +25,11 @@ public class Receiver {
     private ObjectMapper objectMapper;
 
     @RabbitHandler
-    public void receive(String message) throws InvalidRequestException, ObjectNotFoundException {
+    @RabbitListener(queues = "real-estate-queue")
+    public void receive(String message) throws InvalidRequestException, ObjectNotFoundException, JsonProcessingException {
         if(message.contains("customerId")){
-            RealEstate newRealEstate = objectMapper.convertValue(message, RealEstate.class);
+
+            RealEstate newRealEstate = objectMapper.readValue(message, RealEstate.class);
             try{
                 realEstateService.saveRealEstate(newRealEstate);
                 System.out.println("Sent message with status: Ok " + newRealEstate);
