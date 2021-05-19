@@ -59,5 +59,12 @@ public class InvoiceService {
         return new ResponseEntity(invoiceLists, HttpStatus.OK);
     }
 
+    public ResponseEntity DeleteInvoiceById(Integer id) throws InvalidRequestException, ItemNotFoundException{
+        this._validationService.validateId(id);
+        findInvoicesById(id);
+        this._invoiceRepository.deleteById(id);
+        return new ResponseEntity("Invoice successfully deleted.", HttpStatus.OK);
+    }
+
 }
 
