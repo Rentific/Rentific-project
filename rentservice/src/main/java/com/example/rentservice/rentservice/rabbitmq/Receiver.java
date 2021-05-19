@@ -64,4 +64,32 @@ public class Receiver {
         }
     }
 
+    @RabbitHandler
+    @RabbitListener(queues = "invoice-queue")
+    public void receiveInvoice(String message) throws InvalidRequestException, ObjectNotFoundException, JsonProcessingException {
+        Integer realEstateId = Integer.parseInt(message);
+        System.out.println("Received message = " + realEstateId);
+
+        try {
+            RealEstate realEstate;
+            var re = realEstateService.findRealEstateById(realEstateId);
+            if(re != null){
+                realEstate = re.getBody();
+                realEstateService.reserveRealEstate(realEstate.getRealEstateId());
+            }
+
+            rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Ok " + realEstateId);
+            System.out.println("Sent message with status: Ok " + realEstateId);
+
+        }
+        catch (ObjectNotFoundException ex) {
+            rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error " + realEstateId);
+            System.out.println("Sent message with status: Error " + realEstateId);
+        }
+        catch (Exception ex) {
+            rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error " + realEstateId);
+            System.out.println("Sent message with status: Error " + realEstateId);
+        }
+    }
+
 }

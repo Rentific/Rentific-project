@@ -17,7 +17,7 @@ public interface InvoiceRepository  extends JpaRepository<Invoice, Integer> {
     List<Invoice> FindAllInvoicesForSpecificUserNameSurname(@Param("name") String fName, @Param("surname") String lName);
 
     @Query("SELECT inv FROM Invoice inv WHERE inv.realEstate.realEstateId = :id")
-    List<Invoice> FindAllInvoicesForSpecificRealEstate(@Param("id") Integer realEstateId);
+    Invoice FindInvoiceForSpecificRealEstate(@Param("id") Integer realEstateId);
 
 }
 

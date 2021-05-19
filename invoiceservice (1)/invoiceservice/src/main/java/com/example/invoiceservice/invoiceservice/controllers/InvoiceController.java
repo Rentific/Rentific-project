@@ -13,6 +13,7 @@ import com.example.invoiceservice.invoiceservice.models.User;
 import com.example.invoiceservice.invoiceservice.services.InvoiceService;
 import com.example.invoiceservice.invoiceservice.services.RealEstateService;
 import com.example.invoiceservice.invoiceservice.services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class InvoiceController {
     private RealEstateService _realEstateService;
 
    @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate restTemplate = new RestTemplate();;
 
     private final Sender sender;
 
@@ -44,11 +45,11 @@ public class InvoiceController {
     }
 
     @PostMapping(path="/add")
-    void addNewInvoice (@RequestBody RequestCreateInvoiceDTO invToCreate) throws InvalidRequestException, ItemNotFoundException {
+    void addNewInvoice (@RequestBody RequestCreateInvoiceDTO invToCreate) throws InvalidRequestException, ItemNotFoundException, JsonProcessingException {
 
         //verifications for user
-        UserDTO u = restTemplate.getForObject("http://user-service/user/" + invToCreate.getUserId(), UserDTO.class);
-        User newUser1 = new User(u.getFirstName(), u.getLastName(), u.getEmail());
+        UserDTO u = restTemplate.getForObject("http://userservice/user/" + invToCreate.getUserId(), UserDTO.class);
+        User newUser1 = new User(invToCreate.getUserId(), u.getFirstName(), u.getLastName(), u.getEmail());
         User userForInvoice;
         try {
             userForInvoice = _userService.findUserByEmail(newUser1.getEmail()).getBody();
@@ -59,7 +60,7 @@ public class InvoiceController {
 
         //verifications for RealEstate
         RealEstateDTO r = restTemplate.getForObject("http://admin-service/real-estate/" + invToCreate.getRealEstateId(), RealEstateDTO.class);
-        RealEstate newRealEstate = new RealEstate(r.getName(), r.getPrice());
+        RealEstate newRealEstate = new RealEstate(invToCreate.getRealEstateId(), r.getName(), r.getPrice());
         RealEstate realEstateForInvoice;
         try {
             realEstateForInvoice = _realEstateService.findRealEstateByRealEstateName(newRealEstate.getName()).getBody();
@@ -71,7 +72,7 @@ public class InvoiceController {
 
         Invoice invToSave = new Invoice(new Date(), realEstateForInvoice, userForInvoice);
         //_invoiceService.saveInvoice(invToSave);
-        //sender.send(invToSave);
+        sender.send(invToSave);
 
     }
 
@@ -104,8 +105,8 @@ public class InvoiceController {
 
     @GetMapping
     @RequestMapping(value = "/realEstate/{id}")
-    ResponseEntity<List<Invoice>> getAllInvoicesForRealEstate(@PathVariable Integer id) throws InvalidRequestException, ItemNotFoundException{
-        return _invoiceService.FindAllInvoicesForSpecificRealEstate(id);
+    ResponseEntity<Invoice> getAllInvoicesForRealEstate(@PathVariable Integer id) throws InvalidRequestException, ItemNotFoundException{
+        return _invoiceService.FindInvoiceForSpecificRealEstate(id);
     }
 
     @DeleteMapping("delete/{id}")

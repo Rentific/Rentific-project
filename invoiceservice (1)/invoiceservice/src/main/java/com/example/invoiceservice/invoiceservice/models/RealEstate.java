@@ -14,7 +14,7 @@ import java.util.List;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class RealEstate {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(unique = true)
     @NotNull
     private Integer realEstateId;
 
@@ -24,26 +24,30 @@ public class RealEstate {
     @Column(nullable = false)
     private Double price;
 
-    @OneToMany(mappedBy = "realEstate")
-    @JsonIgnore
-    private List<Invoice> invoices;
+    @OneToOne(mappedBy = "realEstate")
+    private Invoice invoice;
 
     public RealEstate() {
     }
     public RealEstate(Integer id) {this.realEstateId = id; }
 
-    public RealEstate(String name, Double price, List<Invoice> invoices) {
+    public RealEstate(String name, Double price, Invoice invoice) {
         this.name = name;
         this.price = price;
-        this.invoices = invoices;
+        this.invoice = invoice;
     }
 
     public RealEstate(String name, Double price) {
         this.name = name;
         this.price = price;
-        this.invoices = null;
+        this.invoice = null;
     }
 
+    public RealEstate(Integer realEstateId, @NotBlank(message = "Name is mandatory") String name, Double price) {
+        this.realEstateId = realEstateId;
+        this.name = name;
+        this.price = price;
+    }
 
     public Integer getRealEstateId() {
         return realEstateId;
@@ -69,11 +73,11 @@ public class RealEstate {
         this.price = price;
     }
 
-    public List<Invoice> getInvoices() {
-        return invoices;
+    public Invoice getInvoice() {
+        return invoice;
     }
 
-    public void setInvoices(List<Invoice> invoices) {
-        this.invoices = invoices;
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 }

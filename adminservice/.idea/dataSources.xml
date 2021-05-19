@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="db_invoiceNerma@localhost" uuid="ef936372-90c0-4840-8145-ec7cafa10038">
+    <data-source source="LOCAL" name="db_adminNerma@localhost" uuid="5ea1b6b1-6952-4558-8fe5-c8fbf24280a6">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/db_invoiceNerma</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/db_adminNerma</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

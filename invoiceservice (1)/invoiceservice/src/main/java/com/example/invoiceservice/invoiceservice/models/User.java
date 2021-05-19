@@ -13,7 +13,7 @@ import java.util.List;
 @JsonIgnoreProperties({"HibernateLazyInitializer", "handler"})
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(unique = true)
     @NotNull
     private Integer userId;
 
@@ -49,6 +49,12 @@ public class User {
         this.invoices = null;
     }
 
+    public User(Integer userId, @NotBlank(message = "Name is mandatory") String firstName, @NotBlank(message = "Last name is mandatory") String lastName, String email) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
 
     public Integer getUserId() {
         return userId;
