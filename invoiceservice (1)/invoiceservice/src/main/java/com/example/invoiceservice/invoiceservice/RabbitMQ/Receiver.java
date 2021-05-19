@@ -2,6 +2,7 @@ package com.example.invoiceservice.invoiceservice.RabbitMQ;
 
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.InvalidRequestException;
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.ItemNotFoundException;
+import com.example.invoiceservice.invoiceservice.models.Invoice;
 import com.example.invoiceservice.invoiceservice.repositories.InvoiceRepository;
 import com.example.invoiceservice.invoiceservice.services.InvoiceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -29,10 +30,12 @@ public class Receiver {
     public void receive(String message)  throws ItemNotFoundException, InvalidRequestException {
 
         String status = message.split(" ")[0];
-        Integer invoiceID = parseInt(message.split(" ")[1]);
+        Integer realEstateId = parseInt(message.split(" ")[1]);
+        //find invoice
+        Invoice invoice = invoiceRepository.FindInvoiceForSpecificRealEstate(realEstateId);
         System.out.println("Received message with status: " + message);
 
-        System.out.println("Received message: Invoice ID = " + invoiceID);
+        System.out.println("Received message: Real estate ID = " + realEstateId);
 
         if (status.equals("Ok")) {
             //posalji mail
@@ -41,7 +44,7 @@ public class Receiver {
 
 
         else {
-            invoiceRepository.deleteById(invoiceID);
+            invoiceRepository.deleteById(invoice.getInvoiceId());
             messagingTemplate.convertAndSend("/topic/notification", "Failure. Invoice is deleted.");
         }
     }

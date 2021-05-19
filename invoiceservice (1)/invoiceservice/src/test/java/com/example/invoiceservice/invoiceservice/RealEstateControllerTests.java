@@ -1,3 +1,4 @@
+/*
 package com.example.invoiceservice.invoiceservice;
 
 import com.example.invoiceservice.invoiceservice.ExceptionHandler.GlobalExceptionHandler;
@@ -107,3 +108,4 @@ public class RealEstateControllerTests {
 
 
 }
+*/

@@ -21,7 +21,7 @@ public class Invoice {
     @JsonFormat(pattern="dd-MM-yyyy")
     private Date invoiceDate;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "real_estate_id")
     private RealEstate realEstate;
 

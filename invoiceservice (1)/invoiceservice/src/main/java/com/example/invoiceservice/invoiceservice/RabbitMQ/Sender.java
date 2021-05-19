@@ -36,7 +36,7 @@ public class Sender {
             ResponseEntity<Invoice> savedInvResponse = invoiceService.saveInvoice(invoice);
             savedInv = savedInvResponse.getBody();
 
-            String invJson = objectMapper.writeValueAsString(savedInv);
+            String invJson = objectMapper.writeValueAsString(savedInv.getRealEstate().getRealEstateId());
 
             this.rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, invJson);
             messagingTemplate.convertAndSend("/topic/notification", "Change status to reserved.");
