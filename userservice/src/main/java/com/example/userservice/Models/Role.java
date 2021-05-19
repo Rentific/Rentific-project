@@ -13,35 +13,33 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
-    private Integer RoleId;
-    private String Name;
+    private Integer roleId;
+    private String name;
 
     @JsonManagedReference(value = "name")
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "Role")
     private List<User> Users;
     public Role(Integer roleId, String name) {
-        RoleId = roleId;
-        Name = name;
+        this.roleId = roleId;
+        this.name = name;
     }
     public Role() {
     }
 
     public Integer getRoleId() {
-        return RoleId;
+        return roleId;
     }
 
     public void setRoleId(Integer roleId) {
-        RoleId = roleId;
+        this.roleId = roleId;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
-
-
 }

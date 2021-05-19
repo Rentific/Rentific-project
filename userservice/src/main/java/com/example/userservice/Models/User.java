@@ -10,33 +10,33 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer UserId;
+    private Integer userId;
     @Column (nullable = false)
     @NotBlank(message = "First name is  required")
-    private String FirstName;
+    private String firstName;
     @Column(nullable = false)
     @NotBlank(message = "Last name is required")
-    private String LastName;
+    private String lastName;
     @NotBlank(message = "Emailis required")
     private String email;
     @Column (nullable = false)
     @NotBlank(message = "Password is required")
     @Size(min = 8, max = 30, message = "Password should be between 8 and 30 characters")
-    private String Password;
+    private String password;
     @Column (nullable = false)
     @NotBlank(message = "Address is required")
-    private String Address;
+    private String address;
     @Column (nullable = false)
     @NotBlank(message = "Country is required")
-    private String Country;
+    private String country;
     @Column (nullable = false)
     @NotBlank(message = "City is required")
-    private String City;
+    private String city;
     @Column (nullable = false)
     @NotBlank(message = "Phone is required")
-    private String Phone;
+    private String phone;
     @Column (nullable = false)
-    private Date DateOfBirth;
+    private Date dateOfBirth;
     @JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
@@ -44,43 +44,42 @@ public class User {
     private Role Role;
 
     public User(String firstName, String lastName, String email, String password, String address, String country, String city, String phone, Date dateOfBirth) {
-        FirstName = firstName;
-        LastName = lastName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
-        Password = password;
-        Address = address;
-        Country = country;
-        City = city;
-        Phone = phone;
-        DateOfBirth = dateOfBirth;
-
+        this.password = password;
+        this.address = address;
+        this.country = country;
+        this.city = city;
+        this.phone = phone;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public User() {
     }
 
     public Integer getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public String getFirstName() {
-        return FirstName;
+        return firstName;
     }
 
     public void setFirstName(String firstName) {
-        FirstName = firstName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
-        return LastName;
+        return lastName;
     }
 
     public void setLastName(String lastName) {
-        LastName = lastName;
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -92,75 +91,51 @@ public class User {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        this.password = password;
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getCountry() {
-        return Country;
+        return country;
     }
 
     public void setCountry(String country) {
-        Country = country;
+        this.country = country;
     }
 
     public String getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(String city) {
-        City = city;
+        this.city = city;
     }
 
     public String getPhone() {
-        return Phone;
+        return phone;
     }
 
     public void setPhone(String phone) {
-        Phone = phone;
+        this.phone = phone;
     }
 
     public Date getDateOfBirth() {
-        return DateOfBirth;
+        return dateOfBirth;
     }
 
     public void setDateOfBirth(Date dateOfBirth) {
-        DateOfBirth = dateOfBirth;
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public com.example.userservice.Models.Role getRole() {
-        return Role;
-    }
-
-    public void setRole(com.example.userservice.Models.Role role) {
-        Role = role;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "UserId=" + UserId +
-                ", FirstName='" + FirstName + '\'' +
-                ", LastName='" + LastName + '\'' +
-                ", Email='" + email + '\'' +
-                ", Password='" + Password + '\'' +
-                ", Address='" + Address + '\'' +
-                ", Country='" + Country + '\'' +
-                ", City='" + City + '\'' +
-                ", Phone='" + Phone + '\'' +
-                ", DateOfBirth=" + DateOfBirth +
-                ", Role=" + Role +
-                '}';
-    }
 }

@@ -19,8 +19,8 @@ export class AuthenticationService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`http://localhost:8762/login/?email=${username}&password=${password}`, { username, password })
+    login(email: string, password: string) {
+        return this.http.post<any>(`http://localhost:8762/login/?email=${email}&password=${password}`, { email, password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user && user.token) {
