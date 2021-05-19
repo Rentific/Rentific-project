@@ -12,12 +12,14 @@ import java.util.Arrays;
 import java.util.Base64;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ApiGatewayController {
     @Value("${security.oauth2.resource.getToken}")
     private String authPath;
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Login login) {
+    public ResponseEntity<?> login(@RequestParam(value = "email") String email, @RequestParam(value = "password") String password) {
         RestTemplate restTemplate = new RestTemplate();
+        Login login = new Login(email, password);
 
         // According OAuth documentation we need to send the client id and secret key in the header for authentication
         String credentials = "rentific:secretkey";
