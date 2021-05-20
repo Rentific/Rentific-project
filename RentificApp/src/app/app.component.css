@@ -1,0 +1,10 @@
+.logo {
+    background-image: url('../assets/logo.jpg');
+    background-size: cover;
+    margin-right: 10px;
+ }
+
+ .container {
+     margin-top: 2%;  
+     
+ }
