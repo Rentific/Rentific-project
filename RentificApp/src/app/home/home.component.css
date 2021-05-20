@@ -1,0 +1,14 @@
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+.carousel {
+  text-align: center;
+}
+
+.picsum-img-wrapper {
+  height: 80vh;
+  /* background-color: #f2f7e9; */
+}
+
+.blockquote {
+  margin-top: 20px;
+}
