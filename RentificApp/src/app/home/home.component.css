@@ -5,8 +5,9 @@
 }
 
 .picsum-img-wrapper {
-  height: 80vh;
-  /* background-color: #f2f7e9; */
+  height: auto;
+  width: auto;
+  background-color: #c7dcd4 
 }
 
 .blockquote {
