@@ -46,9 +46,9 @@ public class UserService {
            // System.out.println(x);//BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             //user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 
-            BCryptPasswordEncoder bCryptPasswordEncoder =
-                   new BCryptPasswordEncoder();
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//            BCryptPasswordEncoder bCryptPasswordEncoder =
+  //                 new BCryptPasswordEncoder();
+    //        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
             User newUser = this._userRepository.save(user);
             return new ResponseEntity(newUser, HttpStatus.OK);
         }
