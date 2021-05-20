@@ -4,12 +4,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, UserService, AuthenticationService } from '../_services';
+import { Role } from '../_models/role';
 
 @Component({templateUrl: 'register.component.html'})
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
     submitted = false;
+    role:Role;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -25,6 +27,7 @@ export class RegisterComponent implements OnInit {
     }
 
     ngOnInit() {
+        
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
@@ -35,7 +38,7 @@ export class RegisterComponent implements OnInit {
             country: ['', Validators.required],
             phone: ['', Validators.required],
             dateOfBirth: ['', Validators.required],
-
+            role: new Role(1,"ROLE_USER")
         });
     }
 

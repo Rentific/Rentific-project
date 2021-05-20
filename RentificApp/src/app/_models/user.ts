@@ -1,3 +1,5 @@
+import { Role } from "./role";
+
 export class User {
     id: number;
     firstName:string;
@@ -10,5 +12,5 @@ export class User {
     phone:string;
     dateOfBirth:Date;
     token:string;
-
+    role:Role;
 }
