@@ -38,7 +38,7 @@ public class RoleService {
             findRoleById(role.getRoleId());
             return new ResponseEntity("User already exists.", HttpStatus.CONFLICT);
         } catch (UserNotFoundException e) {
-            this._validationService.validateRoleProperties(role);
+            //this._validationService.validateRoleProperties(role);
             Role newRole = this._roleRepository.save(role);
             return new ResponseEntity(newRole, HttpStatus.OK);
         }
@@ -59,7 +59,6 @@ public class RoleService {
         ApiError apiError = new ApiError(HttpStatus.OK, "User successfully deleted. !!! ");
         return apiError;
     }
-
 }
 
 

@@ -20,8 +20,7 @@ public class Role {
     @JsonIgnore
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "Role")
     private List<User> Users;
-    public Role(Integer roleId, String name) {
-        RoleId = roleId;
+    public Role(String name) {
         Name = name;
     }
     public Role() {
@@ -42,6 +41,5 @@ public class Role {
     public void setName(String name) {
         Name = name;
     }
-
 
 }
