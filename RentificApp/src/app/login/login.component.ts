@@ -52,7 +52,7 @@ export class LoginComponent implements OnInit {
             .subscribe(
                 data => {
                     //window.open("http://google.com", "_blank");
-                    this.router.navigate(['/register']);
+                    this.router.navigate(['/search']);
                 },
                 error => {
                     this.alertService.error(error);

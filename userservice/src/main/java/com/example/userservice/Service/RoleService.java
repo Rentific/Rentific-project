@@ -34,14 +34,8 @@ public class RoleService {
     }
 
     public ResponseEntity<Role> saveRole(Role role) throws InvalidRequestException, UserNotFoundException {
-        try {
-            findRoleById(role.getRoleId());
-            return new ResponseEntity("User already exists.", HttpStatus.CONFLICT);
-        } catch (UserNotFoundException e) {
-            //this._validationService.validateRoleProperties(role);
-            Role newRole = this._roleRepository.save(role);
-            return new ResponseEntity(newRole, HttpStatus.OK);
-        }
+       Role newRole = this._roleRepository.save(role);
+       return new ResponseEntity(newRole, HttpStatus.OK);
     }
 
     public ResponseEntity<User> updateExistingRole(Integer id, Role role) throws InvalidRequestException, UserNotFoundException {

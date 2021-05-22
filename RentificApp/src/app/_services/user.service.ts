@@ -9,7 +9,7 @@ export class UserService {
     constructor(private http: HttpClient) {  
         this.usersUrl = 'http://localhost:8762/users/user'
     }
-   
+
     getAll() {
         return this.http.get<User[]>(this.usersUrl + '/all');
     }

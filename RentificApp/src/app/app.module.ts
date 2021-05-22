@@ -15,6 +15,9 @@ import { AlertComponent } from './_components';
 import { ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home/home.component';
 import { SearchCardComponent } from './search-card/search-card.component';
+import { SearchpageComponent } from './searchpage/searchpage.component';
+import { RealEstateDetailsComponent } from './real-estate-details/real-estate-details.component';
+import { TokenInterceptor } from './token-interceptor/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { SearchCardComponent } from './search-card/search-card.component';
     RegisterComponent,
     AlertComponent,
     HomeComponent,
-    SearchCardComponent
+    SearchCardComponent,
+    SearchpageComponent,
+    RealEstateDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,9 @@ import { SearchCardComponent } from './search-card/search-card.component';
     MatButtonModule,
     NgbModule
   ],
-  providers: [ { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
