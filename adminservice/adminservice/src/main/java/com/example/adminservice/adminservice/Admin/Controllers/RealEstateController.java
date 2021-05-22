@@ -98,7 +98,7 @@ public class RealEstateController {
 
     /* Search real estates with keyword */
     @RequestMapping("/")
-    ResponseEntity<Map<String, Object>>  searchAllRealEstates(RealEstate realEstate, @Param("keyword") String keyword,
+    ResponseEntity<Map<String, Object>>  searchAllRealEstates(@Param("keyword") String keyword,
                                                               @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
                                                               @RequestParam(defaultValue = "price,asc") String[] sort)
     {
