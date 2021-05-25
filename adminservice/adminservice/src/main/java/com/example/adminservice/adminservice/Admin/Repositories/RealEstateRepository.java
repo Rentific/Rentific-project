@@ -15,11 +15,13 @@ import java.util.List;
 public interface RealEstateRepository extends JpaRepository<RealEstate, Integer> {
     Page<RealEstate> findByCityContainingIgnoreCase(String city, Pageable pageable);
 
-    @Query("SELECT r FROM RealEstate r WHERE r.name LIKE %?1%"
+    @Query("SELECT r FROM RealEstate r WHERE (r.isReservated = FALSE) AND (r.name LIKE %?1%"
             + " OR r.address LIKE %?1%"
             + " OR r.country LIKE %?1%"
             + " OR r.city LIKE %?1%"
             + " OR r.description LIKE %?1%"
-            + " OR CONCAT(r.price, '') LIKE %?1%")
+            + " OR CONCAT(r.price, '') LIKE %?1%)")
     Page<RealEstate> search(String keyword, Pageable pageable);
+
+    Page<RealEstate> findByIsReservatedFalse(Pageable pageable);
 }

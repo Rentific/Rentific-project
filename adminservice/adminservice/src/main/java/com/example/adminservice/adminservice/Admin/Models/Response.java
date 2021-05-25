@@ -4,14 +4,16 @@ import java.util.List;
 
 public class Response {
     private List<RealEstate> realEstateList;
-    private Integer totalPages;
     private Integer currentPage;
+    private Integer pageSize;
+    private Integer totalPages;
     private Integer totalItems;
 
-    public Response(List<RealEstate> realEstateList, Integer totalPages, Integer currentPage, Integer totalItems) {
+    public Response(List<RealEstate> realEstateList, Integer currentPage, Integer pageSize, Integer totalPages, Integer totalItems) {
         this.realEstateList = realEstateList;
-        this.totalPages = totalPages;
         this.currentPage = currentPage;
+        this.pageSize = pageSize;
+        this.totalPages = totalPages;
         this.totalItems = totalItems;
     }
 
@@ -23,20 +25,28 @@ public class Response {
         this.realEstateList = realEstateList;
     }
 
-    public Integer getTotalPages() {
-        return totalPages;
-    }
-
-    public void setTotalPages(Integer totalPages) {
-        this.totalPages = totalPages;
-    }
-
     public Integer getCurrentPage() {
         return currentPage;
     }
 
     public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public Integer getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(Integer totalPages) {
+        this.totalPages = totalPages;
     }
 
     public Integer getTotalItems() {

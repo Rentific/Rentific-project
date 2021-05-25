@@ -98,28 +98,16 @@ public class RealEstateController {
 
     /* Search real estates with keyword */
     @RequestMapping("/")
-    Response searchAllRealEstates(@Param("keyword") String keyword,
+    ResponseEntity<Response> searchAllRealEstates(@Param("keyword") String keyword,
                                                                 @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-                                                                @RequestParam(defaultValue = "price,asc") String[] sort)
+                                                                @RequestParam(defaultValue = "price,asc") String[] sort) throws InvalidRequestException, RealEstateNotFoundException
     {
-       // try {
+        try {
             List<Order> orders = getOrders(sort);
 
             List<RealEstate> realEstates = new ArrayList<RealEstate>();
             List<RealEstate> freeRealEstates = new ArrayList<RealEstate>();
-            Pageable paging = PageRequest.of(page, size, Sort.by(orders));
 
-            Page<RealEstate> pageRealEstates;
-
-            if (keyword == null)
-                pageRealEstates = _realEstateService.findAllRealEstates(paging).getBody();
-            else
-                pageRealEstates = _realEstateService.listAll(keyword, paging).getBody();
-
-            if (pageRealEstates != null)
-            {
-                realEstates = pageRealEstates.getContent();
-                freeRealEstates.addAll(realEstates);
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -131,21 +119,39 @@ public class RealEstateController {
                 
                 List<ReservedRealEstate> reservedRealEstates = Arrays.asList(response);
 
-                reservedRealEstates.forEach(realEstate1 -> {
-                    freeRealEstates.removeIf(x -> x.getRealEstateId() == realEstate1.getRealEstateId());
+            reservedRealEstates.forEach(realEstate1 -> {
+                    try {
+                        ResponseEntity<RealEstate> realEstateToUpdate = _realEstateService.findRealEstateById(realEstate1.getRealEstateId());
+                        realEstateToUpdate.getBody().setIsReservated(true);
+                        _realEstateService.updateExistingRealEstate(realEstateToUpdate.getBody().getRealEstateId(), realEstateToUpdate.getBody());
+                    } catch (InvalidRequestException e) {
+                        e.printStackTrace();
+                    } catch (RealEstateNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 });
-            }
+
+            Pageable paging = PageRequest.of(page, size, Sort.by(orders));
+
+            Page<RealEstate> pageRealEstates;
+
+            if (keyword == null)
+                pageRealEstates = _realEstateService.findAllRealEstates(paging).getBody();
+            else
+                pageRealEstates = _realEstateService.listAll(keyword, paging).getBody();
+
+
             //else throw new RealEstateNotFoundException("No results found.");
 
-            Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
+            //Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
             //return new ResponseEntity<>(response2, HttpStatus.OK);
 
-            return new Response(freeRealEstates, pageRealEstates.getTotalPages(),
-                    pageRealEstates.getNumber(), pageRealEstates.getSize());
+            return new ResponseEntity<Response>(new Response(pageRealEstates.getContent(), pageRealEstates.getNumber(),
+                    pageRealEstates.getSize(), pageRealEstates.getTotalPages(), pageRealEstates.getNumberOfElements()), HttpStatus.OK);
 
-       /* } catch (Exception e) {
-            //return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }*/
+       } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 
