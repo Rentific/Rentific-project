@@ -19,7 +19,7 @@ import { SearchpageComponent } from './searchpage/searchpage.component';
 import { RealEstateDetailsComponent } from './real-estate-details/real-estate-details.component';
 import { TokenInterceptor } from './token-interceptor/token.interceptor';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { FormsModule } from '@angular/forms';
 
@@ -52,6 +52,6 @@ import { FormsModule } from '@angular/forms';
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
   bootstrap: [AppComponent],
-  entryComponents: [ ImageModalComponent ]
+  entryComponents: [ImageModalComponent]
 })
 export class AppModule { }
