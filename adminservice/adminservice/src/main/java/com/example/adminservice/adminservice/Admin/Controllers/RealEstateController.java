@@ -16,7 +16,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
+import com.example.adminservice.adminservice.Admin.Models.Response;
 import java.util.*;
 
 @RestController
@@ -98,11 +98,11 @@ public class RealEstateController {
 
     /* Search real estates with keyword */
     @RequestMapping("/")
-    ResponseEntity<Map<String, Object>>  searchAllRealEstates(@Param("keyword") String keyword,
-                                                              @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-                                                              @RequestParam(defaultValue = "price,asc") String[] sort)
+    Response searchAllRealEstates(@Param("keyword") String keyword,
+                                                                @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+                                                                @RequestParam(defaultValue = "price,asc") String[] sort)
     {
-        try {
+       // try {
             List<Order> orders = getOrders(sort);
 
             List<RealEstate> realEstates = new ArrayList<RealEstate>();
@@ -135,15 +135,17 @@ public class RealEstateController {
                     freeRealEstates.removeIf(x -> x.getRealEstateId() == realEstate1.getRealEstateId());
                 });
             }
-            else throw new RealEstateNotFoundException("No results found.");
+            //else throw new RealEstateNotFoundException("No results found.");
 
             Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
-            return new ResponseEntity<>(response2, HttpStatus.OK);
+            //return new ResponseEntity<>(response2, HttpStatus.OK);
 
+            return new Response(freeRealEstates, pageRealEstates.getTotalPages(),
+                    pageRealEstates.getNumber(), pageRealEstates.getSize());
 
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+       /* } catch (Exception e) {
+            //return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }*/
 
     }
 
