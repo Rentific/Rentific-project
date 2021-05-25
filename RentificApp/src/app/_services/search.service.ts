@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RealEstate } from '../_models/real-estate';
 import { AuthenticationService } from './authentication.service';
+import { map } from 'rxjs/operators';
+import { RealEstateResponse } from '../_models/real-estate-response';
 
 @Injectable({
   providedIn: 'root'
@@ -27,27 +29,13 @@ export class SearchService {
   }
 
   findRealEstateById(id: number): Observable<any>  {
-    //var headers = new Headers();
-    //let currentUser = this.authenticationService.currentUserValue;
-    // ako ne vrati token
-    //if (currentUser && currentUser.token) {
-      
-    //}
-    //headers.append('Authorization', 'Bearer ' + currentUser.token);
-    //headers.append('Content-Type', 'application/json');
-    //let options = new RequestOptions({ headers: headers });
-
-    //const headerDict = {
-    //  'Content-Type': 'application/json',
-    //  'Authorization': 'Bearer ' + currentUser.token
-    //}
-
-    //const requestOptions = {
-    //  headers: new Headers(headerDict),
-    //};
-
-    return this.http.get<any>(`http://localhost:8762/real-estate/${id}`);
+    return this.http.get<any>(`http://localhost:8762/real-estate/real-estate/${id}`);
   }
 
-
+  searchRealEstates(search_query: string): Observable<RealEstateResponse> {
+    return this.http.get<RealEstateResponse>(`http://localhost:8762/real-estate/real-estate/?size=10&keyword=${search_query}`)
+    .pipe(
+      map(res => res)
+    );
+  }
 }

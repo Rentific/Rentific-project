@@ -10,11 +10,11 @@ import { SearchpageComponent } from './searchpage/searchpage.component';
 import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
-    { path: '', component: HomeComponent},
+    { path: '', component: RealEstateDetailsComponent},
     { path: 'login', component: LoginComponent },
     { path: 'registracija', component: RegisterComponent },
-    { path: 'search', component: SearchpageComponent },
-    { path: 'real-estate-details', component: RealEstateDetailsComponent },
+  { path: 'search', component: SearchpageComponent },
+  { path: 'real-estate-details/:realEstate', component: RealEstateDetailsComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

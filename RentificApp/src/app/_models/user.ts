@@ -11,6 +11,6 @@ export class User {
     city:string;
     phone:string;
     dateOfBirth:Date;
-    token:string;
+    access_token:string;
     role:Role;
 }
