@@ -25,7 +25,7 @@ public class RealEstateService {
     }
 
     public ResponseEntity<Page<RealEstate>> findAllRealEstates(Pageable page) {
-        return new ResponseEntity<>(this._realEstateRepository.findAll(page), HttpStatus.OK);
+        return new ResponseEntity<>(this._realEstateRepository.findByIsReservatedFalse(page), HttpStatus.OK);
     }
 
     public ResponseEntity<Page<RealEstate>> findByCityContaining(String city, Pageable page) {
@@ -36,7 +36,7 @@ public class RealEstateService {
         if (keyword != null) {
             return new ResponseEntity<>(this._realEstateRepository.search(keyword, page), HttpStatus.OK);
         }
-        return new ResponseEntity<>(this._realEstateRepository.findAll(page), HttpStatus.OK);
+        return new ResponseEntity<>(this._realEstateRepository.findByIsReservatedFalse(page), HttpStatus.OK);
     }
 
     public ResponseEntity<RealEstate> findRealEstateById(Integer id) throws InvalidRequestException, RealEstateNotFoundException {
