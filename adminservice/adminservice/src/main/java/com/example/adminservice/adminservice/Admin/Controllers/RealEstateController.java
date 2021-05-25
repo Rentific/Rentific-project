@@ -102,7 +102,7 @@ public class RealEstateController {
                                                                 @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
                                                                 @RequestParam(defaultValue = "price,asc") String[] sort) throws InvalidRequestException, RealEstateNotFoundException
     {
-        try {
+       // try {
             List<Order> orders = getOrders(sort);
 
             List<RealEstate> realEstates = new ArrayList<RealEstate>();
