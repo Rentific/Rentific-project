@@ -1,11 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
-import { filter, first, take } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { RealEstate } from '../_models/real-estate';
 import { RealEstateResponse } from '../_models/real-estate-response';
-import { AlertService } from '../_services';
+import { Role } from '../_models/role';
+import { AlertService, UserService } from '../_services';
 import { SearchService } from '../_services/search.service';
 
 @Component({
@@ -20,14 +22,25 @@ export class SearchpageComponent implements OnInit {
   pageSize: string;
   currentPage: string;
   keyword: string;
+  isAdmin: Boolean = false;
+  public role: Observable<string>;
   constructor(private searchService: SearchService,
     private alertService: AlertService,    
-    private router: Router) { 
+    private router: Router,
+    private userService: UserService) {
+      this.role = new Observable<string>();
     }
 
-  ngOnInit(): void {
-   
+  ngOnInit(): void {  
+    this.saveCurrentUserRole();
+    this.isAdmin = localStorage.getItem("role") == "admin";
   }
+
+  saveCurrentUserRole() {
+    this.userService.getUserRole(localStorage.getItem("email")).
+        subscribe(data => localStorage.setItem('role', data.name));       
+  }
+
 
     onSearched(search_query: string) {      
       this.searchService.searchRealEstates(search_query)

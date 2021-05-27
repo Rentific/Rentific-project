@@ -31,9 +31,9 @@ public class ImageModel {
     @Lob
     private byte[] picByte;
 
-    @OneToOne(mappedBy = "imageModel")
+   /* @OneToOne(mappedBy = "imageModel")
     @PrimaryKeyJoinColumn
-    private RealEstate realEstate;
+    private RealEstate realEstate;*/
 
     public Long getId() {
         return imageId;
@@ -43,13 +43,13 @@ public class ImageModel {
         this.imageId = id;
     }
 
-    public RealEstate getRealEstate() {
+   /* public RealEstate getRealEstate() {
         return realEstate;
     }
 
     public void setRealEstate(RealEstate realEstate) {
         this.realEstate = realEstate;
-    }
+    }*/
 
     public String getName() {
         return name;

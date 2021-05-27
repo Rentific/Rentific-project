@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { User } from '../_models';
+import { map } from 'rxjs/operators';
+import { Role } from '../_models/role';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -20,5 +23,9 @@ export class UserService {
 
     delete(id: number) {
         return this.http.delete(this.usersUrl +'/delete/${id}');
+    }
+
+    getUserRole(email: String) : Observable<Role> {
+        return this.http.get<Role>(this.usersUrl + `/role?email=${email}`).pipe(map(res => res));
     }
 }

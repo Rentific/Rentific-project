@@ -3,6 +3,13 @@
   <button type="button" class="btn btn-info" (click)="onSearched(keyword.value)">Pretraži</button>
 </div>
 
+<!-- <div style="display: flex; justify-content: center; padding-bottom: 20px;" *ngIf=isAdmin>
+  <button type="button" class="btn btn-info">Obriši nekretninu</button>
+</div>
+<div style="display: flex; justify-content: center; padding-bottom: 20px;" *ngIf=isAdmin>
+  <button type="button" class="btn btn-info">Ažuriraj detalje nekretninu</button>
+</div> -->
+
 <div class="container no-results" *ngIf="realEstates == null">
   <img mat-card-image class="background-photo" src="/assets/home3.jpg" alt="Photo of a Shiba Inu">
   <figure class="no-results-desc">

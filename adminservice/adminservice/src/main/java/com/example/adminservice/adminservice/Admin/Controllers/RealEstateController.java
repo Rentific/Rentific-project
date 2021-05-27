@@ -169,13 +169,20 @@ public class RealEstateController {
         return this._realEstateService.findRealEstateById(id);
     }
 
-    @PostMapping(path="/add")
+/*    @PostMapping(path="/add")
     void addNewRealEstate (@RequestBody RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
         ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
                 compressZLib(file.getBytes()));
         imageRepository.save(img);
         RealEstate realEstateToSave = new RealEstate(realEstate, img);
         sender.send(realEstateToSave);
+        //return _realEstateService.saveRealEstate(realEstate);
+    }*/
+
+    @PostMapping(path="/add")
+    void addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+
+        sender.send(realEstate);
         //return _realEstateService.saveRealEstate(realEstate);
     }
 
