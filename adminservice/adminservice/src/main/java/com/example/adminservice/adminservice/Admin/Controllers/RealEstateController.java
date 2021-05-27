@@ -3,8 +3,10 @@ package com.example.adminservice.adminservice.Admin.Controllers;
 import com.example.adminservice.adminservice.Admin.Dtos.ReservedRealEstate;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
+import com.example.adminservice.adminservice.Admin.Models.ImageModel;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
 import com.example.adminservice.adminservice.Admin.RabbitMQ.AdminServiceSender;
+import com.example.adminservice.adminservice.Admin.Repositories.ImageRepository;
 import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +18,15 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import com.example.adminservice.adminservice.Admin.Models.Response;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 @RestController
 @RequestMapping(path="/real-estate")
@@ -98,28 +107,16 @@ public class RealEstateController {
 
     /* Search real estates with keyword */
     @RequestMapping("/")
-    ResponseEntity<Map<String, Object>>  searchAllRealEstates(@Param("keyword") String keyword,
-                                                              @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-                                                              @RequestParam(defaultValue = "price,asc") String[] sort)
+    ResponseEntity<Response> searchAllRealEstates(@Param("keyword") String keyword,
+                                                                @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
+                                                                @RequestParam(defaultValue = "price,asc") String[] sort) throws InvalidRequestException, RealEstateNotFoundException
     {
         try {
             List<Order> orders = getOrders(sort);
 
             List<RealEstate> realEstates = new ArrayList<RealEstate>();
             List<RealEstate> freeRealEstates = new ArrayList<RealEstate>();
-            Pageable paging = PageRequest.of(page, size, Sort.by(orders));
 
-            Page<RealEstate> pageRealEstates;
-
-            if (keyword == null)
-                pageRealEstates = _realEstateService.findAllRealEstates(paging).getBody();
-            else
-                pageRealEstates = _realEstateService.listAll(keyword, paging).getBody();
-
-            if (pageRealEstates != null)
-            {
-                realEstates = pageRealEstates.getContent();
-                freeRealEstates.addAll(realEstates);
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
@@ -131,17 +128,37 @@ public class RealEstateController {
                 
                 List<ReservedRealEstate> reservedRealEstates = Arrays.asList(response);
 
-                reservedRealEstates.forEach(realEstate1 -> {
-                    freeRealEstates.removeIf(x -> x.getRealEstateId() == realEstate1.getRealEstateId());
+            reservedRealEstates.forEach(realEstate1 -> {
+                    try {
+                        ResponseEntity<RealEstate> realEstateToUpdate = _realEstateService.findRealEstateById(realEstate1.getRealEstateId());
+                        realEstateToUpdate.getBody().setIsReservated(true);
+                        _realEstateService.updateExistingRealEstate(realEstateToUpdate.getBody().getRealEstateId(), realEstateToUpdate.getBody());
+                    } catch (InvalidRequestException e) {
+                        e.printStackTrace();
+                    } catch (RealEstateNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 });
-            }
-            else throw new RealEstateNotFoundException("No results found.");
 
-            Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
-            return new ResponseEntity<>(response2, HttpStatus.OK);
+            Pageable paging = PageRequest.of(page, size, Sort.by(orders));
+
+            Page<RealEstate> pageRealEstates;
+
+            if (keyword == null)
+                pageRealEstates = _realEstateService.findAllRealEstates(paging).getBody();
+            else
+                pageRealEstates = _realEstateService.listAll(keyword, paging).getBody();
 
 
-        } catch (Exception e) {
+            //else throw new RealEstateNotFoundException("No results found.");
+
+            //Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
+            //return new ResponseEntity<>(response2, HttpStatus.OK);
+
+            return new ResponseEntity<Response>(new Response(pageRealEstates.getContent(), pageRealEstates.getNumber(),
+                    pageRealEstates.getSize(), pageRealEstates.getTotalPages(), pageRealEstates.getNumberOfElements()), HttpStatus.OK);
+
+       } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -153,8 +170,12 @@ public class RealEstateController {
     }
 
     @PostMapping(path="/add")
-    void addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
-        sender.send(realEstate);
+    void addNewRealEstate (@RequestBody RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
+                compressZLib(file.getBytes()));
+        imageRepository.save(img);
+        RealEstate realEstateToSave = new RealEstate(realEstate, img);
+        sender.send(realEstateToSave);
         //return _realEstateService.saveRealEstate(realEstate);
     }
 
@@ -168,6 +189,67 @@ public class RealEstateController {
     ResponseEntity<RealEstate> updateUser(@PathVariable(value = "id") Integer id, @RequestBody RealEstate realEstate)
             throws InvalidRequestException, RealEstateNotFoundException {
         return this._realEstateService.updateExistingRealEstate(id, realEstate);
+    }
+
+    @Autowired
+    ImageRepository imageRepository;
+
+    @PostMapping("/image/upload")
+    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+
+        System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
+                compressZLib(file.getBytes()));
+        imageRepository.save(img);
+        return ResponseEntity.status(HttpStatus.OK);
+    }
+
+    @GetMapping(path = { "/get/{imageName}" })
+    public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
+
+        final Optional<ImageModel> retrievedImage = imageRepository.findByName(imageName);
+        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+                decompressZLib(retrievedImage.get().getPicByte()));
+        return img;
+    }
+
+    // compress the image bytes before storing it in the database
+    public static byte[] compressZLib(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        while (!deflater.finished()) {
+            int count = deflater.deflate(buffer);
+            outputStream.write(buffer, 0, count);
+        }
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+        }
+        System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+
+        return outputStream.toByteArray();
+    }
+
+    // uncompress the image bytes before returning it to the angular application
+    public static byte[] decompressZLib(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] buffer = new byte[1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(buffer);
+                outputStream.write(buffer, 0, count);
+            }
+            outputStream.close();
+        } catch (IOException ioe) {
+        } catch (DataFormatException e) {
+        }
+        return outputStream.toByteArray();
     }
 }
 

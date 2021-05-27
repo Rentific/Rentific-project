@@ -51,7 +51,6 @@ export class LoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    //window.open("http://google.com", "_blank");
                     this.router.navigate(['/search']);
                 },
                 error => {

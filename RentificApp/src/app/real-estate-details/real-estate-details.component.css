@@ -1,0 +1,54 @@
+*, h2, h4 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14pt;
+}
+
+h2, h4 {
+    font-weight: bold;
+}
+
+.card-desc {    
+    margin-left: 16px;
+    height: 24px;
+    margin-top: 2px;
+}
+
+.card-images {    
+    transform: scale(0.8, 0.8);
+    width: min-content;
+}
+
+.card-photos-holder {
+    padding-top: 0;
+    padding-bottom: 5px;    
+}
+
+.detail-piece {
+    display: flex;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.images-row {
+    display: flex;
+    justify-content: center;
+}
+
+.modal-dialog {
+    width: 100vw;
+}
+
+.modal-content {
+    width: 70vw;
+}
+
+.modal-body {
+    display: flex;
+    justify-content: center;
+}
+
+.picsum-img-wrapper {
+    width: auto;
+    height: auto;   
+ }
+  

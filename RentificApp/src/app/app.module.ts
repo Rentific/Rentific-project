@@ -18,6 +18,10 @@ import { SearchCardComponent } from './search-card/search-card.component';
 import { SearchpageComponent } from './searchpage/searchpage.component';
 import { RealEstateDetailsComponent } from './real-estate-details/real-estate-details.component';
 import { TokenInterceptor } from './token-interceptor/token.interceptor';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { ImageModalComponent } from './image-modal/image-modal.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +32,8 @@ import { TokenInterceptor } from './token-interceptor/token.interceptor';
     HomeComponent,
     SearchCardComponent,
     SearchpageComponent,
-    RealEstateDetailsComponent
+    RealEstateDetailsComponent,
+    ImageModalComponent
   ],
   imports: [
     BrowserModule,
@@ -38,11 +43,15 @@ import { TokenInterceptor } from './token-interceptor/token.interceptor';
     BrowserAnimationsModule,
     MatCardModule,
     MatButtonModule,
-    NgbModule
+    NgbModule,
+    MatPaginatorModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } }],
+  bootstrap: [AppComponent],
+  entryComponents: [ImageModalComponent]
 })
 export class AppModule { }
