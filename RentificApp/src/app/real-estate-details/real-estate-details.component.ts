@@ -19,9 +19,9 @@ export class RealEstateDetailsComponent implements OnInit {
   ngOnInit() {
     // First get the product id from the current route.
     this.realEstate2 = JSON.parse(this.route.snapshot.params["realEstate"]);
-    this.imagesList.push("https://picsum.photos/600/500?random=1");
-    this.imagesList.push("https://picsum.photos/600/500?random=2");
-    this.imagesList.push("https://picsum.photos/600/500?random=3");
+    // this.imagesList.push("https://picsum.photos/600/500?random=1");
+    // this.imagesList.push("https://picsum.photos/600/500?random=2");
+    // this.imagesList.push("https://picsum.photos/600/500?random=3");
   }
 
   

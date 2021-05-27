@@ -12,7 +12,6 @@ export class ImageModalComponent implements OnInit {
   constructor(public activeModal: NgbActiveModal) { }
 
   ngOnInit(): void {
-    console.log(this.imageUrl);
   }
 
 }

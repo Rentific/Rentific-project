@@ -42,6 +42,18 @@ public class RealEstate {
     @Column(nullable = false)
     private Boolean isReservated;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "imageId")
+    private ImageModel imageModel;
+
+    public ImageModel getImageModel() {
+        return imageModel;
+    }
+
+    public void setImageModel(ImageModel imageModel) {
+        this.imageModel = imageModel;
+    }
+
     /*@JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "staffId")
@@ -55,8 +67,33 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    public RealEstate(String name, Double price, String address, String country, String city, String description,
-                      Boolean isReservated, Integer staffId, StateEnum state) {
+    public RealEstate(RealEstate realEstate, ImageModel imageModel) {
+        this.name = realEstate.name;
+        this.price = realEstate.price;
+        this.address = realEstate.address;
+        this.country = realEstate.country;
+        this.city = realEstate.city;
+        this.description = realEstate.description;
+        this.isReservated = realEstate.isReservated;
+        this.staffId = realEstate.staffId;
+        this.state = realEstate.state;
+        this.imageModel = imageModel;
+    }
+
+    public RealEstate(@NotBlank(message = "Name is mandatory") String name, @Min(value = 0, message = "Price should not be less than 0") Double price, @NotBlank(message = "Address is mandatory") String address, @NotBlank(message = "Country is mandatory") String country, @NotBlank(message = "City is mandatory") String city, @Size(min = 10, max = 300, message = "Description must be between 10 and 300 characters") String description, Boolean isReservated, ImageModel imageModel, @NotNull(message = "Staff cannot be null") Integer staffId, StateEnum state) {
+        this.name = name;
+        this.price = price;
+        this.address = address;
+        this.country = country;
+        this.city = city;
+        this.description = description;
+        this.isReservated = isReservated;
+        this.imageModel = imageModel;
+        this.staffId = staffId;
+        this.state = state;
+    }
+
+    public RealEstate(@NotBlank(message = "Name is mandatory") String name, @Min(value = 0, message = "Price should not be less than 0") Double price, @NotBlank(message = "Address is mandatory") String address, @NotBlank(message = "Country is mandatory") String country, @NotBlank(message = "City is mandatory") String city, @Size(min = 10, max = 300, message = "Description must be between 10 and 300 characters") String description, Boolean isReservated, @NotNull(message = "Staff cannot be null") Integer staffId, StateEnum state) {
         this.name = name;
         this.price = price;
         this.address = address;
@@ -66,6 +103,7 @@ public class RealEstate {
         this.isReservated = isReservated;
         this.staffId = staffId;
         this.state = state;
+        this.imageModel = new ImageModel();
     }
 
     public Integer getRealEstateId() {

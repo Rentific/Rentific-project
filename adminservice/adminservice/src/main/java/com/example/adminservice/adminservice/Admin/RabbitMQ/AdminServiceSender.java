@@ -4,6 +4,7 @@ import com.example.adminservice.adminservice.Admin.Dtos.ReservedRealEstate;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.InvalidRequestException;
 import com.example.adminservice.adminservice.Admin.ErrorHandling.RealEstateNotFoundException;
 import com.example.adminservice.adminservice.Admin.Models.RealEstate;
+import com.example.adminservice.adminservice.Admin.Repositories.ImageRepository;
 import com.example.adminservice.adminservice.Admin.Services.RealEstateService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,9 @@ public class AdminServiceSender {
     @Autowired
     private RealEstateService realEstateService;
 
+    @Autowired
+    private ImageRepository imageRepository;
+
 
     public void send(RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
         try{
@@ -38,6 +42,7 @@ public class AdminServiceSender {
         }
         catch(InvalidRequestException ex){
             realEstateService.deleteRealEstate(realEstate.getRealEstateId());
+            imageRepository.deleteById(realEstate.getImageModel().getId());
             rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error while adding new real estate" + realEstate.getRealEstateId());
             System.out.println("Sent message with status: Error while adding new real estate" + realEstate.getRealEstateId());
         }
