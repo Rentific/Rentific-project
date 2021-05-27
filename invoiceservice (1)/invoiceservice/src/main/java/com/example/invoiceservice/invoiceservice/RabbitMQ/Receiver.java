@@ -5,6 +5,7 @@ import com.example.invoiceservice.invoiceservice.ExceptionHandler.ItemNotFoundEx
 import com.example.invoiceservice.invoiceservice.models.Invoice;
 import com.example.invoiceservice.invoiceservice.repositories.InvoiceRepository;
 import com.example.invoiceservice.invoiceservice.services.InvoiceService;
+import com.example.invoiceservice.invoiceservice.services.SendEmailService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
@@ -24,10 +25,14 @@ public class Receiver {
     private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
+    SendEmailService emailSenderService;
+
+
+    @Autowired
     private InvoiceRepository invoiceRepository;
 
     @RabbitHandler
-    public void receive(String message)  throws ItemNotFoundException, InvalidRequestException {
+    public void receive(String message) throws Exception {
 
         String status = message.split(" ")[0];
         Integer realEstateId = parseInt(message.split(" ")[1]);
@@ -38,7 +43,10 @@ public class Receiver {
         System.out.println("Received message: Real estate ID = " + realEstateId);
 
         if (status.equals("Ok")) {
-            //posalji mail
+            //send email
+            emailSenderService.sendEmail(invoice.getUser().getEmail(),
+                    "",
+                    "Potvrda o uspjesnoj rezervaciji", invoice);
             messagingTemplate.convertAndSend("/topic/notification", "Success. Invoice is created and sent.");
         }
 
