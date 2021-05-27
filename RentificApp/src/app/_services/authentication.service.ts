@@ -9,10 +9,12 @@ import { User } from '../_models';
 export class AuthenticationService {
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-
+    router: any;
+    public email: Observable<String>;
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
+        this.email = new Observable<String>();
     }
 
     public get currentUserValue(): User {
@@ -26,16 +28,17 @@ export class AuthenticationService {
                 if (user && user.access_token) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
+                    localStorage.setItem('email', username);
                     this.currentUserSubject.next(user);
                 }
-
+              
                 return user;
             }));
     }
-
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
 }

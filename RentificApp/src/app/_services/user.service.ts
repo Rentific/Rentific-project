@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { User } from '../_models';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -18,7 +20,19 @@ export class UserService {
         return this.http.post(this.usersUrl +'/add', user);
     }
 
+    update(user:User) {
+        return this.http.get(this.usersUrl + '/update/${id}');
+    }
+
     delete(id: number) {
         return this.http.delete(this.usersUrl +'/delete/${id}');
     }
+    
+    findByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`http://localhost:8762/users/user?email=${email}`)
+    .pipe(
+      map(res => res)
+    );
+  }
+
 }

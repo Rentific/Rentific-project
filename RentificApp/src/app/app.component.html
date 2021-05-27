@@ -9,13 +9,16 @@
     <div class="collapse navbar-collapse" id="navbarColor03">
       <ul class="navbar-nav me-auto">          
         <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Login</a>
+          <a class="nav-link" routerLink="/login" *ngIf="!isLoggedInProperty">Login</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/registracija">Registracija</a>
+          <a class="nav-link" routerLink="/registracija" *ngIf="!isLoggedInProperty">Registracija</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/viewprofile" *ngIf="isLoggedInProperty">Profil</a>
         </li>
         <li class="nav-item">  
-          <button class="btn btn-dark" (click)= "logout()">Logout</button>  
+          <button class="btn btn-dark" (click)= "logout()" *ngIf="isLoggedInProperty">Logout</button>  
         </li>  
       </ul>        
     </div>    
