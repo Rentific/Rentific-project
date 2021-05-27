@@ -96,4 +96,5 @@ public class User {
     public void setInvoices(List<Invoice> invoices) {
         this.invoices = invoices;
     }
+
 }
