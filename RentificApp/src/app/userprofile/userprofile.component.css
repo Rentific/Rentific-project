@@ -1,0 +1,9 @@
+#cart{
+    font-size: 15pt;
+    width: 500px;
+    height:300px;
+    margin: 0 auto; 
+    float: none; 
+    margin-bottom: 10px; 
+    padding-top: 20px;
+}

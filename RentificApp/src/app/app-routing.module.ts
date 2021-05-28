@@ -8,6 +8,8 @@ import { RealEstateDetailsComponent } from './real-estate-details/real-estate-de
 import { RegisterComponent } from './register';
 import { SearchCardComponent } from './search-card/search-card.component';
 import { SearchpageComponent } from './searchpage/searchpage.component';
+import { UserprofileComponent } from './userprofile/userprofile.component';
+import { UserprofileeditComponent } from './userprofileedit/userprofileedit.component';
 import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
@@ -17,8 +19,8 @@ const routes: Routes = [
     { path: 'registracija', component: RegisterComponent },
     { path: 'search', component: SearchpageComponent },
     { path: 'real-estate-details/:realEstate', component: RealEstateDetailsComponent },
-
-    // otherwise redirect to home
+    { path: 'viewprofile', component: UserprofileComponent },
+    { path: 'editprofile', component: UserprofileeditComponent },
     { path: '**', redirectTo: '' }
 ];
 

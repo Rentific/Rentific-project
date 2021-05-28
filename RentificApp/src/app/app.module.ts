@@ -23,6 +23,8 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { FormsModule } from '@angular/forms';
 import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-estate.component';
+import { UserprofileComponent } from './userprofile/userprofile.component';
+import { UserprofileeditComponent } from './userprofileedit/userprofileedit.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-es
     RealEstateDetailsComponent,
     ImageModalComponent,
     AddNewRealEstateComponent,
+    UserprofileComponent,
+    UserprofileeditComponent
   ],
   imports: [
     BrowserModule,
