@@ -27,6 +27,9 @@ export class RealEstateDetailsComponent implements OnInit {
   ngOnInit() {
     this.realEstate2 = JSON.parse(this.route.snapshot.params["realEstate"]);
     this.isAdmin = localStorage.getItem("role") == "1";
+    // this.imagesList.push("https://picsum.photos/600/500?random=1");
+    // this.imagesList.push("https://picsum.photos/600/500?random=2");
+    // this.imagesList.push("https://picsum.photos/600/500?random=3");
   }
 
   openModal(imageUrl: string) {

@@ -32,11 +32,10 @@ export class AuthenticationService {
                     localStorage.setItem('email', username);                                                 
                     this.currentUserSubject.next(user);
                 }
-
+              
                 return user;
             }));
     }
-
     logout() {
         // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
@@ -44,4 +43,5 @@ export class AuthenticationService {
         localStorage.removeItem('role');
         this.currentUserSubject.next(null);
     }
+
 }

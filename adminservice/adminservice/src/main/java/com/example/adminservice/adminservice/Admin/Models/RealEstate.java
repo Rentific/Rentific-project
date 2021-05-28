@@ -43,7 +43,6 @@ public class RealEstate {
     private Boolean isReservated;
 
 
-
     /*@JsonBackReference(value="name")
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "staffId")
@@ -81,6 +80,7 @@ public class RealEstate {
        // this.imageModel = imageModel;
         this.staffId = staffId;
         this.state = state;
+        this.imageModel = new ImageModel();
     }
 
     public Integer getRealEstateId() {

@@ -21,6 +21,10 @@ export class UserService {
         return this.http.post(this.usersUrl +'/add', user);
     }
 
+    update(user:User) {
+        return this.http.get(this.usersUrl + '/update/${id}');
+    }
+
     delete(id: number) {
         return this.http.delete(this.usersUrl +'/delete/${id}');
     }
@@ -28,4 +32,12 @@ export class UserService {
     getUserRole(email: String) : Observable<Role> {
         return this.http.get<Role>(this.usersUrl + `/role?email=${email}`).pipe(map(res => res));
     }
+    
+    findByEmail(email: string): Observable<User> {
+    return this.http.get<User>(`http://localhost:8762/users/user?email=${email}`)
+    .pipe(
+      map(res => res)
+    );
+  }
+
 }
