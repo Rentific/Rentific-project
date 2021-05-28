@@ -170,12 +170,13 @@ public class RealEstateController {
     }
 
     @PostMapping(path="/add")
-    void addNewRealEstate (@RequestBody RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+    public ResponseEntity.BodyBuilder addNewRealEstate (@RequestParam RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
         ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
                 compressZLib(file.getBytes()));
         imageRepository.save(img);
         RealEstate realEstateToSave = new RealEstate(realEstate, img);
         sender.send(realEstateToSave);
+        return ResponseEntity.status(HttpStatus.OK);
         //return _realEstateService.saveRealEstate(realEstate);
     }
 
