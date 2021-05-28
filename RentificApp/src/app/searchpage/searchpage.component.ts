@@ -35,6 +35,9 @@ export class SearchpageComponent implements OnInit {
     this.saveCurrentUserRole();
     this.isAdmin = localStorage.getItem("role") == "admin";
   }
+  addNewRealEstate(){
+    this.router.navigate(['/add-real-estate']);
+  }
 
   saveCurrentUserRole() {
     this.userService.getUserRole(localStorage.getItem("email")).

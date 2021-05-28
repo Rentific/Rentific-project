@@ -1,4 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
+import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-estate.component';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 
@@ -13,6 +14,7 @@ import { AuthGuard } from './_helpers';
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'add-real-estate', component: AddNewRealEstateComponent },
     { path: 'login', component: LoginComponent },
     { path: 'registracija', component: RegisterComponent },
     { path: 'search', component: SearchpageComponent },
