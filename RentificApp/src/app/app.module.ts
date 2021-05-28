@@ -22,6 +22,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { FormsModule } from '@angular/forms';
+import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-estate.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { FormsModule } from '@angular/forms';
     SearchCardComponent,
     SearchpageComponent,
     RealEstateDetailsComponent,
-    ImageModalComponent
+    ImageModalComponent,
+    AddNewRealEstateComponent,
   ],
   imports: [
     BrowserModule,

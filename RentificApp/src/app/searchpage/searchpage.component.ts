@@ -28,17 +28,20 @@ export class SearchpageComponent implements OnInit {
   ngOnInit(): void {
    
   }
+  addNewRealEstate(){
+    this.router.navigate(['/add-real-estate']);
+  }
 
-    onSearched(search_query: string) {      
-      this.searchService.searchRealEstates(search_query)
-        .subscribe(data => {
-          this.realEstateResponse = data;
-          this.realEstates = data.realEstateList;
-          this.pageSize = data.totalItems.toString();
-          this.totalPages = data.totalPages.toString();
-          this.currentPage = data.currentPage.toString();
-        });
-    }
+  onSearched(search_query: string) {      
+    this.searchService.searchRealEstates(search_query)
+      .subscribe(data => {
+        this.realEstateResponse = data;
+        this.realEstates = data.realEstateList;
+        this.pageSize = data.totalItems.toString();
+        this.totalPages = data.totalPages.toString();
+        this.currentPage = data.currentPage.toString();
+      });
+  }
 
   goToRealEstateDetails(realEstate: RealEstate) {
     this.router.navigate(['/real-estate-details', JSON.stringify(realEstate)]); 

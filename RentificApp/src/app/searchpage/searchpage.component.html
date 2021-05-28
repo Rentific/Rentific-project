@@ -1,6 +1,8 @@
 <div class="search">
   <input type="text" class="form-control search-field" placeholder="Pretražite nekretnine..." #keyword>
   <button type="button" class="btn btn-info" (click)="onSearched(keyword.value)">Pretraži</button>
+
+  <button type="button" class="btn btn-info add-new" (click)="addNewRealEstate()">Dodaj novu nekretninu</button>
 </div>
 
 <div class="container no-results" *ngIf="realEstates == null">
