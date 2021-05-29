@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
             country: ['', Validators.required],
             phone: ['', Validators.required],
             dateOfBirth: ['', Validators.required],
-            role: new Role(1,"ROLE_USER")
+            role: new Role(2,"ROLE_USER")
         });
     }
 

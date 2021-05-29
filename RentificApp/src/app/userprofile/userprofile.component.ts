@@ -12,13 +12,20 @@ import { UserService } from '../_services';
 export class UserprofileComponent implements OnInit {
   user: User;
 
-    constructor(private route: ActivatedRoute,private userService: UserService) { }
+    constructor(private route: ActivatedRoute,private userService: UserService, private router: Router) { }
       ngOnInit() {   
       this.userService.findByEmail(localStorage.getItem('email'))
       .subscribe(user => {
         this.user = user;
     });
 
+  }
+
+  goToEdit(){
+    this.router.navigate(['/editprofile']);
+  }
+  goToSearch(){
+    this.router.navigate(['/search']);
   }
  
 
