@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
+import { User } from '../_models';
 import { RealEstate } from '../_models/real-estate';
 import { RealEstateResponse } from '../_models/real-estate-response';
-import { AlertService } from '../_services';
+import { AlertService, UserService } from '../_services';
 import { SearchService } from '../_services/search.service';
 
 @Component({
@@ -20,13 +21,23 @@ export class SearchpageComponent implements OnInit {
   pageSize: string;
   currentPage: string;
   keyword: string;
+  user: User;
   constructor(private searchService: SearchService,
     private alertService: AlertService,    
-    private router: Router) { 
+    private router: Router,
+    private route: ActivatedRoute,
+    private userService: UserService) {
     }
 
-  ngOnInit(): void {
-   
+    ngOnInit() {   
+      this.userService.findByEmail(localStorage.getItem('email'))
+      .subscribe(user => {
+        this.user = user;
+        localStorage.setItem('userId', user.userId.toString());
+        localStorage.setItem('role', user.role.name);
+        console.log(localStorage.getItem('userId'));
+        console.log(localStorage.getItem('role'));
+    });
   }
   addNewRealEstate(){
     this.router.navigate(['/add-real-estate']);

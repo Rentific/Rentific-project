@@ -1,9 +1,20 @@
-#cart{
-    font-size: 15pt;
-    width: 500px;
-    height:300px;
-    margin: 0 auto; 
-    float: none; 
-    margin-bottom: 10px; 
-    padding-top: 20px;
+
+.addbutton{
+    background-color: #43ba93; 
+    color:white;
+    float: right;
+    margin: 0 10px;
+}
+.cancelbutton{
+    background-color: #43ba93;
+    color: white;
+    margin-left: 10px !important;
+}
+
+.example-card {
+    max-width: 600px;
+    margin: auto;
+}
+.popup-title{
+    margin: auto;
 }
