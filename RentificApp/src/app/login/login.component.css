@@ -1,5 +1,23 @@
+
+  mat-card {
+    width: 500px;
+    margin: 2em auto;
+    vertical-align: auto;
+  }
+  mat-card-title {
+    text-align: center;
+}
+
+
+ 
+  #btns {
+    float: right;
+    color: #43ba93;
+  }
+
+
 .example-container .mat-form-field + .mat-form-field {
-    margin-left: 8px;
+    margin-left: 14px;
   }
   
   .example-right-align {
@@ -14,4 +32,6 @@
   input.example-right-align {
     -moz-appearance: textfield;
   }
+
+  
 

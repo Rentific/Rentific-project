@@ -5,6 +5,7 @@ import { User } from './_models';
 import { AuthGuard } from './_helpers';
 import { AuthenticationService } from './_services';
 
+
 @Component({ selector: 'app-root', templateUrl: 'app.component.html', styleUrls: ['./app.component.css'] })
 export class AppComponent {
     currentUser: User;
