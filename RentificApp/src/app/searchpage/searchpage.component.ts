@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { filter, first, map, take } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { Role } from '../_models/role';
 import { AlertService, UserService } from '../_services';
 import { SearchService } from '../_services/search.service';
 import { mergeMap } from 'rxjs/operators';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-searchpage',
@@ -32,6 +33,7 @@ export class SearchpageComponent implements OnInit {
   retrieveResonse: any;
   mergeTest: Observable<any>;
   public role: Observable<string>;
+
   constructor(private searchService: SearchService,
     private alertService: AlertService,
     private router: Router,
@@ -39,10 +41,19 @@ export class SearchpageComponent implements OnInit {
     this.role = new Observable<string>();
   }
 
-  ngOnInit(): void {
-    this.saveCurrentUserRole();
-    this.isAdmin = localStorage.getItem("role") == "admin";
+  user: User;
+
+  ngOnInit() {
+    this.userService.findByEmail(localStorage.getItem('email'))
+      .subscribe(user => {
+        this.user = user;
+        localStorage.setItem('userId', user.userId.toString());
+        localStorage.setItem('role', user.role.name);
+        console.log(localStorage.getItem('userId'));
+        console.log(localStorage.getItem('role'));
+      });
   }
+  
   addNewRealEstate() {
     this.router.navigate(['/add-real-estate']);
   }
@@ -95,7 +106,7 @@ export class SearchpageComponent implements OnInit {
         });
       });
 
-   
+
     console.log(this.realEstates);
   }
 

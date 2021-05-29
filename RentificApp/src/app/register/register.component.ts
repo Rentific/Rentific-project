@@ -6,7 +6,7 @@ import { first } from 'rxjs/operators';
 import { AlertService, UserService, AuthenticationService } from '../_services';
 import { Role } from '../_models/role';
 
-@Component({templateUrl: 'register.component.html'})
+@Component({templateUrl: 'register.component.html', styleUrls: ['register.component.css']})
 export class RegisterComponent implements OnInit {
     registerForm: FormGroup;
     loading = false;
@@ -38,7 +38,7 @@ export class RegisterComponent implements OnInit {
             country: ['', Validators.required],
             phone: ['', Validators.required],
             dateOfBirth: ['', Validators.required],
-            role: new Role(1,"ROLE_USER")
+            role: new Role(2,"ROLE_USER")
         });
     }
 

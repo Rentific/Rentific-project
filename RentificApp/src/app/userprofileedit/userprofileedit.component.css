@@ -7,3 +7,28 @@
     margin-bottom: 20px; 
     padding-top: 20px;
 }
+.addbutton{
+    background-color: #43ba93; 
+    color:white;
+    float: right;
+    margin: 0 10px;
+}
+.cancelbutton{
+    background-color: #43ba93;
+    color: white;
+    margin-left: 10px !important;
+}
+.center-text{
+    display: block;
+    text-align: center;
+}
+.example-card {
+    max-width: 650px;
+    margin: auto;
+}
+.popup-title{
+    margin: auto;
+}
+#add{
+    margin: 0 10px;
+}

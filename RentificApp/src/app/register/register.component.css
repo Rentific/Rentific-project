@@ -1,0 +1,29 @@
+
+  mat-card {
+    margin: 2em auto;
+    width: 700px;
+  }
+  mat-card-title {
+      padding-top: 1%;
+      text-align: center;
+  }
+  mat-card-content {
+      text-align: center;
+  }
+
+
+
+.form-inline {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    margin-right: 8%;
+    padding: 1% 1% 1% 1%;
+  }
+  #btns {
+    float: right;
+    color: #43ba93;
+    margin-right: 8%;
+
+    
+  }
+
