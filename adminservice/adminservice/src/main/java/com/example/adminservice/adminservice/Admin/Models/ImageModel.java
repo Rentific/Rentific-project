@@ -1,6 +1,8 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,28 @@ public class ImageModel {
     }
 
     public ImageModel(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
+
+    public ImageModel(String name, String type, byte[] picByte, RealEstate realEstate) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+        this.realEstate = realEstate;
+    }
+
+    public ImageModel(Long imageId, String name, String type, byte[] picByte, RealEstate realEstate) {
+        this.imageId = imageId;
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+        this.realEstate = realEstate;
+    }
+
+    public ImageModel(Long imageId, String name, String type, byte[] picByte) {
+        this.imageId = imageId;
         this.name = name;
         this.type = type;
         this.picByte = picByte;
@@ -31,9 +55,10 @@ public class ImageModel {
     @Lob
     private byte[] picByte;
 
-   /* @OneToOne(mappedBy = "imageModel")
-    @PrimaryKeyJoinColumn
-    private RealEstate realEstate;*/
+    @JsonBackReference(value="name")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "realEstateId")
+    private RealEstate realEstate;
 
     public Long getId() {
         return imageId;
@@ -43,13 +68,13 @@ public class ImageModel {
         this.imageId = id;
     }
 
-   /* public RealEstate getRealEstate() {
+    public RealEstate getRealEstate() {
         return realEstate;
     }
 
     public void setRealEstate(RealEstate realEstate) {
         this.realEstate = realEstate;
-    }*/
+    }
 
     public String getName() {
         return name;

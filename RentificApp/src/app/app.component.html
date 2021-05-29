@@ -1,13 +1,13 @@
-
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
     <div mat-card-avatar class="logo"></div>
     <a class="navbar-brand" routerLink="">Rentific</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
+      aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarColor03">
-      <ul class="navbar-nav me-auto">          
+      <ul class="navbar-nav me-auto">
         <li class="nav-item">
           <a class="nav-link" routerLink="/login" *ngIf="!isLoggedInProperty">Login</a>
         </li>
@@ -17,18 +17,14 @@
         <li class="nav-item">
           <a class="nav-link" routerLink="/viewprofile" *ngIf="isLoggedInProperty">Profil</a>
         </li>
-        <li class="nav-item">  
-          <button class="btn btn-dark" (click)= "logout()" *ngIf="isLoggedInProperty">Logout</button>  
-        </li>  
-      </ul>        
-    </div>    
+        <li class="nav-item">
+          <button class="btn btn-dark" (click)="logout()" *ngIf="isLoggedInProperty">Logout</button>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
-<div class="container">
-  <alert></alert>
-  <router-outlet></router-outlet>
-</div>
-      
-              
-
-
+  <div class="content">
+    <alert></alert>
+    <router-outlet></router-outlet>
+  </div>

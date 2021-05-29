@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RealEstate } from '../_models/real-estate';
+import { StateEnum } from '../_models/stateEnum';
 import { AlertService, AuthenticationService } from '../_services';
 import { RealEstateService } from '../_services/real-estate.service';
 
@@ -48,21 +49,25 @@ export class AddNewRealEstateComponent implements OnInit {
   }
 
   addNewRealEstate(){
-    this.realEstate = new RealEstate( 0,
+    this.realEstate = new RealEstate(
       this.form.name.value,
       this.form.price.value,
       this.form.address.value,
       this.form.country.value,
       this.form.city.value,
-      this.form.description.value);
-      this.realEstateService.addNewRealEstate(this.realEstate, this.uploadImageData)
-      .subscribe((response) => {
-        if (response.status === 200) {
-          console.log('Image uploaded successfully');
-        } else {
-          console.log('Image not uploaded successfully');
-        }
-       } );
+      this.form.description.value,
+      false,
+      1,
+      StateEnum.Namjesten, null);
+      this.realEstateService.addNewRealEstate(this.realEstate, this.uploadImageData);
+      this.addingForm.reset();
+      // .subscribe((response) => {
+      //   if (response.status === 200) {
+      //     console.log('Image uploaded successfully');
+      //   } else {
+      //     console.log('Image not uploaded successfully');
+      //   }
+      //  } );
   }
 
   get form() { return this.addingForm.controls; }
@@ -88,7 +93,7 @@ export class AddNewRealEstateComponent implements OnInit {
     
   
     //Make a call to the Spring Boot Application to save the image
-    this.httpClient.post('http://localhost:8080/image/upload', this.uploadImageData, { observe: 'response' })
+    this.httpClient.post('http://localhost:8762/real-estate/real-estate/image/upload', this.uploadImageData, { observe: 'response' })
       .subscribe((response) => {
         if (response.status === 200) {
           this.message = 'Image uploaded successfully';
@@ -104,7 +109,7 @@ export class AddNewRealEstateComponent implements OnInit {
     //Gets called when the user clicks on retieve image button to get the image from back end
     getImage() {
     //Make a call to Sprinf Boot to get the Image Bytes.
-    this.httpClient.get('http://localhost:8080/image/get/' + this.imageName)
+    this.httpClient.get('http://localhost:8762/real-estate/real-estate/image/get/' + this.imageName)
       .subscribe(
         res => {
           this.retrieveResonse = res;

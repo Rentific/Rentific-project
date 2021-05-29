@@ -2,6 +2,7 @@ package com.example.adminservice.adminservice.Admin.Models;
 
 import com.example.adminservice.adminservice.Admin.Enums.StateEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -42,11 +43,10 @@ public class RealEstate {
     @Column(nullable = false)
     private Boolean isReservated;
 
-
-    /*@JsonBackReference(value="name")
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "staffId")
-    private StaffUser staff;*/
+    @JsonManagedReference(value = "name")
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
+    private List<ImageModel> imageModel;
 
     @NotNull(message = "Staff cannot be null")
     private Integer staffId;
@@ -56,7 +56,15 @@ public class RealEstate {
     public RealEstate() {
     }
 
-    /*public RealEstate(RealEstate realEstate, ImageModel imageModel) {
+    public List<ImageModel> getImageModel() {
+        return imageModel;
+    }
+
+    public void setImageModel(List<ImageModel> imageModel) {
+        this.imageModel = imageModel;
+    }
+
+    public RealEstate(RealEstate realEstate, List<ImageModel> imageModel) {
         this.name = realEstate.name;
         this.price = realEstate.price;
         this.address = realEstate.address;
@@ -66,10 +74,16 @@ public class RealEstate {
         this.isReservated = realEstate.isReservated;
         this.staffId = realEstate.staffId;
         this.state = realEstate.state;
-        //this.imageModel = imageModel;
-    }*/
+        this.imageModel = imageModel;
+    }
 
-    public RealEstate(@NotBlank(message = "Name is mandatory") String name, @Min(value = 0, message = "Price should not be less than 0") Double price, @NotBlank(message = "Address is mandatory") String address, @NotBlank(message = "Country is mandatory") String country, @NotBlank(message = "City is mandatory") String city, @Size(min = 10, max = 300, message = "Description must be between 10 and 300 characters") String description, Boolean isReservated, @NotNull(message = "Staff cannot be null") Integer staffId, StateEnum state) {
+    public RealEstate(@NotBlank(message = "Name is mandatory") String name, @Min(value = 0,
+            message = "Price should not be less than 0") Double price, @NotBlank(message = "Address is mandatory") String address,
+                      @NotBlank(message = "Country is mandatory") String country,
+                      @NotBlank(message = "City is mandatory") String city, @Size(min = 10, max = 300,
+            message = "Description must be between 10 and 300 characters") String description,
+                      Boolean isReservated, List<ImageModel> imageModel,
+                      @NotNull(message = "Staff cannot be null") Integer staffId, StateEnum state) {
         this.name = name;
         this.price = price;
         this.address = address;
@@ -77,10 +91,29 @@ public class RealEstate {
         this.city = city;
         this.description = description;
         this.isReservated = isReservated;
-       // this.imageModel = imageModel;
+        this.imageModel = imageModel;
         this.staffId = staffId;
         this.state = state;
-        this.imageModel = new ImageModel();
+    }
+
+    public RealEstate(Integer realEstateId, @NotBlank(message = "Name is mandatory") String name,
+                      @Min(value = 0, message = "Price should not be less than 0") Double price,
+                      @NotBlank(message = "Address is mandatory") String address,
+                      @NotBlank(message = "Country is mandatory") String country, @NotBlank(message = "City is mandatory") String city,
+                      @Size(min = 10, max = 300, message = "Description must be between 10 and 300 characters") String description,
+                      Boolean isReservated, List<ImageModel> imageModel,
+                      @NotNull(message = "Staff cannot be null") Integer staffId, StateEnum state) {
+        this.realEstateId = realEstateId;
+        this.name = name;
+        this.price = price;
+        this.address = address;
+        this.country = country;
+        this.city = city;
+        this.description = description;
+        this.isReservated = isReservated;
+        this.imageModel = imageModel;
+        this.staffId = staffId;
+        this.state = state;
     }
 
     public Integer getRealEstateId() {

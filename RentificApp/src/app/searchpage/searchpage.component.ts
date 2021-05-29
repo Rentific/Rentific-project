@@ -4,11 +4,13 @@ import { NavigationExtras, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
 import { filter, first, map, take } from 'rxjs/operators';
+import { ImageModel } from '../_models/ImageModel';
 import { RealEstate } from '../_models/real-estate';
 import { RealEstateResponse } from '../_models/real-estate-response';
 import { Role } from '../_models/role';
 import { AlertService, UserService } from '../_services';
 import { SearchService } from '../_services/search.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-searchpage',
@@ -18,50 +20,91 @@ import { SearchService } from '../_services/search.service';
 export class SearchpageComponent implements OnInit {
   realEstateResponse: RealEstateResponse;
   realEstates: RealEstate[];
+  images: ImageModel[] = [];
+  imagesToDisplay: ImageModel[];
   totalPages: string;
   pageSize: string;
   currentPage: string;
   keyword: string;
   isAdmin: Boolean = false;
+  retrievedImage: any;
+  base64Data: any;
+  retrieveResonse: any;
+  mergeTest: Observable<any>;
   public role: Observable<string>;
   constructor(private searchService: SearchService,
-    private alertService: AlertService,    
+    private alertService: AlertService,
     private router: Router,
-    private userService: UserService) {
-      this.role = new Observable<string>();
-    }
+    private userService: UserService, private http: HttpClient) {
+    this.role = new Observable<string>();
+  }
 
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.saveCurrentUserRole();
     this.isAdmin = localStorage.getItem("role") == "admin";
   }
-  addNewRealEstate(){
+  addNewRealEstate() {
     this.router.navigate(['/add-real-estate']);
   }
 
   saveCurrentUserRole() {
     this.userService.getUserRole(localStorage.getItem("email")).
-        subscribe(data => localStorage.setItem('role', data.name));       
+      subscribe(data => localStorage.setItem('role', data.name));
   }
 
+  onSearched(search_query: string) {
+    // this.searchService.searchRealEstates(search_query)
+    //   .pipe(mergeMap(res => {
+    //     this.realEstateResponse = res;
+    //     this.realEstates = res.realEstateList;
+    //     this.pageSize = res.totalItems.toString();
+    //     this.totalPages = res.totalPages.toString();
+    //     this.currentPage = res.currentPage.toString();
+    //     this.realEstates.forEach(x => {
+    //       x.imageModel.forEach(y => {
+    //         this.http.get(`http://localhost:8762/real-estate/real-estate/get/${y.id}`)
+    //           .subscribe(image => {
+    //             this.retrieveResonse = image;
+    //             this.base64Data = this.retrieveResonse.picByte;
+    //             this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+    //             this.images.push(this.retrievedImage);
+    //           });
+    //       });
+    //       x.imageModel = this.images;
+    //       this.images = [];
+    //     });
 
-    onSearched(search_query: string) {      
-      this.searchService.searchRealEstates(search_query)
-        .subscribe(data => {
-          this.realEstateResponse = data;
-          this.realEstates = data.realEstateList;
-          this.pageSize = data.totalItems.toString();
-          this.totalPages = data.totalPages.toString();
-          this.currentPage = data.currentPage.toString();
+    //   }));
+
+    this.searchService.searchRealEstates(search_query)
+      .subscribe(data => {
+        this.realEstateResponse = data;
+        this.realEstates = data.realEstateList;
+        this.pageSize = data.totalItems.toString();
+        this.totalPages = data.totalPages.toString();
+        this.currentPage = data.currentPage.toString();
+        this.realEstates.forEach(x => {
+          x.imageModel.forEach(y => {
+            this.retrieveResonse = y;
+            this.base64Data = this.retrieveResonse.picByte;
+            this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+            this.images.push(this.retrievedImage);
+          });
+          x.imageModel = this.images;
+          this.images = [];
         });
-    }
+      });
+
+   
+    console.log(this.realEstates);
+  }
 
   goToRealEstateDetails(realEstate: RealEstate) {
-    this.router.navigate(['/real-estate-details', JSON.stringify(realEstate)]); 
+    this.router.navigate(['/real-estate-details', JSON.stringify(realEstate)]);
   }
-     
 
-  }
-  
-    
+
+}
+
+
 

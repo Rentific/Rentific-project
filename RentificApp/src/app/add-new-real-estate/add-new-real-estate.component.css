@@ -1,11 +1,8 @@
 .add-button{
-    background-color:green; 
-    color:white; 
     float: right;
     margin: 0 10px;
 }
 .cancel-button{
-    background-color:blue; 
     color:white;
     margin-left: 10px !important;
 }
@@ -19,4 +16,22 @@
 }
 .popup-title{
     margin: auto;
+}
+
+.add-image {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.bg { 
+    /* The image used */
+    background-image: url("/assets/image.jpg");
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: auto;
+    width: 100%;
 }

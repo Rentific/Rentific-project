@@ -21,9 +21,11 @@ import org.springframework.web.client.RestTemplate;
 import com.example.adminservice.adminservice.Admin.Models.Response;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -109,7 +111,8 @@ public class RealEstateController {
     @RequestMapping("/")
     ResponseEntity<Response> searchAllRealEstates(@Param("keyword") String keyword,
                                                                 @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-                                                                @RequestParam(defaultValue = "price,asc") String[] sort) throws InvalidRequestException, RealEstateNotFoundException
+                                                                @RequestParam(defaultValue = "price,asc") String[] sort)
+            throws InvalidRequestException, RealEstateNotFoundException, IOException
     {
         try {
             List<Order> orders = getOrders(sort);
@@ -154,8 +157,26 @@ public class RealEstateController {
 
             //Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
             //return new ResponseEntity<>(response2, HttpStatus.OK);
+            List<ImageModel> compressedImages = new ArrayList<ImageModel>();
+            List<RealEstate> finalRealEstates = new ArrayList<RealEstate>(pageRealEstates.getContent());
 
-            return new ResponseEntity<Response>(new Response(pageRealEstates.getContent(), pageRealEstates.getNumber(),
+
+            finalRealEstates.replaceAll(realEstate -> {
+                realEstate.getImageModel().replaceAll(imageModel -> {
+                    try {
+                        ImageModel compressedImage = getImage(imageModel.getId());
+                        compressedImages.add(compressedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return imageModel;
+                });
+                realEstate.setImageModel(compressedImages);
+                compressedImages.clear();
+                return realEstate;
+            });
+
+            return new ResponseEntity<Response>(new Response(finalRealEstates, pageRealEstates.getNumber(),
                     pageRealEstates.getSize(), pageRealEstates.getTotalPages(), pageRealEstates.getNumberOfElements()), HttpStatus.OK);
 
        } catch (Exception e) {
@@ -170,14 +191,9 @@ public class RealEstateController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity.BodyBuilder addNewRealEstate (@RequestParam RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
-        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
-                compressZLib(file.getBytes()));
-        imageRepository.save(img);
-        RealEstate realEstateToSave = new RealEstate(realEstate, img);
-        sender.send(realEstateToSave);
-        return ResponseEntity.status(HttpStatus.OK);
-        //return _realEstateService.saveRealEstate(realEstate);
+    RealEstate addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+        return sender.send(realEstate);
+       /*_realEstateService.saveRealEstate(realEstate);*/
     }
 
     // @PostMapping(path="/add")
@@ -202,21 +218,22 @@ public class RealEstateController {
     @Autowired
     ImageRepository imageRepository;
 
-    @PostMapping("/image/upload")
-    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+    @PostMapping("/image/upload/{realEstateId}")
+    public ResponseEntity<ImageModel> uploadImage(@PathVariable(value = "realEstateId") Integer id, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
 
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        ResponseEntity<RealEstate> realEstate = _realEstateService.findRealEstateById(id);
         ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
-                compressZLib(file.getBytes()));
-        imageRepository.save(img);
-        return ResponseEntity.status(HttpStatus.OK);
+                compressZLib(file.getBytes()), realEstate.getBody());
+        ImageModel imageModel = imageRepository.save(img);
+        return new ResponseEntity(img, HttpStatus.OK);
     }
 
-    @GetMapping(path = { "/get/{imageName}" })
-    public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
+    @GetMapping(path = { "/get/{imageId}" })
+    public ImageModel getImage(@PathVariable("imageId") Long imageId) throws IOException {
 
-        final Optional<ImageModel> retrievedImage = imageRepository.findByName(imageName);
-        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+        final Optional<ImageModel> retrievedImage = imageRepository.findById(imageId);
+        ImageModel img = new ImageModel(retrievedImage.get().getId(), retrievedImage.get().getName(), retrievedImage.get().getType(),
                 decompressZLib(retrievedImage.get().getPicByte()));
         return img;
     }
