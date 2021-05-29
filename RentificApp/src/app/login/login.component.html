@@ -1,24 +1,32 @@
-<h2>Prijava</h2>
-<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
-        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-            <div *ngIf="f.email.errors.required">Email je obavezan</div>
+
+<mat-card pt-5>
+    <mat-card-title>Prijava &nbsp;</mat-card-title>
+    &nbsp;
+    <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email je obavezan</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="password">Lozinka</label>
-        <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-            <div *ngIf="f.password.errors.required">Lozinka je obavezna</div>
+        <div class="form-group">
+            <label for="password">Lozinka</label>
+            <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Lozinka je obavezna</div>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <button [disabled]="loading" class="btn btn-primary">
-            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-            Prijava
-        </button>
-        <a routerLink="/register" class="btn btn-link">Registracija</a>
-    </div>
-</form>
+        <div class="form-group" id="btns">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Prijava
+            </button>
+            <a routerLink="/registracija" class="btn btn-link">Registracija</a>
+        </div>
+        <br> <br>
+    </form>
+    </mat-card-content>
+
+</mat-card>
