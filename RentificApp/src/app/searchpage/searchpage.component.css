@@ -1,5 +1,6 @@
 .add-new{
   width: 250px;
+  margin-left: 20px;
 }
 
 .background-photo {
@@ -12,6 +13,8 @@
   align-items: center;
   min-width: 33%;
   max-width: 33%;
+  min-height: 40%;
+  max-height: 40%;
 }
 
 .card-results {
@@ -20,11 +23,16 @@
 
 .example-card {
   max-width: 400px;
+  height: 500px;
 }
 
 .example-header-image {
   background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
+}
+
+.image {
+  height: 50%;
 }
 
 .no-results-desc {

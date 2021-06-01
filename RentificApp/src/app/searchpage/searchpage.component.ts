@@ -23,9 +23,9 @@ export class SearchpageComponent implements OnInit {
   realEstates: RealEstate[];
   images: ImageModel[] = [];
   imagesToDisplay: ImageModel[];
-  totalPages: string;
-  pageSize: string;
-  currentPage: string;
+  totalPages: number;
+  pageSize: number = 10;
+  currentPage: number = 1;
   keyword: string;
   isAdmin: Boolean = false;
   retrievedImage: any;
@@ -51,9 +51,10 @@ export class SearchpageComponent implements OnInit {
         localStorage.setItem('role', user.role.name);
         console.log(localStorage.getItem('userId'));
         console.log(localStorage.getItem('role'));
+        this.isAdmin = localStorage.getItem('role').toLowerCase() == "admin";
       });
   }
-  
+
   addNewRealEstate() {
     this.router.navigate(['/add-real-estate']);
   }
@@ -91,9 +92,9 @@ export class SearchpageComponent implements OnInit {
       .subscribe(data => {
         this.realEstateResponse = data;
         this.realEstates = data.realEstateList;
-        this.pageSize = data.totalItems.toString();
-        this.totalPages = data.totalPages.toString();
-        this.currentPage = data.currentPage.toString();
+        this.pageSize = data.totalItems;
+        this.totalPages = data.totalPages;
+        this.currentPage = data.currentPage;
         this.realEstates.forEach(x => {
           x.imageModel.forEach(y => {
             this.retrieveResonse = y;
@@ -114,7 +115,13 @@ export class SearchpageComponent implements OnInit {
     this.router.navigate(['/real-estate-details', JSON.stringify(realEstate)]);
   }
 
-
+  // onChangePage(search_query: string = '') {
+  //   // update current page of items
+  //   return this.http.get<RealEstateResponse>(`http://localhost:8762/real-estate/real-estate/?size=${this.pageSize}&page=${this.currentPage}&keyword=${search_query}`)
+  //   .pipe(
+  //     map(res => res)
+  //   );
+  // }
 }
 
 

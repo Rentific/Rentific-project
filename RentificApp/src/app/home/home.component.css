@@ -7,9 +7,18 @@
 .picsum-img-wrapper {
   height: auto;
   width: auto;
-  background-color: #c7dcd4 
 }
 
 .blockquote {
   margin-top: 20px;
+}
+
+.images {
+  width: min-content;
+  text-align: center;
+}
+
+.images-row {
+  display: flex;
+  justify-content: center;
 }

@@ -157,23 +157,21 @@ public class RealEstateController {
 
             //Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
             //return new ResponseEntity<>(response2, HttpStatus.OK);
-            List<ImageModel> compressedImages = new ArrayList<ImageModel>();
-            List<RealEstate> finalRealEstates = new ArrayList<RealEstate>(pageRealEstates.getContent());
+
+            List<RealEstate> finalRealEstates = new ArrayList<RealEstate>();
 
 
-            finalRealEstates.replaceAll(realEstate -> {
-                realEstate.getImageModel().replaceAll(imageModel -> {
+            pageRealEstates.getContent().forEach(realEstate -> {
+                List<ImageModel> compressedImages = new ArrayList<ImageModel>();
+                realEstate.getImageModel().forEach(imageModel -> {
                     try {
                         ImageModel compressedImage = getImage(imageModel.getId());
                         compressedImages.add(compressedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    return imageModel;
                 });
-                realEstate.setImageModel(compressedImages);
-                compressedImages.clear();
-                return realEstate;
+                finalRealEstates.add(new RealEstate(realEstate, compressedImages));
             });
 
             return new ResponseEntity<Response>(new Response(finalRealEstates, pageRealEstates.getNumber(),
@@ -227,6 +225,16 @@ public class RealEstateController {
                 compressZLib(file.getBytes()), realEstate.getBody());
         ImageModel imageModel = imageRepository.save(img);
         return new ResponseEntity(img, HttpStatus.OK);
+    }
+
+    @PutMapping("/image/update/{realEstateId}")
+    ResponseEntity<ImageModel> updateUser(@PathVariable(value = "realEstateId") Integer realEstateId, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+        ResponseEntity<RealEstate> realEstate = _realEstateService.findRealEstateById(realEstateId);
+        Optional<ImageModel> imageToUpdate = imageRepository.findByRealEstate(realEstate.getBody());
+        ImageModel img = new ImageModel(imageToUpdate.get().getId(), file.getOriginalFilename(), file.getContentType(),
+                compressZLib(file.getBytes()), imageToUpdate.get().getRealEstate());
+        imageRepository.save(img);
+        return new ResponseEntity(imageToUpdate, HttpStatus.OK);
     }
 
     @GetMapping(path = { "/get/{imageId}" })

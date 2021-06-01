@@ -1,16 +1,8 @@
 <div class="search">
   <input type="text" class="form-control search-field" placeholder="Pretražite nekretnine..." #keyword>
-  <button type="button" class="btn btn-info" (click)="onSearched(keyword.value)">Pretraži</button>
-
-  <button type="button" class="btn btn-info add-new" (click)="addNewRealEstate()">Dodaj novu nekretninu</button>
+  <button type="button" class="btn btn-success" (click)="onSearched(keyword.value)">Pretraži</button>
+  <button type="button" class="btn btn-success add-new" (click)="addNewRealEstate()" *ngIf="isAdmin">Dodaj novu nekretninu</button>
 </div>
-
-<!-- <div style="display: flex; justify-content: center; padding-bottom: 20px;" *ngIf=isAdmin>
-  <button type="button" class="btn btn-info">Obriši nekretninu</button>
-</div>
-<div style="display: flex; justify-content: center; padding-bottom: 20px;" *ngIf=isAdmin>
-  <button type="button" class="btn btn-info">Ažuriraj detalje nekretninu</button>
-</div> -->
 
 <div class="container no-results" *ngIf="realEstates == null">
   <img mat-card-image class="background-photo" src="/assets/home3.jpg" alt="Photo of a Shiba Inu">
@@ -33,7 +25,7 @@
           <mat-card-title>{{ item.name }}</mat-card-title>
           <mat-card-subtitle>{{ item.address }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image src={{item.imageModel[0]}} alt="Slika">
+        <img mat-card-image src={{item.imageModel[0]}} alt="Slika" class="image">
         <mat-card-content>
           <p>
             {{ item.description }}
@@ -51,3 +43,7 @@
               [pageSize]=pageSize
               [pageSizeOptions]="[5, 10, 25, 100]">
 </mat-paginator>
+
+<!-- <div class="card-footer pb-0 pt-3">
+  <jw-pagination [items]="realEstates" (changePage)="onChangePage($event)"></jw-pagination>
+</div> -->

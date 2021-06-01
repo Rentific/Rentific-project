@@ -20,13 +20,28 @@ export class RealEstateService {
     this.baseUrl = 'http://localhost:8762/real-estate/real-estate';
   }
 
-  addNewRealEstate(realEstate: RealEstate, imageFile: FormData)  {
-     this.http.post<RealEstate>(this.baseUrl + '/add', realEstate)
+  addNewRealEstate(realEstate: RealEstate, imageFile: FormData) {
+    this.http.post<RealEstate>(this.baseUrl + '/add', realEstate)
       .subscribe((response) => {
         this.http.post(this.baseUrl + '/image/upload/' + `${response.realEstateId}`, imageFile, { observe: 'response' })
-        .subscribe((res2) => {
-          console.log(res2);
-        });
+          .subscribe((res2) => {
+            console.log(res2);
+          });
+      });
+  }
+
+  deleteRealEstate(realEstate: RealEstate) {
+    this.http.delete(this.baseUrl + `/delete/${realEstate.realEstateId}`);
+  }
+
+  updateRealEstate(realEstate: RealEstate, imageFile: FormData) {
+    this.http.put<RealEstate>(this.baseUrl + `/update/${realEstate.realEstateId}`, realEstate, { observe: 'response' })
+      .subscribe((res2) => {
+        console.log(res2);
+      });
+    this.http.put<ImageModel>(this.baseUrl + `/image/update/${realEstate.realEstateId}`, imageFile, { observe: 'response' })
+      .subscribe((res2) => {
+        console.log(res2);
       });
   }
 }

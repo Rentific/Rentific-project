@@ -56,7 +56,7 @@ public class ImageModel {
     private byte[] picByte;
 
     @JsonBackReference(value="name")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "realEstateId")
     private RealEstate realEstate;
 

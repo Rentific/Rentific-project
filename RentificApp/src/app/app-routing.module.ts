@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-estate.component';
 import { AppComponent } from './app.component';
+import { EditRealEstateComponent } from './edit-real-estate/edit-real-estate.component';
 import { HomeComponent } from './home/home.component';
 
 import { LoginComponent } from './login/login.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
     { path: 'registracija', component: RegisterComponent },
     { path: 'search', component: SearchpageComponent },
     { path: 'real-estate-details/:realEstate', component: RealEstateDetailsComponent },
+    { path: 'edit-real-estate-details/:realEstate', component: EditRealEstateComponent },
     { path: 'viewprofile', component: UserprofileComponent },
     { path: 'editprofile', component: UserprofileeditComponent },
     { path: '**', redirectTo: '' }

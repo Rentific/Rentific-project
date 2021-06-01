@@ -1,9 +1,7 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
 import com.example.adminservice.adminservice.Admin.Enums.StateEnum;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -11,9 +9,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 public class RealEstate {
@@ -45,7 +41,7 @@ public class RealEstate {
 
     @JsonManagedReference(value = "name")
     @JsonIgnore
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "realEstate")
     private List<ImageModel> imageModel;
 
     @NotNull(message = "Staff cannot be null")
@@ -65,6 +61,7 @@ public class RealEstate {
     }
 
     public RealEstate(RealEstate realEstate, List<ImageModel> imageModel) {
+        this.realEstateId = realEstate.realEstateId;
         this.name = realEstate.name;
         this.price = realEstate.price;
         this.address = realEstate.address;

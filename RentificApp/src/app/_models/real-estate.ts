@@ -14,9 +14,9 @@ export class RealEstate {
     state: StateEnum;
     imageModel: ImageModel[];
 
-  constructor(name: string, price: number, address: string, country: string, city: string, description: string, isReservated = false, staffId = 0, state = StateEnum.Namjesten,
+  constructor(realEstateId: number, name: string, price: number, address: string, country: string, city: string, description: string, isReservated = false, staffId = 0, state = StateEnum.Namjesten,
     images: ImageModel[]) {
-    //this.realEstateId = realEstateId;
+    this.realEstateId = realEstateId;
     this.name = name;
     this.price = price;
     this.address = address;
