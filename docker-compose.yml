@@ -1,0 +1,87 @@
+version: "3"
+services:
+  discovery:
+    container_name: eureka-docker
+    image: eureka-docker
+    restart: always
+    build:
+      context: ./eureka-server
+      dockerfile: Dockerfile
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    networks:
+      - rentific
+  authentication-service:
+    image: authentication-docker
+    container_name: authentication-docker
+    build:
+      context: ./authentication-service
+      dockerfile: Dockerfile
+    expose:
+      - 8090
+    ports:
+      - 8090:8090
+    restart: on-failure
+    links:
+      - discovery:eureka-docker
+    depends_on:
+      - discovery
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+    networks:
+      - rentific
+  api-gateway:
+    image: gateway-docker
+    container_name: gateway-docker
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    expose:
+      - 8762
+    ports:
+      - 8762:8762
+    restart: on-failure
+    links:
+      - discovery:eureka-docker
+    depends_on:
+      - discovery
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+    networks:
+      - rentific
+  #mysql konekcije
+  mysql:
+    image: mysql:8.0.2
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_USER: root
+      MYSQL_DATABASE: db_user
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    networks:
+      - rentific
+  userservice:
+    image: user-docker
+    container_name: user-docker
+    build:
+      context: ./userservice
+      dockerfile: Dockerfile
+    expose:
+      - 8082
+    ports:
+      - 8082:8082
+    networks:
+      - rentific
+    restart: on-failure
+    links:
+      - discovery:eureka-docker
+      - mysql:mysql
+    depends_on:
+      - mysql
+      - discovery
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+networks:
+  rentific:
+    driver: bridge
