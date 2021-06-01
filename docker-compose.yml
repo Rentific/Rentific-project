@@ -13,6 +13,7 @@ services:
       - 8761:8761
     networks:
       - rentific
+
   authentication-service:
     image: authentication-docker
     container_name: authentication-docker
@@ -32,6 +33,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
     networks:
       - rentific
+
   api-gateway:
     image: gateway-docker
     container_name: gateway-docker
@@ -56,7 +58,7 @@ services:
     image: mysql:8.0.2
     container_name: mysql
     environment:
-      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_USER: sejla
       MYSQL_DATABASE: db_user
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     networks:
@@ -81,6 +83,7 @@ services:
       - mysql
       - discovery
     environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql:3306/db_user'
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
 networks:
   rentific:
