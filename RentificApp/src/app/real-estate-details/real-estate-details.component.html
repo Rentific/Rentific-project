@@ -1,12 +1,20 @@
-<button type="button" title="Kliknite na fotografiju da je otvorite!" 
-class="btn btn-primary tooltip-test" (click)="openModal('https://i.picsum.photos/id/459/200/300.jpg?hmac=4Cn5sZqOdpuzOwSTs65XA75xvN-quC4t9rfYYyoTCEI')">Large modal</button>
+<mat-card class="example-card">
+    <mat-card-header>
+        <div class="mat-card-header-text popup-title">
+            <mat-card-title>Pregled detalja nekretnine</mat-card-title>
+        </div>
+    </mat-card-header>
 
-<div class="main-desc">
-    <h2>Naziv nekretnine: {{ realEstate2.name }}</h2>
-
-    <div class="card border-secondary mb-3" style="padding-bottom: 20px;">
-        <div class="card-header">Informacije o nekretnini</div>
-        <div class="card-body detail-piece" style="margin-top: 20px;"> 
+    <mat-card-content class="content-style">
+        <span layout="row">
+            <hr flex />
+            <label class="center-text">Informacije o nekretnini</label>
+            <hr flex />
+        </span>
+        <div class="card-body detail-piece" style="margin-top: 20px; margin-bottom: 0;">
+            <h2>Naziv nekretnine: {{ realEstate2.name }}</h2>
+        </div>
+        <div class="card-body detail-piece">
             <h4>Cijena nekretnine: </h4>
             <p class="card-text card-desc"> {{ realEstate2.price }} KM</p>
         </div>
@@ -18,9 +26,9 @@ class="btn btn-primary tooltip-test" (click)="openModal('https://i.picsum.photos
             <h4 class="card-title">Grad i država: </h4>
             <p class="card-text card-desc"> {{ realEstate2.city }}, {{ realEstate2.country }}</p>
         </div>
-        <div class="card-body detail-piece">
+        <div class="card-body detail-piece" style="display: flex; flex-direction: column;">
             <h4 class="card-title">Opis nekretnine: </h4>
-            <p class="card-text card-desc"> {{ realEstate2.description }} KM</p>
+            <p class="card-text" style="padding-bottom: 10px;"> {{ realEstate2.description }}</p>
         </div>
         <div class="card-body detail-piece">
             <h4 class="card-title">Stanje nekretnine: </h4>
@@ -31,29 +39,24 @@ class="btn btn-primary tooltip-test" (click)="openModal('https://i.picsum.photos
             <div class="images-row">
                 <div class="card-images">
                     <ngb-carousel>
-                        <ng-template ngbSlide>
-                            <div class="picsum-img-wrapper">
-                                <img src="/assets/home1.jpg" alt="Random first slide" (click)="openModal('https://i.picsum.photos/id/459/200/300.jpg?hmac=4Cn5sZqOdpuzOwSTs65XA75xvN-quC4t9rfYYyoTCEI')" >
-                            </div>
-                        </ng-template>
-                        <ng-template ngbSlide>
-                            <div class="picsum-img-wrapper">
-                                <img src="/assets/home2.jpg" alt="Random second slide">
-                            </div>
-                        </ng-template>
-                        <ng-template ngbSlide>
-                            <div class="picsum-img-wrapper">
-                                <img src="/assets/home3.jpg" alt="Random third slide">
+                        <ng-template ngbSlide *ngFor="let image of realEstate2.imageModel">
+                            <div class="picsum-img-wrapper">                                
+                                <img src={{image}} alt="Image" title="Kliknite na fotografiju da je otvorite!"  class="tooltip-test image" (click)="openModal(image)">
                             </div>
                         </ng-template>
                     </ngb-carousel>
-                </div>     
-            </div>      
+                </div>
+            </div>
         </div>
-    </div>
+    </mat-card-content>
 
-    <div style="display: flex; justify-content: center; padding-bottom: 20px;">
-    <button type="button" class="btn btn-info">Rezerviši nekretninu</button>
-    </div>
-</div>
-
+    <mat-card-actions class="buttons">
+        <button type="button" class="btn btn-success">Rezerviši nekretninu</button>
+        <div style="margin-left: 20px;" *ngIf=isAdmin>
+            <button type="button" class="btn btn-success" (click)="deleteRealEstate()">Obriši nekretninu</button>
+        </div>
+        <div style="margin-left: 20px;" *ngIf=isAdmin>
+            <button type="button" class="btn btn-success" (click)="goToEditRealEstateDetails()">Ažuriraj detalje nekretnine</button>
+        </div>
+    </mat-card-actions>
+</mat-card>

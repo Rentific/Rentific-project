@@ -23,6 +23,10 @@ h2, h4 {
     padding-bottom: 5px;    
 }
 
+.content-style {
+    height: min-content;
+}
+
 .detail-piece {
     display: flex;
     padding-top: 0;
@@ -34,21 +38,33 @@ h2, h4 {
     justify-content: center;
 }
 
-.modal-dialog {
-    width: 100vw;
-}
-
-.modal-content {
-    width: 70vw;
-}
-
-.modal-body {
-    display: flex;
-    justify-content: center;
-}
-
 .picsum-img-wrapper {
     width: auto;
     height: auto;   
  }
+
+ .image {
+     max-width: 700px;
+ }
   
+ .center-text{
+    display: block;
+    text-align: center;
+}
+.example-card {
+    max-width: 55%;
+    margin: auto;
+}
+.popup-title{
+    margin: auto;
+}
+
+.add-image {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+}

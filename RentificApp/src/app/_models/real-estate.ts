@@ -1,3 +1,4 @@
+import { ImageModel } from "./ImageModel";
 import { StateEnum } from "./stateEnum";
 
 export class RealEstate {
@@ -11,8 +12,10 @@ export class RealEstate {
     isReservated: boolean;
     staffId: number;
     state: StateEnum;
+    imageModel: ImageModel[];
 
-  constructor(realEstateId: number, name: string, price: number, address: string, country: string, city: string, description: string, isReservated = false, staffId = 0, state = StateEnum.Namjesten) {
+  constructor(realEstateId: number, name: string, price: number, address: string, country: string, city: string, description: string, isReservated = false, staffId = 0, state = StateEnum.Namjesten,
+    images: ImageModel[]) {
     this.realEstateId = realEstateId;
     this.name = name;
     this.price = price;
@@ -23,5 +26,6 @@ export class RealEstate {
     this.isReservated = isReservated;
     this.staffId = staffId;
     this.state = state;
+    this.imageModel = images;
   }
 }

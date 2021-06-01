@@ -1,6 +1,8 @@
 package com.example.adminservice.adminservice.Admin.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,28 @@ public class ImageModel {
     }
 
     public ImageModel(String name, String type, byte[] picByte) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+    }
+
+    public ImageModel(String name, String type, byte[] picByte, RealEstate realEstate) {
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+        this.realEstate = realEstate;
+    }
+
+    public ImageModel(Long imageId, String name, String type, byte[] picByte, RealEstate realEstate) {
+        this.imageId = imageId;
+        this.name = name;
+        this.type = type;
+        this.picByte = picByte;
+        this.realEstate = realEstate;
+    }
+
+    public ImageModel(Long imageId, String name, String type, byte[] picByte) {
+        this.imageId = imageId;
         this.name = name;
         this.type = type;
         this.picByte = picByte;
@@ -31,8 +55,9 @@ public class ImageModel {
     @Lob
     private byte[] picByte;
 
-    @OneToOne(mappedBy = "imageModel")
-    @PrimaryKeyJoinColumn
+    @JsonBackReference(value="name")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "realEstateId")
     private RealEstate realEstate;
 
     public Long getId() {

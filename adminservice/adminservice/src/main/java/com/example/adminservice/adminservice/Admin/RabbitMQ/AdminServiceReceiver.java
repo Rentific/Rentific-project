@@ -33,7 +33,9 @@ public class AdminServiceReceiver {
             if (status.equals("Ok")) {
                 Optional<RealEstate> realEstate = realEstateRepository.findById(realEstateId);
                 realEstateRepository.deleteById(realEstateId);
-                imageRepository.deleteById(realEstate.get().getImageModel().getId());
+                realEstate.get().getImageModel().forEach(imageModel -> {
+                    imageRepository.deleteById(imageModel.getId());
+                });
                 messagingTemplate.convertAndSend("/topic/notification", "Success. Real estate is deleted.");
             }
         } catch (Exception e) {

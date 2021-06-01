@@ -31,18 +31,18 @@ public class AdminServiceSender {
     private ImageRepository imageRepository;
 
 
-    public void send(RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
+    public RealEstate send(RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException {
         try{
             var savedRealEstate = realEstateService.saveRealEstate(realEstate).getBody();
             var reservedRealEstate = new ReservedRealEstate(0,savedRealEstate.getRealEstateId(), savedRealEstate.getStaffId(), savedRealEstate.getIsReservated());
             String realEstateJson=objectMapper.writeValueAsString(reservedRealEstate);
             rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, realEstateJson);
             System.out.println("Sent message with status: Ok " + realEstateJson);
-
+            return savedRealEstate;
         }
         catch(InvalidRequestException ex){
             realEstateService.deleteRealEstate(realEstate.getRealEstateId());
-            imageRepository.deleteById(realEstate.getImageModel().getId());
+            //imageRepository.deleteById(realEstate.getImageModel().getId());
             rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error while adding new real estate" + realEstate.getRealEstateId());
             System.out.println("Sent message with status: Error while adding new real estate" + realEstate.getRealEstateId());
         }
@@ -50,6 +50,8 @@ public class AdminServiceSender {
             rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error " + realEstate.getRealEstateId());
             System.out.println("Sent message with status: Error " + realEstate.getRealEstateId());
         }
+
+        return null;
     }
 
     public void send(Integer realEstateId) {

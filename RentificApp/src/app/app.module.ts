@@ -25,6 +25,7 @@ import { FormsModule } from '@angular/forms';
 import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-estate.component';
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { UserprofileeditComponent } from './userprofileedit/userprofileedit.component';
+import { EditRealEstateComponent } from './edit-real-estate/edit-real-estate.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { UserprofileeditComponent } from './userprofileedit/userprofileedit.comp
     ImageModalComponent,
     AddNewRealEstateComponent,
     UserprofileComponent,
-    UserprofileeditComponent
+    UserprofileeditComponent,
+    EditRealEstateComponent
   ],
   imports: [
     BrowserModule,

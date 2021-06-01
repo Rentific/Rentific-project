@@ -21,9 +21,11 @@ import org.springframework.web.client.RestTemplate;
 import com.example.adminservice.adminservice.Admin.Models.Response;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -109,7 +111,8 @@ public class RealEstateController {
     @RequestMapping("/")
     ResponseEntity<Response> searchAllRealEstates(@Param("keyword") String keyword,
                                                                 @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size,
-                                                                @RequestParam(defaultValue = "price,asc") String[] sort) throws InvalidRequestException, RealEstateNotFoundException
+                                                                @RequestParam(defaultValue = "price,asc") String[] sort)
+            throws InvalidRequestException, RealEstateNotFoundException, IOException
     {
         try {
             List<Order> orders = getOrders(sort);
@@ -155,7 +158,23 @@ public class RealEstateController {
             //Map<String, Object> response2 = createResponse(freeRealEstates, pageRealEstates);
             //return new ResponseEntity<>(response2, HttpStatus.OK);
 
-            return new ResponseEntity<Response>(new Response(pageRealEstates.getContent(), pageRealEstates.getNumber(),
+            List<RealEstate> finalRealEstates = new ArrayList<RealEstate>();
+
+
+            pageRealEstates.getContent().forEach(realEstate -> {
+                List<ImageModel> compressedImages = new ArrayList<ImageModel>();
+                realEstate.getImageModel().forEach(imageModel -> {
+                    try {
+                        ImageModel compressedImage = getImage(imageModel.getId());
+                        compressedImages.add(compressedImage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                finalRealEstates.add(new RealEstate(realEstate, compressedImages));
+            });
+
+            return new ResponseEntity<Response>(new Response(finalRealEstates, pageRealEstates.getNumber(),
                     pageRealEstates.getSize(), pageRealEstates.getTotalPages(), pageRealEstates.getNumberOfElements()), HttpStatus.OK);
 
        } catch (Exception e) {
@@ -170,15 +189,17 @@ public class RealEstateController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity.BodyBuilder addNewRealEstate (@RequestParam RealEstate realEstate, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
-        ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
-                compressZLib(file.getBytes()));
-        imageRepository.save(img);
-        RealEstate realEstateToSave = new RealEstate(realEstate, img);
-        sender.send(realEstateToSave);
-        return ResponseEntity.status(HttpStatus.OK);
-        //return _realEstateService.saveRealEstate(realEstate);
+    RealEstate addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+        return sender.send(realEstate);
+       /*_realEstateService.saveRealEstate(realEstate);*/
     }
+
+    // @PostMapping(path="/add")
+    // void addNewRealEstate (@RequestBody RealEstate realEstate) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+
+    //     sender.send(realEstate);
+    //     //return _realEstateService.saveRealEstate(realEstate);
+    // }
 
     @DeleteMapping("delete/{id}")
     void deleteUser(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
@@ -195,21 +216,32 @@ public class RealEstateController {
     @Autowired
     ImageRepository imageRepository;
 
-    @PostMapping("/image/upload")
-    public ResponseEntity.BodyBuilder uploadImage(@RequestParam("imageFile") MultipartFile file) throws IOException {
+    @PostMapping("/image/upload/{realEstateId}")
+    public ResponseEntity<ImageModel> uploadImage(@PathVariable(value = "realEstateId") Integer id, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
 
         System.out.println("Original Image Byte Size - " + file.getBytes().length);
+        ResponseEntity<RealEstate> realEstate = _realEstateService.findRealEstateById(id);
         ImageModel img = new ImageModel(file.getOriginalFilename(), file.getContentType(),
-                compressZLib(file.getBytes()));
-        imageRepository.save(img);
-        return ResponseEntity.status(HttpStatus.OK);
+                compressZLib(file.getBytes()), realEstate.getBody());
+        ImageModel imageModel = imageRepository.save(img);
+        return new ResponseEntity(img, HttpStatus.OK);
     }
 
-    @GetMapping(path = { "/get/{imageName}" })
-    public ImageModel getImage(@PathVariable("imageName") String imageName) throws IOException {
+    @PutMapping("/image/update/{realEstateId}")
+    ResponseEntity<ImageModel> updateUser(@PathVariable(value = "realEstateId") Integer realEstateId, @RequestParam("imageFile") MultipartFile file) throws InvalidRequestException, RealEstateNotFoundException, IOException {
+        ResponseEntity<RealEstate> realEstate = _realEstateService.findRealEstateById(realEstateId);
+        Optional<ImageModel> imageToUpdate = imageRepository.findByRealEstate(realEstate.getBody());
+        ImageModel img = new ImageModel(imageToUpdate.get().getId(), file.getOriginalFilename(), file.getContentType(),
+                compressZLib(file.getBytes()), imageToUpdate.get().getRealEstate());
+        imageRepository.save(img);
+        return new ResponseEntity(imageToUpdate, HttpStatus.OK);
+    }
 
-        final Optional<ImageModel> retrievedImage = imageRepository.findByName(imageName);
-        ImageModel img = new ImageModel(retrievedImage.get().getName(), retrievedImage.get().getType(),
+    @GetMapping(path = { "/get/{imageId}" })
+    public ImageModel getImage(@PathVariable("imageId") Long imageId) throws IOException {
+
+        final Optional<ImageModel> retrievedImage = imageRepository.findById(imageId);
+        ImageModel img = new ImageModel(retrievedImage.get().getId(), retrievedImage.get().getName(), retrievedImage.get().getType(),
                 decompressZLib(retrievedImage.get().getPicByte()));
         return img;
     }

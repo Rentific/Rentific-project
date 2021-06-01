@@ -2,15 +2,15 @@
     <mat-card class="example-card">
         <mat-card-header>
             <div class="mat-card-header-text popup-title">
-                <mat-card-title>Dodavanje nove nekretnine</mat-card-title>
+                <mat-card-title>Ažurirajte detalje nekretnine</mat-card-title>
             </div>
         </mat-card-header>
 
         <mat-card-content>
-            <form [formGroup]="addingForm" (ngSubmit)="addNewRealEstate()">
+            <form [formGroup]="addingForm" >
                 <div class="form-group">
                     <label>Naziv nekretnine: </label>
-                    <input type="text" class="form-control" formControlName="name" />
+                    <input type="text" class="form-control" placeholder="{{realEstate.name}}" formControlName="name" />
                 </div>
                 <span layout="row">
                     <hr flex />
@@ -19,7 +19,7 @@
                 </span>
                 <div class="form-group">
                     <label>Cijena nekretnine (KM): </label>
-                    <input type="number" min="0" class="form-control" formControlName="price" />
+                    <input type="number" min="0" class="form-control" formControlName="price" placeholder="{{realEstate.price}}" />
                 </div>
                 <div class="form-group">
                     <label>Kvadratura: </label>
@@ -28,13 +28,13 @@
                 <div class="form-group">
                     <div ngbDropdown container="body">
                         <label>Adresa: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="address" />
+                        <input class="form-control" ngbDropdownToggle placeholder="{{realEstate.address}}" formControlName="address" />
                     </div>
                 </div>
                 <div class="form-group">
                     <div ngbDropdown container="body">
                         <label>Grad: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="city" />
+                        <input class="form-control" ngbDropdownToggle placeholder="{{realEstate.city}}" formControlName="city" />
                         <div class="form-group" ngbDropdownMenu>
                             <button ngbDropdownItem>Bihac</button>
                             <button ngbDropdownItem>Goradzde</button>
@@ -48,7 +48,7 @@
                 <div class="form-group">
                     <div ngbDropdown container="body">
                         <label>Kanton: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="country" />
+                        <input class="form-control" ngbDropdownToggle placeholder="{{realEstate.country}}" formControlName="country" />
                         <div class="form-group" ngbDropdownMenu>
                             <button ngbDropdownItem>Bosansko-podrinjski kanton</button>
                             <button ngbDropdownItem>Srednjobosanski kanton</button>
@@ -74,14 +74,14 @@
                 </div>
                 <div class="form-group">
                     <label>Dodatni opis nekretnine: </label>
-                    <textarea class="form-control" placeholder="Dodajte opis nekretnine..."
+                    <textarea class="form-control" placeholder="{{realEstate.description}}"
                         formControlName="description"></textarea>
                 </div>
             </form>
 
             <div class="add-image">
                 <label>Dodajte fotografiju</label>
-                <input type="file" (change)="onFileChanged($event)">
+                <input type="file" (change)="onFileChanged($event)"> 
             </div>
         </mat-card-content>
 
@@ -90,10 +90,9 @@
                 Odustani
             </button>
 
-            <button type="button" class="btn btn-success add-button" (click)="addNewRealEstate()">
+            <button type="button" class="btn btn-success add-button" (click)="updateRealEstate()">
                 Dodaj
             </button>
         </mat-card-actions>
     </mat-card>
-</div> 
-
+</div>
