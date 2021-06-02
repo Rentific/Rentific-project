@@ -13,8 +13,11 @@ services:
       - 8761:8761
     networks:
       - rentific
+
   authentication-service:
     image: authentication-docker
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
     container_name: authentication-docker
     build:
       context: ./authentication-service
@@ -28,12 +31,20 @@ services:
       - discovery:eureka-docker
     depends_on:
       - discovery
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+      - userservice
+      - api-gateway
     networks:
       - rentific
+
   api-gateway:
     image: gateway-docker
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
+      SECURITY_OAUTH2_RESOURCE_GETTOKEN: http://authentication-service:8090/oauth/token
+      SECURITY_OAUTH2_RESOURCE_ACCESSTOKENURI: http://authentication-service:8090/oauth/access_token
+      SECURITY_OAUTH2_RESOURCE_TOKEN-INFO-URI: http://authentication-service:8090/oauth/check_token
+      SECURITY_OAUTH2_RESOURCE_USER-INFO-URI: http://authentication-service:8090/user
+      SECURITY_OAUTH2_RESOURCE_USERAUTHORIZATIONURI: http://authentication-service:8090/oauth/authorize
     container_name: gateway-docker
     build:
       context: ./api-gateway
@@ -47,22 +58,40 @@ services:
       - discovery:eureka-docker
     depends_on:
       - discovery
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+      - userservice
     networks:
       - rentific
+
   #mysql konekcije
   mysql:
-    image: mysql:8.0.2
+    image: mysql:8.0.16
     container_name: mysql
+    security_opt:
+      - seccomp:unconfined
     environment:
-      MYSQL_ROOT_USER: root
       MYSQL_DATABASE: db_user
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_USER: root
+      MYSQL_USER: sanida
+      MYSQL_PASSWORD: test123
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_PORT: 3306
+      MYSQL_HOST: 172.18.0.4
+      MYSQL_ROOT_HOST: localhost
+    ports:
+    - 3306:3306
     networks:
       - rentific
+
   userservice:
     image: user-docker
+    environment:
+      DATABASE_HOST: mysql
+      DATABASE_USER: sanida
+      DATABASE_PASSWORD: test123
+      DATABASE_NAME: db_user
+      DATABASE_PORT: 3306
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql:3306/db_user?useSSL=false&allowPublicKeyRetrieval=true'
     container_name: user-docker
     build:
       context: ./userservice
@@ -80,8 +109,8 @@ services:
     depends_on:
       - mysql
       - discovery
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+
+
 networks:
   rentific:
     driver: bridge
