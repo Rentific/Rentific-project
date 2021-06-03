@@ -41,7 +41,7 @@ public class RealEstate {
 
     @JsonManagedReference(value = "name")
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "realEstate")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "realEstate")
     private List<ImageModel> imageModel;
 
     @NotNull(message = "Staff cannot be null")

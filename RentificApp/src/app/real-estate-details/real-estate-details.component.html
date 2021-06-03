@@ -12,34 +12,34 @@
             <hr flex />
         </span>
         <div class="card-body detail-piece" style="margin-top: 20px; margin-bottom: 0;">
-            <h2>Naziv nekretnine: {{ realEstate2.name }}</h2>
+            <h2>Naziv nekretnine: {{ realEstate.name }}</h2>
         </div>
         <div class="card-body detail-piece">
             <h4>Cijena nekretnine: </h4>
-            <p class="card-text card-desc"> {{ realEstate2.price }} KM</p>
+            <p class="card-text card-desc"> {{ realEstate.price }} KM</p>
         </div>
         <div class="card-body detail-piece">
             <h4 class="card-title">Adresa : </h4>
-            <p class="card-text card-desc"> {{ realEstate2.address }}</p>
+            <p class="card-text card-desc"> {{ realEstate.address }}</p>
         </div>
         <div class="card-body detail-piece">
             <h4 class="card-title">Grad i država: </h4>
-            <p class="card-text card-desc"> {{ realEstate2.city }}, {{ realEstate2.country }}</p>
+            <p class="card-text card-desc"> {{ realEstate.city }}, {{ realEstate.country }}</p>
         </div>
         <div class="card-body detail-piece" style="display: flex; flex-direction: column;">
             <h4 class="card-title">Opis nekretnine: </h4>
-            <p class="card-text" style="padding-bottom: 10px;"> {{ realEstate2.description }}</p>
+            <p class="card-text" style="padding-bottom: 10px;"> {{ realEstate.description }}</p>
         </div>
         <div class="card-body detail-piece">
             <h4 class="card-title">Stanje nekretnine: </h4>
-            <p class="card-text card-desc"> {{ realEstate2.state }}</p>
+            <p class="card-text card-desc"> {{ realEstate.state }}</p>
         </div>
         <div class="card-body card-photos-holder">
             <h4 class="card-title">Fotografije nekretnine: </h4>
             <div class="images-row">
                 <div class="card-images">
                     <ngb-carousel>
-                        <ng-template ngbSlide *ngFor="let image of realEstate2.imageModel">
+                        <ng-template ngbSlide *ngFor="let image of realEstate.imageModel">
                             <div class="picsum-img-wrapper">                                
                                 <img src={{image}} alt="Image" title="Kliknite na fotografiju da je otvorite!"  class="tooltip-test image" (click)="openModal(image)">
                             </div>
@@ -51,7 +51,7 @@
     </mat-card-content>
 
     <mat-card-actions class="buttons">
-        <button type="button" class="btn btn-success">Rezerviši nekretninu</button>
+        <button type="button" class="btn btn-success" (click)="reserveRealEstate()">Rezerviši nekretninu</button>
         <div style="margin-left: 20px;" *ngIf=isAdmin>
             <button type="button" class="btn btn-success" (click)="deleteRealEstate()">Obriši nekretninu</button>
         </div>

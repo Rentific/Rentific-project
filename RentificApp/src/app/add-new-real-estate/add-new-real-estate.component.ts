@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RealEstate } from '../_models/real-estate';
 import { StateEnum } from '../_models/stateEnum';
@@ -14,6 +14,10 @@ import { RealEstateService } from '../_services/real-estate.service';
 export class AddNewRealEstateComponent implements OnInit {
   addingForm: FormGroup;
   realEstate: RealEstate;
+  submitted: boolean = false;
+  state = StateEnum;
+  enumKeys: any[] = [];
+  selectedState: any = StateEnum.Novogradnja;
 
   // Image properties
   selectedFile: File;
@@ -22,22 +26,31 @@ export class AddNewRealEstateComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private router: Router,
     private realEstateService: RealEstateService) {
+    this.enumKeys = Object.values(this.state).filter(f => isNaN(Number(f)));
   }
 
   ngOnInit() {
     this.addingForm = this.formBuilder.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
-      size: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      rooms: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      formFile: ['', Validators.required]
     });
   }
 
+  onStateChanged(item: any) {
+    this.selectedState = item;
+  }
+
   addNewRealEstate() {
+    this.submitted = true;
+    if (this.addingForm.invalid) {
+      return;
+    }
+
     this.realEstate = new RealEstate(
       0,
       this.form.name.value,
@@ -47,14 +60,14 @@ export class AddNewRealEstateComponent implements OnInit {
       this.form.city.value,
       this.form.description.value,
       false,
-      1,
-      StateEnum.Namjesten, null);
+      Number(localStorage.getItem('userId')),
+      this.selectedState.value, null);
     this.realEstateService.addNewRealEstate(this.realEstate, this.uploadImageData);
     this.addingForm.reset();
   }
 
   get form() { return this.addingForm.controls; }
-  
+
   goToSearch() {
     this.router.navigate(['/search']);
   }

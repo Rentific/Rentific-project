@@ -29,5 +29,8 @@ export class AppComponent {
         this.router.navigate(['']);
     }
 
+    onActivate(event: any) {
+        window.scroll(0,0);       
+    }
    
 }
