@@ -2,25 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1417057-60f2-4412-a530-8e6e19bf3f5f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/rentservice/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api-gateway/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/api-gateway/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/authentication-service/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/authentication-service/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/authentication-service/src/main/java/com/example/authenticationservice/CustomUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/authentication-service/src/main/java/com/example/authenticationservice/CustomUserDetails.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/authentication-service/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/authentication-service/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eureka-server/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eureka-server/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rentservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/rentservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rentservice/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/rentservice/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/rentservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/rentservice/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/userservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/Events.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/Events.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsRequestOrBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsRequestOrBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsResponseOrBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsResponseOrBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsServiceGrpc.java" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/java/com/example/grpc/SystemEventsServiceGrpc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/userservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/userservice/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,6 +78,7 @@
       <workItem from="1622561357910" duration="596000" />
       <workItem from="1622563477975" duration="6382000" />
       <workItem from="1622578559743" duration="17607000" />
+      <workItem from="1622748890525" duration="2105000" />
     </task>
     <servers />
   </component>
