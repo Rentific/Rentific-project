@@ -16,6 +16,8 @@ services:
 
   authentication-service:
     image: authentication-docker
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
     container_name: authentication-docker
     build:
       context: ./authentication-service
@@ -29,13 +31,20 @@ services:
       - discovery:eureka-docker
     depends_on:
       - discovery
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+      - userservice
+      - api-gateway
     networks:
       - rentific
 
   api-gateway:
     image: gateway-docker
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
+      SECURITY_OAUTH2_RESOURCE_GETTOKEN: http://authentication-service:8090/oauth/token
+      SECURITY_OAUTH2_RESOURCE_ACCESSTOKENURI: http://authentication-service:8090/oauth/access_token
+      SECURITY_OAUTH2_RESOURCE_TOKEN-INFO-URI: http://authentication-service:8090/oauth/check_token
+      SECURITY_OAUTH2_RESOURCE_USER-INFO-URI: http://authentication-service:8090/user
+      SECURITY_OAUTH2_RESOURCE_USERAUTHORIZATIONURI: http://authentication-service:8090/oauth/authorize
     container_name: gateway-docker
     build:
       context: ./api-gateway
@@ -49,22 +58,36 @@ services:
       - discovery:eureka-docker
     depends_on:
       - discovery
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+      - userservice
     networks:
       - rentific
+
   #mysql konekcije
   mysql:
-    image: mysql:8.0.2
+    image: mysql:8.0.16
     container_name: mysql
+    security_opt:
+      - seccomp:unconfined
     environment:
-      MYSQL_ROOT_USER: sejla
       MYSQL_DATABASE: db_user
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_PORT: 3306
+    ports:
+    - 3306:3306
     networks:
       - rentific
+
   userservice:
     image: user-docker
+    environment:
+      DATABASE_HOST: mysql
+      DATABASE_USER: root
+      DATABASE_PASSWORD: test123
+      DATABASE_NAME: db_user
+      DATABASE_PORT: 3306
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql:3306/db_user?useSSL=false&allowPublicKeyRetrieval=true'
     container_name: user-docker
     build:
       context: ./userservice
@@ -82,9 +105,81 @@ services:
     depends_on:
       - mysql
       - discovery
+
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: on-failure
     environment:
-      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql:3306/db_user'
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761
+    RABBITMQ_DEFAULT_USER: guest
+    RABBITMQ_DEFAULT_PASS: guest
+    ports:
+        - 5672:5672
+        - 15672:15672
+    networks:
+        - rentific
+
+  #mysql konekcije
+  mysql-rent:
+    image: mysql:8.0.16
+    container_name: mysql-rent
+    security_opt:
+      - seccomp:unconfined
+    environment:
+      MYSQL_DATABASE: db_reservation
+      MYSQL_ROOT_USER: root
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_PORT: 3306
+    ports:
+        - 3306:3306
+    networks:
+        - rentific
+
+  rent:
+    image: rent-docker
+    environment:
+      DATABASE_HOST: mysql-rent
+      DATABASE_PASSWORD: test123
+      DATABASE_NAME: db_reservation
+      DATABASE_PORT: 3306
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery:8761/eureka
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysql-rent:3306/db_reservation?useSSL=false&allowPublicKeyRetrieval=true'
+      SPRING_RABBITMQ_HOST: rabbitmq
+      container_name: rent-docker
+    build:
+      context: ./rentservice
+      dockerfile: Dockerfile
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      - rentific
+    restart: on-failure
+    links:
+      - discovery:eureka-docker
+      - mysql-rent:mysql-rent
+      - rabbitmq:rabbitmq
+    depends_on:
+      - mysql-rent
+      - discovery
+      - rabbitmq
+
+  rentific-frontend:
+    image: rentific-frontend
+    container_name: rentific-frontend
+    build:
+      context: ./RentificApp
+      dockerfile: Dockerfile
+    restart: always
+    expose:
+      - 80
+    ports:
+      - 80:80
+    networks:
+      - rentific
+
 networks:
   rentific:
     driver: bridge
