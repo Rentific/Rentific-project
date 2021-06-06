@@ -104,6 +104,9 @@ export class SearchpageComponent implements OnInit {
           this.images = [];
         });
       });
+
+
+    console.log(this.realEstates);
   }
 
   goToRealEstateDetails(realEstate: RealEstate) {
