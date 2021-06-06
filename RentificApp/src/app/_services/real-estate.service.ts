@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { combineLatest, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddNewRealEstateComponent } from '../add-new-real-estate/add-new-real-estate.component';
