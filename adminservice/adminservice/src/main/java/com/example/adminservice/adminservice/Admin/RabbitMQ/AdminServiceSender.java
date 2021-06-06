@@ -41,8 +41,10 @@ public class AdminServiceSender {
             return savedRealEstate;
         }
         catch(InvalidRequestException ex){
+            realEstate.getImageModel().forEach(x -> {
+                imageRepository.deleteById(x.getId());
+            });
             realEstateService.deleteRealEstate(realEstate.getRealEstateId());
-            //imageRepository.deleteById(realEstate.getImageModel().getId());
             rabbitTemplate.convertAndSend(RabbitMQConfig.queueName, "Error while adding new real estate" + realEstate.getRealEstateId());
             System.out.println("Sent message with status: Error while adding new real estate" + realEstate.getRealEstateId());
         }

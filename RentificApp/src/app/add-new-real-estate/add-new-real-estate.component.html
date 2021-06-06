@@ -1,5 +1,5 @@
 <div class="card-holder">
-    <mat-card class="example-card">
+    <mat-card class="example-card mat-elevation-z8">
         <mat-card-header>
             <div class="mat-card-header-text popup-title">
                 <mat-card-title>Dodavanje nove nekretnine</mat-card-title>
@@ -9,8 +9,11 @@
         <mat-card-content>
             <form [formGroup]="addingForm" (ngSubmit)="addNewRealEstate()">
                 <div class="form-group">
-                    <label>Naziv nekretnine: </label>
-                    <input type="text" class="form-control" formControlName="name" />
+                    <label for="name">Naziv nekretnine: </label>
+                    <input type="text" class="form-control" formControlName="name" [ngClass]="{ 'is-invalid': submitted && form.name.errors }" />
+                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                        <div *ngIf="form.name.errors.required">Naziv nekretnine je obavezan</div>
+                    </div>
                 </div>
                 <span layout="row">
                     <hr flex />
@@ -19,46 +22,35 @@
                 </span>
                 <div class="form-group">
                     <label>Cijena nekretnine (KM): </label>
-                    <input type="number" min="0" class="form-control" formControlName="price" />
-                </div>
-                <div class="form-group">
-                    <label>Kvadratura: </label>
-                    <input type="number" min="0" class="form-control" formControlName="size" />
-                </div>
-                <div class="form-group">
-                    <div ngbDropdown container="body">
-                        <label>Adresa: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="address" />
+                    <input type="number" min="0" class="form-control" formControlName="price" [ngClass]="{ 'is-invalid': submitted && form.price.errors }" />
+                    <div *ngIf="submitted && form.name.errors" class="invalid-feedback">
+                        <div *ngIf="form.name.errors.required">Cijena nekretnine je obavezna</div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div ngbDropdown container="body">
-                        <label>Grad: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="city" />
-                        <div class="form-group" ngbDropdownMenu>
-                            <button ngbDropdownItem>Bihac</button>
-                            <button ngbDropdownItem>Goradzde</button>
-                            <button ngbDropdownItem>Sarajevo</button>
-                            <button ngbDropdownItem>Srebrenik</button>
-                            <button ngbDropdownItem>Tuzla</button>
-                            <button ngbDropdownItem>Zenica</button>
+                        <label>Adresa: </label>
+                        <input class="form-control" ngbDropdownToggle formControlName="address" [ngClass]="{ 'is-invalid': submitted && form.address.errors }" />
+                        <div *ngIf="submitted && form.address.errors" class="invalid-feedback">
+                            <div *ngIf="form.address.errors.required">Adresa nekretnine je obavezan</div>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div ngbDropdown container="body">
-                        <label>Kanton: </label>
-                        <input class="form-control" ngbDropdownToggle formControlName="country" />
-                        <div class="form-group" ngbDropdownMenu>
-                            <button ngbDropdownItem>Bosansko-podrinjski kanton</button>
-                            <button ngbDropdownItem>Srednjobosanski kanton</button>
-                            <button ngbDropdownItem>Hercegovačko-neretvanski kanton</button>
-                            <button ngbDropdownItem>Kanton Sarajevo</button>
-                            <button ngbDropdownItem>Posavski kanton</button>
-                            <button ngbDropdownItem>Tuzlanski kanton</button>
-                            <button ngbDropdownItem>Unsko-sanski kanton</button>
-                            <button ngbDropdownItem>Zapadnohercegovački kanton</button>
-                            <button ngbDropdownItem>Zeničko-dobojski kanton</button>
+                        <label>Grad: </label>
+                        <input class="form-control" ngbDropdownToggle formControlName="city" [ngClass]="{ 'is-invalid': submitted && form.city.errors }" />
+                        <div *ngIf="submitted && form.city.errors" class="invalid-feedback">
+                            <div *ngIf="form.city.errors.required">Grad je obavezan</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div ngbDropdown container="body">
+                        <label>Država: </label>
+                        <input class="form-control" ngbDropdownToggle formControlName="country" [ngClass]="{ 'is-invalid': submitted && form.country.errors }" />
+                        <div *ngIf="submitted && form.country.errors" class="invalid-feedback">
+                            <div *ngIf="form.country.errors.required">Država je obavezna</div>
                         </div>
                     </div>
                 </div>
@@ -69,20 +61,32 @@
                     <hr flex />
                 </span>
                 <div class="form-group">
-                    <label>Broj soba: </label>
-                    <input type="number" min="1" class="form-control" formControlName="rooms" />
-                </div>
-                <div class="form-group">
                     <label>Dodatni opis nekretnine: </label>
-                    <textarea class="form-control" placeholder="Dodajte opis nekretnine..."
+                    <textarea class="form-control" placeholder="Dodajte opis nekretnine..." [ngClass]="{ 'is-invalid': submitted && form.description.errors }"
                         formControlName="description"></textarea>
+                        <div *ngIf="submitted && form.description.errors" class="invalid-feedback">
+                            <div *ngIf="form.description.errors.required">Opis nekretnine je obavezan</div>
+                        </div>
+                        
+                </div>
+                <label>Izaberite stanje nekretnine: </label>               
+                <div class="form-check" *ngFor="let item of enumKeys | keyvalue; let i = index">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="item" value="item"
+                            (change)="onStateChanged(item)" [checked]="i == 0">
+                        {{item.value}}
+                    </label>                 
                 </div>
             </form>
 
-            <div class="add-image">
-                <label>Dodajte fotografiju</label>
-                <input type="file" (change)="onFileChanged($event)">
+            <div class="form-group add-image">
+                <label for="formFile" class="form-label mt-4">Dodajte fotografiju:</label>
+                <input class="form-control" type="file" id="formFile" (change)="onFileChanged($event)">
+                <!-- <div *ngIf="submitted && form.formFile.errors" class="invalid-feedback">
+                    <div *ngIf="form.formFile.errors.required">Fotografija je obavezna</div>
+                </div> -->
             </div>
+
         </mat-card-content>
 
         <mat-card-actions>
@@ -95,5 +99,4 @@
             </button>
         </mat-card-actions>
     </mat-card>
-</div> 
-
+</div>

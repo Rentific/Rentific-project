@@ -49,8 +49,6 @@ export class SearchpageComponent implements OnInit {
         this.user = user;
         localStorage.setItem('userId', user.userId.toString());
         localStorage.setItem('role', user.role.name);
-        console.log(localStorage.getItem('userId'));
-        console.log(localStorage.getItem('role'));
         this.isAdmin = localStorage.getItem('role').toLowerCase() == "admin";
       });
   }

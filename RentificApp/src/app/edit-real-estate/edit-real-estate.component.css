@@ -24,14 +24,6 @@
 }
 
 
-.bg { 
-    /* The image used */
-    background-image: url("/assets/image.jpg");
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: auto;
-    width: 100%;
+.card-holder {
+    padding-bottom: 2%;
 }

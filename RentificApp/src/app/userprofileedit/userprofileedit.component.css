@@ -32,3 +32,8 @@
 #add{
     margin: 0 10px;
 }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}

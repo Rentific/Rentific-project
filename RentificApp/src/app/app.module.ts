@@ -11,7 +11,8 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RegisterComponent } from './register';
-import { AlertComponent } from './_components';
+// import { AlertComponent } from './_components';
+import { AlertModule } from './_alert';
 import { ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home/home.component';
 import { SearchCardComponent } from './search-card/search-card.component';
@@ -26,13 +27,13 @@ import { AddNewRealEstateComponent } from './add-new-real-estate/add-new-real-es
 import { UserprofileComponent } from './userprofile/userprofile.component';
 import { UserprofileeditComponent } from './userprofileedit/userprofileedit.component';
 import { EditRealEstateComponent } from './edit-real-estate/edit-real-estate.component';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    AlertComponent,
     HomeComponent,
     SearchCardComponent,
     SearchpageComponent,
@@ -41,7 +42,8 @@ import { EditRealEstateComponent } from './edit-real-estate/edit-real-estate.com
     AddNewRealEstateComponent,
     UserprofileComponent,
     UserprofileeditComponent,
-    EditRealEstateComponent
+    EditRealEstateComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,8 @@ import { EditRealEstateComponent } from './edit-real-estate/edit-real-estate.com
     MatButtonModule,
     NgbModule,
     MatPaginatorModule,
-    FormsModule
+    FormsModule,
+    AlertModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

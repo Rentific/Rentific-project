@@ -16,7 +16,7 @@ import { RealEstateService } from '../_services/real-estate.service';
   styleUrls: ['./real-estate-details.component.css']
 })
 export class RealEstateDetailsComponent implements OnInit {
-  realEstate2: RealEstate;
+  realEstate: RealEstate;
   closeResult = '';
   imagesList: String[];
   currentUserRole: Observable<Role>;
@@ -28,7 +28,7 @@ export class RealEstateDetailsComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.realEstate2 = JSON.parse(this.route.snapshot.params["realEstate"]);
+    this.realEstate = JSON.parse(this.route.snapshot.params["realEstate"]);
     this.isAdmin = localStorage.getItem('role').toLowerCase() == "admin";
   }
 
@@ -43,10 +43,14 @@ export class RealEstateDetailsComponent implements OnInit {
   }
 
   deleteRealEstate() {
-    this.realEstateService.deleteRealEstate(this.realEstate2);
+    this.realEstateService.deleteRealEstate(this.realEstate);
   }
 
   goToEditRealEstateDetails() {
-    this.router.navigate(['/edit-real-estate-details', JSON.stringify(this.realEstate2)]);
+    this.router.navigate(['/edit-real-estate-details', JSON.stringify(this.realEstate)]);
+  }
+
+  reserveRealEstate() {
+    this.realEstateService.reserveRealEstate(this.realEstate.realEstateId);
   }
 }

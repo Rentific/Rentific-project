@@ -34,7 +34,7 @@ public class ValidationService {
         if (realEstate.getName() == null || realEstate.getName().isEmpty()) {
             nullProperties.add("Name");
         }
-        else if (!realEstate.getName().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,])*$")) {
+        else if (!realEstate.getName().toLowerCase().matches("^[a-žA-Ž0-9]+( ?[a-žA-Ž0-9,])*$")) {
             invalidProperties.add("Name");
         }
 
@@ -50,7 +50,7 @@ public class ValidationService {
         if (realEstate.getAddress() == null || realEstate.getAddress().isEmpty()) {
             nullProperties.add("Address");
         }
-        else if (!realEstate.getAddress().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.])*$")) {
+        else if (!realEstate.getAddress().toLowerCase().matches("^[a-ŽA-Ž0-9]+( ?[a-žA-Ž0-9,.])*$")) {
             invalidProperties.add("Address");
         }
 
@@ -58,7 +58,7 @@ public class ValidationService {
         if (realEstate.getCountry() == null || realEstate.getCountry().isEmpty()) {
             nullProperties.add("Country");
         }
-        else if (!realEstate.getCountry().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.-])*$")) {
+        else if (!realEstate.getCountry().toLowerCase().matches("^[a-žA-Ž0-9]+( ?[a-žA-Ž0-9,.-])*$")) {
             invalidProperties.add("Country");
         }
 
@@ -66,7 +66,7 @@ public class ValidationService {
         if (realEstate.getCity() == null || realEstate.getCity().isEmpty()) {
             nullProperties.add("City");
         }
-        else if (!realEstate.getCity().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9,.-])*$")) {
+        else if (!realEstate.getCity().toLowerCase().matches("^[a-žA-Ž0-9]+( ?[a-žA-Ž0-9,.-])*$")) {
             invalidProperties.add("City");
         }
 
@@ -74,7 +74,7 @@ public class ValidationService {
         if (realEstate.getDescription() == null || realEstate.getDescription().isEmpty()) {
             nullProperties.add("Description");
         }
-        else if (!realEstate.getDescription().toLowerCase().matches("^[a-zA-Z0-9]+( ?[a-zA-Z0-9-:-?{-~!\"^_`\\[\\].,!;])*$")) {
+        else if (!realEstate.getDescription().toLowerCase().matches("^[a-žA-Ž0-9]+( ?[a-žA-Ž0-9-:-?{-~!\"^_`\\[\\].,!;])*$")) {
             invalidProperties.add("Description");
         }
 

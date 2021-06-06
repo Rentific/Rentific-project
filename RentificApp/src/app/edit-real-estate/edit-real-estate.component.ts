@@ -25,12 +25,17 @@ export class EditRealEstateComponent implements OnInit {
   message: string;
   imageName: any;
   uploadImageData = new FormData();
+  state = StateEnum;
+  enumKeys : any[] = [];
+  submitted: boolean = false;
+  selectedState: any = StateEnum.Starogradnja;
 
   constructor(private httpClient: HttpClient,
     private formBuilder: FormBuilder,
     private router: Router,
     private realEstateService: RealEstateService,
     private alertService: AlertService, private route: ActivatedRoute) {
+      this.enumKeys = Object.values(this.state).filter(f => isNaN(Number(f)));
   }
 
   ngOnInit(): void {
@@ -39,12 +44,11 @@ export class EditRealEstateComponent implements OnInit {
     this.addingForm = this.formBuilder.group({
       name: ['', Validators.required],
       price: ['', Validators.required],
-      size: ['', Validators.required],
       address: ['', Validators.required],
       city: ['', Validators.required],
       country: ['', Validators.required],
-      rooms: ['', Validators.required],
-      description: ['', Validators.required]
+      description: ['', Validators.required],
+      formFile: ['', Validators.required]
     });
   }
 
@@ -54,12 +58,18 @@ export class EditRealEstateComponent implements OnInit {
     this.router.navigate(['/search']);
   }
 
+  onStateChanged(item : any) {
+    this.selectedState = item;
+  }
+
   public onFileChanged(event: any) {
     this.selectedFile = event.target.files[0];
     this.uploadImageData.append('imageFile', this.selectedFile, this.selectedFile.name);
   }
 
   updateRealEstate() {
+    this.submitted = true;
+    
     this.realEstate2 = new RealEstate(
       this.realEstate.realEstateId,
       this.form.name.value,
@@ -69,10 +79,9 @@ export class EditRealEstateComponent implements OnInit {
       this.form.city.value,
       this.form.description.value,
       false,
-      1,
-      StateEnum.Namjesten, null);
+      Number(localStorage.getItem('userId')),
+      this.selectedState.value, null);
     this.realEstateService.updateRealEstate(this.realEstate2, this.uploadImageData);
-    this.addingForm.reset();
   }
 
 }
