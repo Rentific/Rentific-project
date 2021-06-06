@@ -12,6 +12,7 @@ import { AlertService, UserService } from '../_services';
 import { SearchService } from '../_services/search.service';
 import { mergeMap } from 'rxjs/operators';
 import { User } from '../_models/user';
+import { PriceSortEnum } from '../_models/PriceSortEnum';
 
 @Component({
   selector: 'app-searchpage',
@@ -24,8 +25,9 @@ export class SearchpageComponent implements OnInit {
   images: ImageModel[] = [];
   imagesToDisplay: ImageModel[];
   totalPages: number;
-  pageSize: number = 10;
-  currentPage: number = 1;
+  allPages: number[] = [];
+  pageSize: number = 9;
+  currentPage: number = 0;
   keyword: string;
   isAdmin: Boolean = false;
   retrievedImage: any;
@@ -33,12 +35,17 @@ export class SearchpageComponent implements OnInit {
   retrieveResonse: any;
   mergeTest: Observable<any>;
   public role: Observable<string>;
+  priceSort = PriceSortEnum;
+  priceSortEnumKeys: any[] = [];
+  selectedPriceSort: any = PriceSortEnum.Rastuće;
+  sort: String[] = ["price", "asc"];
+  i : number = 0;
 
   constructor(private searchService: SearchService,
-    private alertService: AlertService,
     private router: Router,
     private userService: UserService, private http: HttpClient) {
     this.role = new Observable<string>();
+    this.priceSortEnumKeys = Object.values(this.priceSort).filter(f => isNaN(Number(f)));
   }
 
   user: User;
@@ -63,35 +70,16 @@ export class SearchpageComponent implements OnInit {
   }
 
   onSearched(search_query: string) {
-    // this.searchService.searchRealEstates(search_query)
-    //   .pipe(mergeMap(res => {
-    //     this.realEstateResponse = res;
-    //     this.realEstates = res.realEstateList;
-    //     this.pageSize = res.totalItems.toString();
-    //     this.totalPages = res.totalPages.toString();
-    //     this.currentPage = res.currentPage.toString();
-    //     this.realEstates.forEach(x => {
-    //       x.imageModel.forEach(y => {
-    //         this.http.get(`http://localhost:8762/real-estate/real-estate/get/${y.id}`)
-    //           .subscribe(image => {
-    //             this.retrieveResonse = image;
-    //             this.base64Data = this.retrieveResonse.picByte;
-    //             this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
-    //             this.images.push(this.retrievedImage);
-    //           });
-    //       });
-    //       x.imageModel = this.images;
-    //       this.images = [];
-    //     });
-
-    //   }));
-
-    this.searchService.searchRealEstates(search_query)
+    this.allPages = [];
+    this.keyword = search_query;
+    this.searchService.searchRealEstates(this.keyword, this.currentPage, this.pageSize, this.sort)
       .subscribe(data => {
         this.realEstateResponse = data;
         this.realEstates = data.realEstateList;
-        this.pageSize = data.totalItems;
         this.totalPages = data.totalPages;
+        for (this.i=0; this.i<this.totalPages; this.i++) {
+            this.allPages.push(this.i+1);
+        }
         this.currentPage = data.currentPage;
         this.realEstates.forEach(x => {
           x.imageModel.forEach(y => {
@@ -104,22 +92,41 @@ export class SearchpageComponent implements OnInit {
           this.images = [];
         });
       });
-
-
-    console.log(this.realEstates);
   }
 
-  goToRealEstateDetails(realEstate: RealEstate) {
-    this.router.navigate(['/real-estate-details', JSON.stringify(realEstate)]);
+  goToRealEstateDetails(realEstateId: number) {
+    this.router.navigate(['/real-estate-details', realEstateId]);
   }
 
-  // onChangePage(search_query: string = '') {
-  //   // update current page of items
-  //   return this.http.get<RealEstateResponse>(`http://localhost:8762/real-estate/real-estate/?size=${this.pageSize}&page=${this.currentPage}&keyword=${search_query}`)
-  //   .pipe(
-  //     map(res => res)
-  //   );
-  // }
+  onChangePage(item: any) {
+    this.currentPage = item;
+    this.currentPage--;
+    this.searchService.searchRealEstates(this.keyword, this.currentPage, this.pageSize, this.sort)
+    .subscribe(data => {
+      this.realEstateResponse = data;
+      this.realEstates = data.realEstateList;
+      this.currentPage = data.currentPage;
+      this.realEstates.forEach(x => {
+        x.imageModel.forEach(y => {
+          this.retrieveResonse = y;
+          this.base64Data = this.retrieveResonse.picByte;
+          this.retrievedImage = 'data:image/jpeg;base64,' + this.base64Data;
+          this.images.push(this.retrievedImage);
+        });
+        x.imageModel = this.images;
+        this.images = [];
+      });
+    });
+  }
+
+  onPriceSortChanged(item: any) {
+    this.selectedPriceSort = item;
+    this.sort = [];
+    this.sort.push("price");
+    if (this.selectedPriceSort == PriceSortEnum[0])
+      this.sort.push("asc");
+    else this.sort.push("desc");
+  }
 }
 
 

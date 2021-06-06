@@ -68,3 +68,7 @@ h2, h4 {
     display: flex;
     justify-content: center;
 }
+
+.card-holder {
+    padding-bottom: 2%;
+}

@@ -185,7 +185,17 @@ public class RealEstateController {
 
     @GetMapping("/{id}")
     ResponseEntity<RealEstate> findRealEstateById(@PathVariable(value = "id") Integer id) throws InvalidRequestException, RealEstateNotFoundException {
-        return this._realEstateService.findRealEstateById(id);
+        ResponseEntity<RealEstate> realEstate = this._realEstateService.findRealEstateById(id);
+        List<ImageModel> compressedImages = new ArrayList<ImageModel>();
+        realEstate.getBody().getImageModel().forEach(imageModel -> {
+            try {
+                ImageModel compressedImage = getImage(imageModel.getId());
+                compressedImages.add(compressedImage);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return new ResponseEntity<RealEstate>(new RealEstate(realEstate.getBody(), compressedImages), HttpStatus.OK);
     }
 
     @PostMapping(path="/add")

@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'registracija', component: RegisterComponent },
     { path: 'search', component: SearchpageComponent },
-    { path: 'real-estate-details/:realEstate', component: RealEstateDetailsComponent },
+    { path: 'real-estate-details/:realEstateId', component: RealEstateDetailsComponent },
     { path: 'edit-real-estate-details/:realEstate', component: EditRealEstateComponent },
     { path: 'viewprofile', component: UserprofileComponent },
     { path: 'editprofile', component: UserprofileeditComponent },

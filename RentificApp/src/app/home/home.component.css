@@ -22,3 +22,11 @@
   display: flex;
   justify-content: center;
 }
+
+.home {
+  background-color: white !important;
+  background-image: none !important;
+  width: 70%;
+  margin: auto;
+  padding: 2%;
+}

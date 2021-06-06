@@ -32,8 +32,8 @@ export class SearchService {
     return this.http.get<any>(`http://localhost:8762/real-estate/real-estate/${id}`);
   }
 
-  searchRealEstates(search_query: string): Observable<RealEstateResponse> {
-    return this.http.get<RealEstateResponse>(`http://localhost:8762/real-estate/real-estate/?size=10&keyword=${search_query}`)
+  searchRealEstates(search_query: string, page: number = 0, size: number = 10, sort: String[]): Observable<RealEstateResponse> {
+    return this.http.get<RealEstateResponse>(`http://localhost:8762/real-estate/real-estate/?keyword=${search_query}&page=${page}&size=${size}&sort=${sort}`)
     .pipe(
       map(res => res)
     );
