@@ -47,6 +47,6 @@ Izvršiti komandu: ```ng test``` u komandnoj liniji foldera koji sadrži packet.
 * Doradjena dokumentacija
 
 ### Demo snimci
-
+https://drive.google.com/drive/u/1/folders/12FbGEGD2d8pF8qAPyI7qi1zPN5-IYI3v
 
 
