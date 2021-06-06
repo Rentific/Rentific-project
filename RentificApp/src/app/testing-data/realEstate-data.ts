@@ -16,7 +16,7 @@ export const dummyRealEstate1  : RealEstate = {
 
 export const dummyRealEstate2  : RealEstate = {
     realEstateId : 2,
-    name : "Not available real estate",
+    name : "Not available test real estate",
     price : 120000,
     address : "Test address",
     country : "Test country",

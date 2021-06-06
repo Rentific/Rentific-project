@@ -1,7 +1,7 @@
 import { HttpClientModule } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { dummyRealEstate1, dummyRealEstate2 } from '../testing-data/mocked-data';
+import { dummyRealEstate1, dummyRealEstate2 } from '../testing-data/realEstate-data';
 import { RealEstate } from '../_models/real-estate';
 
 import { SearchService } from './search.service';
