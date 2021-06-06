@@ -18,3 +18,8 @@
 .popup-title{
     margin: auto;
 }
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+}

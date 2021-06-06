@@ -2,8 +2,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { combineLatest, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { AddNewRealEstateComponent } from '../add-new-real-estate/add-new-real-estate.component';
 import { ModalComponent } from '../modal/modal.component';
 import { ModalService2 } from '../modal/modal.service';
 import { AlertService } from '../_alert';
@@ -36,12 +38,12 @@ export class RealEstateService {
     this.modalService2.getModalContinueEmitter().subscribe(() => this.executeDeleteRealEstate());
   }
 
-  addNewRealEstate(realEstate: RealEstate, imageFile: FormData) {
+  addNewRealEstate(realEstate: RealEstate, imageFile: FormData) {   
     this.http.post<RealEstate>(this.baseUrl + '/add', realEstate)
       .subscribe((response) => {
         this.http.post(this.baseUrl + '/image/upload/' + `${response.realEstateId}`, imageFile, { observe: 'response' })
           .subscribe(
-            data => {            
+            data => {       
               this.router.navigate(['/search']);
               this.alertService.success('Uspješno ste dodali nekretninu!', this.options);
             },

@@ -69,9 +69,7 @@ export class EditRealEstateComponent implements OnInit {
 
   updateRealEstate() {
     this.submitted = true;
-    if (this.addingForm.invalid) {
-      return;
-    }
+    
     this.realEstate2 = new RealEstate(
       this.realEstate.realEstateId,
       this.form.name.value,
@@ -84,7 +82,6 @@ export class EditRealEstateComponent implements OnInit {
       Number(localStorage.getItem('userId')),
       this.selectedState.value, null);
     this.realEstateService.updateRealEstate(this.realEstate2, this.uploadImageData);
-    this.addingForm.reset();
   }
 
 }

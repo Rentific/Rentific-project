@@ -12,7 +12,7 @@ import { RealEstateService } from '../_services/real-estate.service';
 })
 
 export class AddNewRealEstateComponent implements OnInit {
-  addingForm: FormGroup;
+  public addingForm: FormGroup;
   realEstate: RealEstate;
   submitted: boolean = false;
   state = StateEnum;
@@ -47,10 +47,7 @@ export class AddNewRealEstateComponent implements OnInit {
 
   addNewRealEstate() {
     this.submitted = true;
-    if (this.addingForm.invalid) {
-      return;
-    }
-
+    
     this.realEstate = new RealEstate(
       0,
       this.form.name.value,
@@ -63,7 +60,6 @@ export class AddNewRealEstateComponent implements OnInit {
       Number(localStorage.getItem('userId')),
       this.selectedState.value, null);
     this.realEstateService.addNewRealEstate(this.realEstate, this.uploadImageData);
-    this.addingForm.reset();
   }
 
   get form() { return this.addingForm.controls; }

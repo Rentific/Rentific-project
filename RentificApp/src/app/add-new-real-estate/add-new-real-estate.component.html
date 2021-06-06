@@ -81,10 +81,10 @@
 
             <div class="form-group add-image">
                 <label for="formFile" class="form-label mt-4">Dodajte fotografiju:</label>
-                <input class="form-control" type="file" id="formFile" (change)="onFileChanged($event)" [ngClass]="{ 'is-invalid': submitted && form.formFile.errors }">
-                <div *ngIf="submitted && form.formFile.errors" class="invalid-feedback">
+                <input class="form-control" type="file" id="formFile" (change)="onFileChanged($event)">
+                <!-- <div *ngIf="submitted && form.formFile.errors" class="invalid-feedback">
                     <div *ngIf="form.formFile.errors.required">Fotografija je obavezna</div>
-                </div>
+                </div> -->
             </div>
 
         </mat-card-content>
