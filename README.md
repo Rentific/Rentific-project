@@ -39,6 +39,14 @@ Izvršiti komandu: ```ng test``` u komandnoj liniji foldera koji sadrzi packet.j
 ### Ideje za unapredjenje aplikacije
 * Slike su cuvane lokalno u bazi, tako da bi sljedeci korak bio njihovo spasavanje i dobavljanje sa externog storage-a 
 
+### Posao uradjen tokom vikenda nakon zadnjih laboratorijskih vjezbi
+* Refactoring koda
+* UI promjene
+* Frontend testovi
+* Dodati svi ostali kontejneri u docker fajl
+* Doradjena dokumentacija
+
 ### Demo snimci
+
 
 
