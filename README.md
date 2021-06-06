@@ -14,32 +14,32 @@
 * Java verzija 8+
 * Samo jedan korisnik može biti povezan na bazu
 * Potrebno je pokrenuti sve servise prije pokretanja aplikacije
-* Potrebno je podesiti lokalnu bazu kornika koji pokrece aplikaciju i prilagoditi application.properties konfiguraciju baze
+* Potrebno je podesiti lokalnu bazu kornika koji pokreće aplikaciju i prilagoditi application.properties konfiguraciju baze
 
 ### Pokretanje aplikacije
 
-Izvršiti komandu: ```ng serve``` u folderu servisa i aplikacija ce biti podignuta na portu 4200
+Izvršiti komandu: ```ng serve``` u folderu servisa i aplikacija će biti podignuta na portu 4200
 
 Prvo pokrenuti eureka-server
 
-### Pokretanje testova
+### Pokretanje frontend testova
 
-Izvršiti komandu: ```ng test``` u komandnoj liniji foldera koji sadrzi packet.json fajl
+Izvršiti komandu: ```ng test``` u komandnoj liniji foldera koji sadrži packet.json fajl
 
 ### Pokretanje aplikacije
 * Pokrenut RabbitMQ
 * Prvo se pokreće eureka-server, pa system-events pa tek onda preostali servisi
-* Za admin privilegije u aplikaciji, prvo je neophodno kroz postman dodati rolu admin, kao i usera koji ce imati tu rolu
+* Za admin privilegije u aplikaciji, prvo je neophodno kroz postman dodati rolu admin, kao i usera koji će imati tu rolu
 * Za user privilegije je dovoljna registracija na aplikaciji
 
 ### Docker
-* Na branchu docker se nalaze kreirani Docker fajlovi  i docker-compose.yaml fajl u kojem su svi podaci za pokretanje aplikacije
+* Na branchu docker se nalaze kreirani Docker fajlovi i docker-compose.yaml fajl u kojem su svi podaci za pokretanje aplikacije
 * Za pokretanje aplikacije kroz docker potrebno je pokrenuti u cmd-u docker-compose up i pokrenuti frontend na localhost:80
 
-### Ideje za unapredjenje aplikacije
-* Slike su cuvane lokalno u bazi, tako da bi sljedeci korak bio njihovo spasavanje i dobavljanje sa externog storage-a 
+### Ideje za unapređenje aplikacije
+* Slike su čuvane lokalno u bazi, tako da bi sljedeći korak bio njihovo spašavanje i dobavljanje sa externog storage-a 
 
-### Posao uradjen tokom vikenda nakon zadnjih laboratorijskih vjezbi
+### Posao uradjen tokom vikenda nakon zadnjih laboratorijskih vježbi
 * Refactoring koda
 * UI promjene
 * Frontend testovi
